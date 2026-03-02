@@ -545,7 +545,7 @@ body {
     font-family: 'Bruno Ace SC', sans-serif;
     font-size: 1.8rem;
     color: #fff;
-    padding: 0 20px;
+    padding: 22px 20px;
     text-shadow: 0 0 10px white;
 }
 
@@ -1357,8 +1357,8 @@ body {
     grid-row: 1;
     justify-self: center;
     align-self: flex-start;
-    margin: 1.75rem 0 0;
-    max-width: min(18rem, 100%);
+    margin: 4.75rem 0 0;
+    max-width: min(38rem, 100%);
 }
 
 .menu-btn {
