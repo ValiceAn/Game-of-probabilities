@@ -1,0 +1,1606 @@
+﻿/* Темная тема с яркими акцентами для детской игры */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: #fff;
+    display: block;
+}
+
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: 100dvh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
+    transition: opacity 0.5s;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.visible {
+    opacity: 1;
+}
+
+/* Стильное стартовое меню с темным фоном */
+.title-container {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    margin-top: 30px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.game-title {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 4.5rem;
+    color: #4cc9f0;
+    text-shadow:
+        0 2px 0 #4361ee,
+        0 4px 0 #3a0ca3,
+        0 6px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 5px;
+    letter-spacing: 2px;
+    transform: rotate(-2deg);
+}
+
+.game-subtitle {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.5rem;
+    color: #f72585;
+    text-shadow:
+        0 2px 0 #b5179e,
+        0 4px 5px rgba(0, 0, 0, 0.3);
+    transform: rotate(1deg);
+    margin-top: -10px;
+}
+
+.title-decoration {
+    width: 250px;
+    height: 20px;
+    background: linear-gradient(90deg, transparent, #7209b7, #3a0ca3, transparent);
+    margin: 15px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #7209b7;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 40px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.menu-btn {
+    background: linear-gradient(to bottom, #4895ef, #4361ee);
+    border: none;
+    border-radius: 50px;
+    padding: 18px 45px;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow:
+        0 7px 0 #3a0ca3,
+        0 10px 20px rgba(0, 0, 0, 0.3);
+    font-family: 'Baloo 2', cursive;
+    position: relative;
+    overflow: hidden;
+    transform: scale(1);
+    letter-spacing: 1px;
+}
+
+.menu-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow:
+        0 10px 0 #3a0ca3,
+        0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+.menu-btn:active {
+    transform: translateY(3px);
+    box-shadow:
+        0 4px 0 #3a0ca3,
+        0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.play-btn {
+    background: linear-gradient(to bottom, #f72585, #b5179e);
+    font-size: 2.5rem;
+    padding: 25px 60px;
+    box-shadow:
+        0 7px 0 #7209b7,
+        0 10px 20px rgba(0, 0, 0, 0.3);
+    color: #fff;
+}
+
+.play-btn:hover {
+    box-shadow:
+        0 10px 0 #7209b7,
+        0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+.play-btn:active {
+    box-shadow:
+        0 4px 0 #7209b7,
+        0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.character-preview {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    margin-top: 20px;
+}
+
+.ball-character {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at 30% 30%, #4cc9f0, #4895ef);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+        0 0 40px #4cc9f0,
+        0 0 80px rgba(76, 201, 240, 0.5);
+    animation: bounce 2s infinite, rotate 10s linear infinite;
+    z-index: 5;
+}
+
+.character-shadow {
+    position: absolute;
+    width: 100px;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(10px);
+    animation: shadow 2s infinite;
+}
+
+/* Игровой экран - темный с неоновыми акцентами */
+#game-canvas {
+    background: linear-gradient(to bottom, #0f0c29, #302b63);
+    border-radius: 20px;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.5),
+        0 0 0 5px #4cc9f0,
+        0 0 0 10px #f72585;
+    position: relative;
+    z-index: 5;
+}
+
+.game-ui {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(26, 26, 46, 0.9);
+    padding: 15px 20px;
+    border-radius: 15px;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.1rem;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    border: 3px solid #4cc9f0;
+}
+
+.stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.controls {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.control-btn {
+    background: linear-gradient(to bottom, #f72585, #b5179e);
+    border: none;
+    border-radius: 30px;
+    padding: 8px 15px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #7209b7;
+    transition: all 0.2s;
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 0 #7209b7;
+}
+
+.control-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #7209b7;
+}
+
+/* Анимации */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(2deg);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes shadow {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.2);
+        opacity: 0.4;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+
+/* Звездный фон */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.star {
+    position: absolute;
+    background-color: #fff;
+    border-radius: 50%;
+    animation: twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle {
+    from {
+        opacity: 0.3;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.cat-character {
+    position: absolute;
+    width: 150px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, #ff9966, #ff5e62);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+        0 0 40px #ff9966,
+        0 0 80px rgba(255, 153, 102, 0.5);
+    animation: bounce 2s infinite, float 3s ease-in-out infinite;
+    z-index: 5;
+}
+
+.cat-character::before,
+.cat-character::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ff9966;
+    border-radius: 50%;
+    top: 30px;
+}
+
+.cat-character::before {
+    left: 20px;
+    transform: rotate(-30deg);
+}
+
+.cat-character::after {
+    right: 20px;
+    transform: rotate(30deg);
+}
+
+/* Изменяем цвета под космическую тему */
+.game-title {
+    color: #4cc9f0;
+    text-shadow:
+        0 2px 0 #4361ee,
+        0 4px 0 #3a0ca3,
+        0 6px 10px rgba(0, 0, 0, 0.5);
+}
+
+.game-subtitle {
+    color: #ff9966;
+    text-shadow:
+        0 2px 0 #ff5e62,
+        0 4px 5px rgba(0, 0, 0, 0.3);
+}
+
+.play-btn {
+    background: linear-gradient(to bottom, #4cc9f0, #4361ee);
+    box-shadow:
+        0 7px 0 #3a0ca3,
+        0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.play-btn:hover {
+    box-shadow:
+        0 10px 0 #3a0ca3,
+        0 15px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Стили для потрясающего меню */
+#start-menu {
+    background: radial-gradient(ellipse at bottom, #0a0a1a 0%, #000000 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Космический фон */
+.space-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(1px);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+}
+
+.big-planet {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle at 30% 30%, #3a0ca3, #1a1a2e);
+    top: -200px;
+    right: -200px;
+    box-shadow:
+        0 0 80px #3a0ca3,
+        inset 0 0 80px #000;
+    animation: planet-rotate 60s linear infinite;
+}
+
+.small-planet {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at 70% 30%, #7209b7, #1a1a2e);
+    bottom: -100px;
+    left: -100px;
+    box-shadow:
+        0 0 60px #7209b7,
+        inset 0 0 60px #000;
+    animation: planet-rotate 40s linear infinite reverse;
+}
+
+.stars-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(1px 1px at 20% 30%, white 1px, transparent 1px),
+        radial-gradient(1px 1px at 80% 70%, white 1px, transparent 1px);
+    background-size: 200px 200px;
+    animation: stars-move 200s linear infinite;
+}
+
+.cosmic-dust {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center,
+            rgba(114, 9, 183, 0.1) 0%,
+            transparent 70%);
+}
+
+/* Главный заголовок */
+.main-title {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    margin-top: 8vh;
+    perspective: 1000px;
+}
+
+.title-word {
+    display: block;
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 6rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.title-word.cosmic {
+    color: #72d4f9;
+    text-shadow:
+        0 0 1px #4cc9f0,
+        0 0 30px #4cc9f0,
+        0 0 45px #4cc9f0;
+}
+
+.title-word.cat {
+    color: #fec72d;
+    text-shadow:
+        0 0 15px #fd7708,
+        0 0 30px #fd7708,
+        0 0 45px #fd7708;
+    transform: translateX(20px);
+    animation: text-glitch-cat 8s infinite alternate-reverse;
+}
+
+.title-highlight {
+    width: 400px;
+    height: 10px;
+    background: linear-gradient(90deg,
+            transparent,
+            #4cc9f0,
+            #ff9966,
+            transparent);
+    margin: 10px auto;
+    border-radius: 5px;
+    filter: blur(2px);
+    opacity: 0.7;
+}
+
+/* Подзаголовок */
+.subtitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 25px auto;
+    position: relative;
+    z-index: 10;
+}
+
+.subtitle span {
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: 1.8rem;
+    color: #fff;
+    padding: 0 20px;
+    text-shadow: 0 0 10px white;
+}
+
+.subtitle-line {
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg,
+            transparent,
+            white,
+            transparent);
+    opacity: 0.5;
+}
+
+/* Кот-герой */
+.cat-hero {
+    position: absolute;
+    bottom: 5%;
+    right: 10%;
+    width: 450px;
+    height: auto;
+    z-index: 5;
+    filter:
+        drop-shadow(0 0 20px #4cc9f0) drop-shadow(0 0 40px #ff5e62);
+    animation: float 6s ease-in-out infinite;
+    transform-origin: center;
+}
+
+/* Кнопки меню */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    position: relative;
+    z-index: 10;
+    margin-right: 40%;
+    transform: perspective(500px) rotateY(-10deg);
+}
+
+.menu-btn {
+    background: rgba(10, 10, 30, 0.7);
+    border: 2px solid #4cc9f0;
+    border-radius: 50px;
+    padding: 18px 40px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: white;
+    cursor: pointer;
+    transition: all 0.4s;
+    box-shadow:
+        0 0 20px rgba(76, 201, 240, 0.3),
+        inset 0 0 10px rgba(76, 201, 240, 0.2);
+    font-family: 'Bruno Ace SC', sans-serif;
+    position: relative;
+    overflow: hidden;
+    min-width: 280px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.menu-btn .btn-ico {
+    font-size: 1.8rem;
+    transition: all 0.3s;
+}
+
+.menu-btn .btn-text {
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s;
+}
+
+.menu-btn .btn-pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at center,
+            rgba(76, 201, 240, 0.4) 0%,
+            transparent 70%);
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.menu-btn:hover {
+    transform: translateY(-5px) perspective(500px) rotateY(-10deg);
+    box-shadow:
+        0 5px 30px rgba(76, 201, 240, 0.5),
+        inset 0 0 20px rgba(76, 201, 240, 0.3);
+    border-color: #ff9966;
+}
+
+.menu-btn:hover .btn-ico {
+    transform: scale(1.2);
+    text-shadow: 0 0 10px currentColor;
+}
+
+.menu-btn:hover .btn-text {
+    color: #ff9966;
+    text-shadow: 0 0 10px #ff5e62;
+}
+
+.menu-btn:hover .btn-pulse {
+    opacity: 1;
+    transform: scale(1.5);
+}
+
+.start-btn {
+    background: rgba(76, 201, 240, 0.15);
+    border-color: #ff9966;
+    box-shadow:
+        0 0 30px rgba(255, 153, 102, 0.4),
+        inset 0 0 15px rgba(255, 153, 102, 0.3);
+    font-size: 1.7rem;
+    padding: 22px 45px;
+}
+
+.start-btn:hover {
+    box-shadow:
+        0 5px 40px rgba(255, 153, 102, 0.6),
+        inset 0 0 25px rgba(255, 153, 102, 0.4);
+}
+
+/* Эффекты */
+.menu-effects {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.light-spot {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle at center,
+            rgba(76, 201, 240, 0.1) 0%,
+            transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: light-pulse 8s infinite alternate;
+}
+
+.particles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1' fill='%234cc9f0'/%3E%3C/svg%3E");
+    background-size: 20px 20px;
+    animation: particles-move 100s linear infinite;
+}
+
+/* Анимации */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-1deg);
+    }
+
+    50% {
+        transform: translateY(-20px) rotate(1deg);
+    }
+}
+
+@keyframes planet-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes stars-move {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 2000px 2000px;
+    }
+}
+
+@keyframes light-pulse {
+    from {
+        opacity: 0.3;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+
+    to {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+}
+
+@keyframes particles-move {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 2000px 1000px;
+    }
+}
+
+@keyframes text-glitch-cosmic {
+
+    0%,
+    100% {
+        text-shadow: 0 0 15px #4cc9f0, 0 0 30px #4cc9f0, 0 0 45px #4cc9f0;
+    }
+
+    25% {
+        text-shadow: 0 0 15px #4cc9f0, 5px 5px 30px #4cc9f0, -5px -5px 45px #4cc9f0;
+    }
+
+    50% {
+        text-shadow: 0 0 15px #4cc9f0, -5px 5px 30px #4cc9f0, 5px -5px 45px #4cc9f0;
+    }
+
+    75% {
+        text-shadow: 0 0 15px #4cc9f0, 5px -5px 30px #4cc9f0, -5px 5px 45px #4cc9f0;
+    }
+}
+
+@keyframes text-glitch-cat {
+
+    0%,
+    100% {
+        text-shadow: 0 0 15px #ff5e62, 0 0 30px #ff5e62, 0 0 45px #ff5e62;
+    }
+
+    25% {
+        text-shadow: 0 0 15px #ff5e62, 3px 3px 30px #ff5e62, -3px -3px 45px #ff5e62;
+    }
+
+    50% {
+        text-shadow: 0 0 15px #ff5e62, -3px 3px 30px #ff5e62, 3px -3px 45px #ff5e62;
+    }
+
+    75% {
+        text-shadow: 0 0 15px #ff5e62, 3px -3px 30px #ff5e62, -3px 3px 45px #ff5e62;
+    }
+}
+
+/* Добавьте в style.css */
+/* Карта уровней */
+#level-select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 50px;
+}
+
+.level-title {
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 2.5rem;
+    color: #72d4f9;
+    text-shadow: 0 0 15px #4cc9f0;
+    margin-bottom: 20px;
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+.galaxy-map {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    margin: 30px auto;
+    z-index: 5;
+}
+
+.level-path {
+    position: absolute;
+    width: 96%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.level-planet {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.5s;
+    z-index: 3;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.coin-image {
+    width: 200px;
+}
+
+.level-planet:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.level-planet .planet-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #4cc9f0, #4361ee);
+    box-shadow: 0 0 20px #4cc9f0;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.level-planet:hover .planet-circle {
+    box-shadow: 0 0 40px #4cc9f0;
+    transform: scale(1.2);
+}
+
+.level-planet.locked .planet-circle {
+    background: radial-gradient(circle at 30% 30%, #888, #555);
+    box-shadow: 0 0 20px #888;
+}
+
+.level-planet.locked:hover .planet-circle {
+    box-shadow: 0 0 20px #888;
+}
+
+.level-planet.completed .planet-circle {
+    background: radial-gradient(circle at 30% 30%, #fec72d, #fd7708);
+    box-shadow: 0 0 20px #fec72d;
+}
+
+.level-planet.secret .planet-circle {
+    background: radial-gradient(circle at 30% 30%, #f72585, #b5179e);
+    box-shadow: 0 0 20px #f72585;
+}
+
+.level-info {
+    position: absolute;
+    top: 100%;
+    margin-top: 15px;
+    background: rgba(10, 10, 30, 0.9);
+    border: 1px solid #4cc9f0;
+    border-radius: 10px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.3s;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+}
+
+.level-planet:hover .level-info {
+    opacity: 1;
+    transform: translateY(10px);
+}
+
+.level-info h3 {
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: 1.2rem;
+    color: #4cc9f0;
+    margin-bottom: 5px;
+}
+
+.level-info p {
+    font-family: 'Comic Neue', cursive;
+    font-size: 0.9rem;
+    color: #fff;
+}
+
+.level-lock {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    background: #1a1a2e;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #f72585;
+    font-size: 1.2rem;
+}
+
+.level-planet:not(.locked) .level-lock {
+    display: none;
+}
+
+.map-cat {
+    position: absolute;
+    width: 150px;
+    height: auto;
+    bottom: 10%;
+    left: 10%;
+    z-index: 10;
+    filter: drop-shadow(0 0 10px #4cc9f0);
+    animation: float 6s ease-in-out infinite;
+    cursor: pointer;
+}
+
+.map-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(10, 10, 30, 0.7);
+    border: 2px solid #f72585;
+    border-radius: 50px;
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Bruno Ace SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+.map-btn:hover {
+    background: rgba(247, 37, 133, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(247, 37, 133, 0.5);
+}
+
+/* Анимация кота-проводника */
+@keyframes cat-move {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateX(50px) rotate(5deg);
+    }
+
+    50% {
+        transform: translateX(100px) rotate(0deg);
+    }
+
+    75% {
+        transform: translateX(50px) rotate(-5deg);
+    }
+
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
+/* Заменяем стили для .planet-circle на .level-image */
+.level-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid #4cc9f0;
+    box-shadow: 0 0 20px #4cc9f0, 0 0 40px rgba(76, 201, 240, 0.3);
+    position: relative;
+    transition: all 0.4s;
+    filter: saturate(0.8) brightness(1.1);
+}
+
+.level-planet:hover .level-image {
+    transform: scale(1.15);
+    box-shadow: 0 0 30px #4cc9f0, 0 0 60px rgba(76, 201, 240, 0.5);
+    filter: saturate(1.2) brightness(1.2);
+    border-color: #ff9966;
+}
+
+.level-planet.locked .level-image {
+    border-color: #888;
+    box-shadow: 0 0 20px #888;
+    filter: grayscale(80%) brightness(0.7);
+}
+
+.level-planet.completed .level-image {
+    border-color: #fec72d;
+    box-shadow: 0 0 20px #fec72d;
+}
+
+.level-planet.secret .level-image {
+    border-color: #f72585;
+    box-shadow: 0 0 20px #f72585;
+}
+
+/* Добавляем эффект "всплывающей" планеты */
+.level-image::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at center, transparent 40%, rgba(76, 201, 240, 0.2) 100%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.level-planet:hover .level-image::after {
+    opacity: 1;
+}
+
+/* Эффект разблокировки уровня */
+.unlock-effect {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(76, 201, 240, 0.9);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    animation: unlock-pulse 1.5s infinite;
+    z-index: 10;
+}
+
+/* Сообщение кота */
+.cat-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(26, 26, 46, 0.95);
+    color: #ff9966;
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid #f72585;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.2rem;
+    max-width: 80%;
+    text-align: center;
+    z-index: 100;
+}
+
+/* Анимации */
+@keyframes unlock-pulse {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.1);
+    }
+}
+
+/* Стили для учебника */
+#tutorial-menu {
+    background: radial-gradient(ellipse at bottom, #0a0a1a 0%, #000033 100%);
+    overflow-y: auto;
+}
+
+.cosmic-title {
+    font-size: 2.8rem;
+    color: #72d4f9;
+    text-shadow: 0 0 15px #4cc9f0, 0 0 30px #4cc9f0;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.cosmic-highlight {
+    width: 60%;
+    height: 4px;
+    background: linear-gradient(90deg,
+            transparent,
+            #4cc9f0,
+            #f72585,
+            #ff9966,
+            transparent);
+    filter: blur(1px);
+    opacity: 0.8;
+}
+
+.tutorial-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 100px;
+    padding: 20px;
+}
+
+.cosmic-card {
+    background: rgba(10, 10, 30, 0.7);
+    border-radius: 20px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(76, 201, 240, 0.3);
+    box-shadow: 0 0 30px rgba(76, 201, 240, 0.2),
+        inset 0 0 20px rgba(76, 201, 240, 0.1);
+    transition: all 0.4s;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.cosmic-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,
+            rgba(76, 201, 240, 0.1) 0%,
+            transparent 70%);
+    animation: rotate-glow 20s linear infinite;
+    z-index: -1;
+}
+
+.cosmic-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(76, 201, 240, 0.4),
+        inset 0 0 30px rgba(76, 201, 240, 0.2);
+    border-color: #ff9966;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(76, 201, 240, 0.3);
+    padding-bottom: 15px;
+}
+
+.section-header h2 {
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 1.8rem;
+    color: #ff9966;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(255, 153, 102, 0.5);
+}
+
+.section-icon {
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+.section-content {
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #e0e0ff;
+}
+
+.cosmic-example {
+    background: rgba(26, 26, 46, 0.5);
+    border-left: 3px solid #4cc9f0;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 0 10px 10px 0;
+}
+
+.cosmic-formula {
+    font-family: 'Courier New', monospace;
+    background: rgba(76, 201, 240, 0.1);
+    border: 1px dashed #4cc9f0;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    color: #72d4f9;
+    font-size: 1.1rem;
+}
+
+.cosmic-answer {
+    font-weight: bold;
+    color: #fec72d;
+    margin-top: 10px;
+}
+
+.cosmic-answer span {
+    color: #f72585;
+}
+
+.section-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cosmic-tag {
+    background: rgba(114, 9, 183, 0.3);
+    color: #ff9966;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-family: 'Bruno Ace SC', cursive;
+    border: 1px solid #7209b7;
+}
+
+.cosmic-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(247, 37, 133, 0.7);
+    border: 2px solid #ff9966;
+    border-radius: 50px;
+    padding: 15px 30px;
+    font-size: 1.3rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Bruno Ace SC', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 20px rgba(247, 37, 133, 0.5);
+}
+
+.cosmic-btn:hover {
+    background: rgba(255, 153, 102, 0.7);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 30px rgba(255, 153, 102, 0.7);
+}
+
+.tutorial-cat {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    filter: drop-shadow(0 0 15px #4cc9f0);
+    animation: float 6s ease-in-out infinite;
+    z-index: 50;
+}
+
+@keyframes rotate-glow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* ===== Responsive layout: prevent overlap on resize ===== */
+.menu-content {
+    position: relative;
+    z-index: 10;
+    width: min(93rem, 100%);
+    margin: 0 auto;
+    padding: 0 clamp(0.75rem, 3vw, 2rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 32rem) minmax(18rem, 1fr);
+    align-items: flex-start;
+    gap: clamp(1rem, 4vw, 4rem);
+}
+
+#start-menu {
+    overflow-x: hidden;
+    overflow-y: auto;
+    justify-content: flex-start;
+    padding-bottom: 2rem;
+}
+
+.subtitle {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-inline: 1rem;
+}
+
+.subtitle span {
+    text-align: center;
+}
+
+.cat-hero {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    align-self: end;
+    width: min(50rem, 80vw);
+    max-width: 100%;
+}
+
+.menu-buttons {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+    align-self: flex-start;
+    margin: 1.75rem 0 0;
+    max-width: min(18rem, 100%);
+}
+
+.menu-btn {
+    width: 100%;
+    min-width: 0;
+}
+
+@media (max-width: 64rem) {
+    .screen {
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        height: 100dvh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px;
+        transition: opacity 0.5s;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .main-title {
+        margin-top: 1.5rem;
+    }
+
+    .title-word {
+        font-size: clamp(2.2rem, 11vw, 4.25rem);
+    }
+
+    .subtitle span {
+        font-size: clamp(1rem, 4vw, 1.4rem);
+        padding: 0;
+    }
+
+    .menu-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    .menu-buttons {
+        align-self: center;
+        transform: none;
+        transform: translateX(clamp(0.4rem, 2vw, 0.9rem));
+        width: min(30rem, 100%);
+    }
+
+    .menu-btn,
+    .menu-btn:hover {
+        transform: none;
+    }
+
+    .cat-hero {
+        align-self: center;
+        transform: translateX(clamp(-0.9rem, -2.4vw, -0.4rem));
+        width: min(18rem, 65vw);
+    }
+
+    #level-select {
+        overflow: auto;
+        padding-top: 1rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .level-title {
+        font-size: clamp(1.4rem, 6vw, 2.1rem);
+        margin-bottom: 0.75rem;
+    }
+
+    .galaxy-map {
+        width: min(100%, 28rem);
+        min-width: 0;
+        height: clamp(42rem, 150vw, 56rem);
+        margin: 1rem auto 1.5rem;
+    }
+
+    .level-path {
+        width: 100%;
+        left: 0;
+    }
+
+    .level-planet {
+        width: 8rem;
+        height: 8rem;
+    }
+
+    .level-image {
+        width: 7rem;
+        height: 7rem;
+    }
+
+    .level-planet[data-level="1"] {
+        left: 20% !important;
+        top: 18% !important;
+    }
+
+    .level-planet[data-level="2"] {
+        left: 78% !important;
+        top: 31% !important;
+    }
+
+    .level-planet[data-level="3"] {
+        left: 30% !important;
+        top: 49% !important;
+    }
+
+    .level-planet[data-level="4"] {
+        left: 76% !important;
+        top: 66% !important;
+    }
+
+    .level-planet[data-level="5"] {
+        left: 22% !important;
+        top: 83% !important;
+    }
+
+    .map-cat {
+        display: none;
+    }
+
+    .map-btn {
+        position: static;
+        width: min(100%, 22rem);
+        margin: 0.75rem auto 0;
+        justify-content: center;
+    }
+
+    .cosmic-title {
+        font-size: clamp(1.4rem, 6vw, 2.2rem);
+        margin: 1rem 0 1.5rem;
+    }
+
+    .tutorial-container {
+        width: 100%;
+        margin: 0 auto 1rem;
+        padding: 0.75rem;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .section-header h2 {
+        font-size: clamp(1.1rem, 5vw, 1.5rem);
+    }
+
+    .section-content {
+        font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+    }
+
+    .cosmic-btn {
+        position: static;
+        width: min(100%, 22rem);
+        margin: 0.5rem auto 1rem;
+        justify-content: center;
+    }
+
+    .tutorial-cat {
+        display: none;
+    }
+}
+
+@media (max-width: 36rem) {
+    .title-word {
+        font-size: clamp(1.8rem, 11.5vw, 2.6rem);
+    }
+
+    .subtitle-line {
+        display: none;
+    }
+
+    .menu-btn {
+        padding: 0.8rem 1rem;
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        gap: 0.6rem;
+    }
+
+    .start-btn {
+        font-size: clamp(1rem, 4.4vw, 1.3rem);
+        padding: 0.9rem 1rem;
+    }
+
+    .big-planet {
+        width: 18.75rem;
+        height: 18.75rem;
+        top: -7.5rem;
+        right: -7.5rem;
+    }
+
+    .small-planet {
+        width: 13.75rem;
+        height: 13.75rem;
+        bottom: -5.5rem;
+        left: -5.5rem;
+    }
+
+    .galaxy-map {
+        width: 100%;
+        max-width: 22rem;
+        height: clamp(36rem, 165vw, 50rem);
+    }
+
+    .level-planet {
+        width: 7.2rem;
+        height: 7.2rem;
+    }
+
+    .level-image {
+        width: 6.2rem;
+        height: 6.2rem;
+    }
+
+    .level-planet[data-level="1"] {
+        left: 22% !important;
+        top: 17% !important;
+    }
+
+    .level-planet[data-level="2"] {
+        left: 76% !important;
+        top: 30% !important;
+    }
+
+    .level-planet[data-level="3"] {
+        left: 30% !important;
+        top: 48% !important;
+    }
+
+    .level-planet[data-level="4"] {
+        left: 74% !important;
+        top: 66% !important;
+    }
+
+    .level-planet[data-level="5"] {
+        left: 24% !important;
+        top: 83% !important;
+    }
+}

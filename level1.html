@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кубик Галактики | Космический Кот</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="level1.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="level1" class="game-screen visible">
+        <!-- Космический фон -->
+        <div class="space-bg">
+            <div class="planet big-planet"></div>
+            <div class="planet small-planet"></div>
+            <div class="stars-layer"></div>
+            <div class="cosmic-dust"></div>
+        </div>
+
+        <!-- Заголовок уровня -->
+        <div class="level-header">
+            <h1>Кубик Галактики</h1>
+            <div class="subtitle">Изучай вероятность с космическим кубиком!</div>
+        </div>
+
+        <!-- Игровая зона -->
+        <div class="game-area">
+            <div class="stats-panel" id="stats-container">
+                <h3>Статистика бросков</h3>
+                <div class="stats-placeholder">
+                    Бросай кубик, чтобы увидеть статистику!
+                </div>
+            </div>
+
+            <!-- 3D кубик -->
+            <div class="dice-container">
+                <div class="dice" id="dice">
+                    <div class="face front">1</div>
+                    <div class="face back">6</div>
+                    <div class="face right">4</div>
+                    <div class="face left">3</div>
+                    <div class="face top">2</div>
+                    <div class="face bottom">5</div>
+                </div>
+            </div>
+
+            <!-- Кот-помощник -->
+            <div class="cat-helper">
+                <img src="img/cat2.png" alt="Космический кот" class="cat-image">
+                <div class="speech-bubble" id="cat-speech">
+                    Привет! Я помогу тебе изучить вероятность. Бросай кубик и отвечай на вопросы!
+                </div>
+            </div>
+        </div>
+        <!-- Задачи -->
+        <div class="tasks-container">
+            <div class="task active" id="task1">
+                <h3>Задача 1: Простая вероятность</h3>
+                <p>Какова вероятность, что выпадет число 4?</p>
+                <div class="options">
+                    <button class="option-btn" data-correct="false">1/2</button>
+                    <button class="option-btn" data-correct="true">1/6</button>
+                    <button class="option-btn" data-correct="false">1/3</button>
+                </div>
+                <div class="hint hidden">
+                    Подсказка: Всего у кубика 6 граней, и только одна из них с цифрой 4.
+                </div>
+                <button class="hint-btn">Показать подсказку</button>
+            </div>
+
+            <div class="task" id="task2">
+                <h3>Задача 2: Сравнение вероятностей</h3>
+                <p>Что вероятнее: чётное число или число больше 3?</p>
+                <div class="options">
+                    <button class="option-btn" data-correct="false">Чётное число</button>
+                    <button class="option-btn" data-correct="false">Число больше 3</button>
+                    <button class="option-btn" data-correct="true">Одинаково</button>
+                </div>
+                <div class="hint hidden">
+                    Подсказка: Чётных чисел 3 (2,4,6), чисел больше трёх тоже 3 (4,5,6).
+                </div>
+                <button class="hint-btn">Показать подсказку</button>
+            </div>
+
+            <div class="task" id="task3">
+                <h3>Задача 3: Комбинированная вероятность</h3>
+                <p>Какова вероятность выпадения числа меньше 3 ИЛИ больше 5?</p>
+                <div class="options">
+                    <button class="option-btn" data-correct="false">1/6</button>
+                    <button class="option-btn" data-correct="false">1/3</button>
+                    <button class="option-btn" data-correct="true">1/2</button>
+                </div>
+                <div class="hint hidden">
+                    Подсказка: Числа меньше 3 - это 1 и 2 (2 варианта), больше 5 - только 6 (1 вариант). Всего 3 благоприятных исхода из 6.
+                </div>
+                <button class="hint-btn">Показать подсказку</button>
+            </div>
+        </div>
+
+        <!-- Кнопки управления -->
+        <div class="level-controls">
+            <button id="roll-dice" class="control-btn big-btn">
+                <span class="btn-ico">🎲</span>
+                <span class="btn-text">Бросить кубик</span>
+            </button>
+            <button id="next-task" class="control-btn hidden">
+                <span class="btn-ico">➡️</span>
+                <span class="btn-text">Следующая задача</span>
+            </button>
+            <button id="back-to-map" class="control-btn">
+                <span class="btn-ico">🗺️</span>
+                <span class="btn-text">На карту</span>
+            </button>
+        </div>
+
+        <!-- Прогресс -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">0/3 задач выполнено</div>
+        </div>
+    </div>
+
+    <script src="level1.js"></script>
+</body>
+</html>

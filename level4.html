@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Космический Генератор Планет | Космический Кот</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="level4.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="level4" class="game-screen visible">
+        <!-- Космический фон -->
+        <div class="space-bg">
+            <div class="planet big-planet"></div>
+            <div class="planet small-planet"></div>
+            <div class="stars-layer"></div>
+            <div class="cosmic-dust"></div>
+        </div>
+
+        <!-- Заголовок уровня -->
+        <div class="level-header">
+            <h1>Космический Генератор Планет</h1>
+            <div class="subtitle">Исследуй вероятность через сканирование планет!</div>
+        </div>
+
+        <!-- Основной контент уровня -->
+        <div class="planet-generator-container">
+            <!-- Панель сканера -->
+            <div class="scanner-panel">
+                <div class="scanner-display" id="scanner-display">
+                    <div class="scanner-screen">
+                        <div class="planet-preview hidden" id="planet-preview"></div>
+                        <div class="scanning-animation" id="scanning-animation">
+                            <div class="scan-line"></div>
+                            <div class="scan-text">СКАНИРОВАНИЕ...</div>
+                        </div>
+                    </div>
+                    <div class="scanner-controls">
+                        <button id="scan-btn" class="control-btn big-btn">
+                            <span class="btn-ico">🔍</span>
+                            <span class="btn-text">Сканировать</span>
+                        </button>
+                        <div class="probability-controls">
+                            <h3>Настройки вероятности:</h3>
+                            <div class="probability-slider">
+                                <label for="green-prob">Зелёная: <span id="green-value">60</span>%</label>
+                                <input type="range" id="green-prob" min="0" max="100" value="60" class="slider">
+                            </div>
+                            <div class="probability-slider">
+                                <label for="ice-prob">Ледяная: <span id="ice-value">30</span>%</label>
+                                <input type="range" id="ice-prob" min="0" max="100" value="30" class="slider">
+                            </div>
+                            <div class="probability-slider">
+                                <label for="lava-prob">Лавовая: <span id="lava-value">10</span>%</label>
+                                <input type="range" id="lava-prob" min="0" max="100" value="10" class="slider">
+                            </div>
+                            <div class="probability-total">
+                                Всего: <span id="total-value">100</span>%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- Статистика и задания -->
+            <div class="stats-and-tasks">
+                <!-- Статистика сканирований -->
+                <div class="stats-panel">
+                    <h3>Результаты сканирований:</h3>
+                    <div class="stats-bars">
+                        <div class="stat-bar green-planet">
+                            <div class="stat-label">🟢 Зелёные:</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar-fill" id="green-bar" style="width: 0%"></div>
+                                <div class="stat-count" id="green-count">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-bar ice-planet">
+                            <div class="stat-label">❄️ Ледяные:</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar-fill" id="ice-bar" style="width: 0%"></div>
+                                <div class="stat-count" id="ice-count">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-bar lava-planet">
+                            <div class="stat-label">🌋 Лавовые:</div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar-fill" id="lava-bar" style="width: 0%"></div>
+                                <div class="stat-count" id="lava-count">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="total-scans">
+                        Всего сканирований: <span id="total-scans">0</span>
+                    </div>
+                </div>
+
+                <!-- Задания -->
+                <div class="tasks-container">
+                    <div class="task active" id="task1">
+                        <h3>Задание 1: Угадай вероятность</h3>
+                        <p>Как ты думаешь, какая планета будет встречаться чаще при текущих настройках?</p>
+                        <div class="options">
+                            <button class="option-btn" data-correct="true">Зелёная</button>
+                            <button class="option-btn" data-correct="false">Ледяная</button>
+                            <button class="option-btn" data-correct="false">Лавовая</button>
+                        </div>
+                    </div>
+
+                    <div class="task" id="task2">
+                        <h3>Задание 2: Предскажи результат</h3>
+                        <p>Если сделать 10 сканирований, сколько примерно будет зелёных планет?</p>
+                        <div class="options">
+                            <button class="option-btn" data-correct="false">3-4</button>
+                            <button class="option-btn" data-correct="true">5-7</button>
+                            <button class="option-btn" data-correct="false">8-9</button>
+                        </div>
+                        <div class="hint hidden">
+                            Подсказка: Умножь количество сканирований (10) на вероятность зелёной планеты (60% или 0.6).
+                        </div>
+                        <button class="hint-btn">Показать подсказку</button>
+                    </div>
+
+                    <div class="task" id="task3">
+                        <h3>Задание 3: Создай свою систему</h3>
+                        <p>Попробуй сделать так, чтобы лавовые планеты встречались чаще ледяных!</p>
+                        <div class="options">
+                            <button class="option-btn" id="check-settings-btn">Проверить мои настройки</button>
+                        </div>
+                        <div class="hint hidden">
+                            Подсказка: Отрегулируй ползунки так, чтобы значение для лавовой планеты было больше, чем для ледяной.
+                        </div>
+                        <button class="hint-btn">Показать подсказку</button>
+                    </div>
+                </div>
+                <!-- Кнопки управления -->
+                <div class="level-controls">
+                    <button id="next-task" class="control-btn hidden">
+                        <span class="btn-ico">➡️</span>
+                        <span class="btn-text">Следующее задание</span>
+                    </button>
+                    <button id="back-to-map" class="control-btn">
+                        <span class="btn-ico">🗺️</span>
+                        <span class="btn-text">На карту</span>
+                    </button>
+                </div>
+                    <!-- Бонусы и достижения -->
+                    <div class="achievements-panel hidden" id="achievements">
+                        <h3>🏆 Достижения:</h3>
+                        <div class="achievement" id="lava-streak">
+                            <div class="achievement-icon">🌋</div>
+                            <div class="achievement-text">Термоустойчивый сканер (3 лавовые подряд)</div>
+                        </div>
+                        <div class="achievement" id="ice-warning">
+                            <div class="achievement-icon">❄️</div>
+                            <div class="achievement-text">Осторожно: обледенение! (5 ледяных подряд)</div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- Кот-помощник -->
+    <div class="cat-helper">
+        <img src="img/cat2.png" alt="Космический кот" class="cat-image">
+        <div class="speech-bubble visible" id="cat-speech">
+            Привет, исследователь! Настрой вероятности и сканируй планеты. Посмотрим, какие встречаются чаще!
+        </div>
+    </div>
+    <script src="level4.js"></script>
+</body>
+</html>

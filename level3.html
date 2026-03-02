@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шариковая Рулетка | Космический Кот</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="level3.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="level3" class="game-screen visible">
+        <!-- Космический фон -->
+        <div class="space-bg">
+            <div class="planet big-planet"></div>
+            <div class="planet small-planet"></div>
+            <div class="stars-layer"></div>
+            <div class="cosmic-dust"></div>
+        </div>
+
+        <!-- Заголовок уровня -->
+        <div class="level-header">
+            <h1>Шариковая Рулетка</h1>
+            <div class="subtitle">Изучай комбинаторику и зависимые события!</div>
+        </div>
+
+        <!-- Игровая зона -->
+        <div class="game-area">
+            <!-- Урна с шариками -->
+            <div class="urn-container">
+                <div class="urn" id="urn">
+                    <!-- Шарики будут добавлены динамически -->
+                </div>
+                <div class="drawn-balls" id="drawn-balls">
+                    <div class="balls-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cat-helper">
+            <img src="img/cat2.png" alt="Космический кот" class="cat-image">
+            <div class="speech-bubble" id="cat-speech">
+                Привет! В этой урне 4 синих и 3 красных шарика. Давай изучим вероятность вытягивания разных комбинаций!
+            </div>
+        </div>
+        
+        <!-- Комбинации -->
+        <div class="combinations" id="combinations">
+            <h3>Возможные комбинации:</h3>
+            <div class="combinations-grid">
+                <!-- Будет заполнено скриптом -->
+            </div>
+        </div>
+
+        <!-- Задачи -->
+        <div class="tasks-container">
+            <div class="task active" id="task1">
+                <h3>Задание 1: Вытяни 2 синих шарика</h3>
+                <p>Попробуй вытянуть два синих шарика подряд. Какова вероятность этого события?</p>
+                <div class="probability-display">
+                    Вероятность: <span id="prob1">?</span>
+                </div>
+                <button class="draw-btn" id="draw-two">Вытянуть шарик</button>
+                <button class="reset-btn" id="reset1">Начать заново</button>
+            </div>
+
+            <div class="task" id="task2">
+                <h3>Задание 2: Если первый шарик красный</h3>
+                <p>Что произойдет с вероятностью вытянуть синий, если первый шарик был красным?</p>
+                <div class="probability-display">
+                    Вероятность второго синего: <span id="prob2">?</span>
+                </div>
+                <button class="draw-btn" id="draw-after-red">Вытянуть после красного</button>
+                <button class="reset-btn" id="reset2">Начать заново</button>
+            </div>
+
+            <div class="task" id="task3">
+    <h3>Задание 3: Разные комбинации</h3>
+    <p>Сколько всего способов вытянуть 1 синий и 1 красный шарик?</p>
+    <div class="probability-display">
+    </div>
+    <div class="input-container">
+        <input type="number" id="combination-input" placeholder="Введите число">
+        <button class="check-btn" id="check-combination">Проверить</button>
+    </div>
+    <div class="visual-combinations" id="visual-comb" style="display: flex; flex-direction: row;"></div>
+    <button class="reset-btn" id="reset3">Начать заново</button>
+</div>
+        </div>
+
+        <!-- Кнопки управления -->
+        <div class="level-controls">
+            <button id="next-task" class="control-btn hidden">
+                <span class="btn-ico">➡️</span>
+                <span class="btn-text">Следующее задание</span>
+            </button>
+            <button id="back-to-map" class="control-btn">
+                <span class="btn-ico">🗺️</span>
+                <span class="btn-text">На карту</span>
+            </button>
+        </div>
+
+        <!-- Прогресс -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text">0/3 задач выполнено</div>
+        </div>
+    </div>
+
+    <script src="level3.js"></script>
+</body>
+</html>

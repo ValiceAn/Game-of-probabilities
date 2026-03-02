@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Монетный Барьер | Космический Кот</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="level2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="level2" class="game-screen visible">
+        <!-- Космический фон -->
+        <div class="space-bg">
+            <div class="planet big-planet"></div>
+            <div class="planet small-planet"></div>
+            <div class="stars-layer"></div>
+            <div class="cosmic-dust"></div>
+        </div>
+
+        <!-- Заголовок уровня -->
+        <div class="level-header">
+            <h1>Монетный Барьер</h1>
+            <div class="subtitle">Пройди через барьер, используя вероятность!</div>
+        </div>
+
+        <!-- Основная игровая зона -->
+        <div class="game-area">
+            <!-- Левая часть - монетка и статистика -->
+            <div class="coin-section">
+                <div class="coin-container" id="coin-container">
+                    <div class="coin" id="coin">
+                        <div class="heads"><img src="img/heads.png" alt="Орёл" class="coin-image"></div>
+                        <div class="tails"><img src="img/tails.png" alt="Решка" class="coin-image"></div>
+                    </div>
+                </div>
+
+                <div class="stats-panel">
+                    <h3>Статистика бросков</h3>
+                    <div class="stat-item">
+                        <span>Всего бросков:</span>
+                        <span class="stat-value" id="total-flips">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Орлов:</span>
+                        <span class="stat-value" id="heads-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Решек:</span>
+                        <span class="stat-value" id="tails-count">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Цель:</span>
+                        <span class="stat-value">7/10</span>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-text" id="progress-text">0 орлов из 7</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая часть - кот и диалоги -->
+            <div class="cat-section">
+                <div class="cat-helper">
+                    <img src="img/cat2.png" alt="Космический кот" class="cat-image">
+                    <div class="speech-bubble" id="cat-speech">
+                        Привет! Бросай монетку и собирай орлов. Нужно 7 из 10 бросков!
+                    </div>
+                </div>
+
+                <!-- Контейнер для задач -->
+                <div class="challenge-container" id="challenge-container">
+                    <!-- Сюда будут добавляться задачи динамически -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопки управления -->
+        <div class="level-controls">
+            <button id="flip-coin" class="control-btn big-btn">
+                <span class="btn-text">Бросить монетку</span>
+            </button>
+            <button id="back-to-map" class="control-btn">
+                <span class="btn-ico">🗺️</span>
+                <span class="btn-text">На карту</span>
+            </button>
+        </div>
+
+        <!-- Модальное окно для выбора (появится после 5 бросков) -->
+        <div class="modal hidden" id="risk-modal">
+            <div class="modal-content">
+                <h3>Выбор риска!</h3>
+                <p>Ты можешь рискнуть! Если следующий бросок будет:</p>
+                <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                    <li>Орёл: получишь +3 очка (вместо +1)</li>
+                    <li>Решка: потеряешь 1 очко</li>
+                </ul>
+                <p>Продолжить или остановиться?</p>
+                <div class="modal-options">
+                    <button class="modal-btn" id="take-risk">Рискнуть!</button>
+                    <button class="modal-btn" id="play-safe">Остановиться</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно для парадокса Монти Холла -->
+        <div class="modal hidden" id="monty-hall-modal">
+            <div class="modal-content">
+                <h3>Парадокс Монти Холла</h3>
+                <p>Выбери дверь, за которой приз! После твоего выбора я открою одну пустую.</p>
+                <div class="doors-container">
+                    <div class="door" data-door="1">🚪 1</div>
+                    <div class="door" data-door="2">🚪 2</div>
+                    <div class="door" data-door="3">🚪 3</div>
+                </div>
+                <div class="monty-result hidden" id="monty-result"></div>
+                <button class="modal-btn hidden" id="monty-continue">Продолжить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="level2.js"></script>
+</body>
+
+</html>

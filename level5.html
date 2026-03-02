@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квантовый Генератор Звёзд | Космический Кот</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="level5.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="level5" class="game-screen visible">
+        <!-- Космический фон -->
+        <div class="space-bg">
+            <div class="quantum-grid"></div>
+            <div class="stars-layer"></div>
+            <div class="cosmic-dust"></div>
+        </div>
+
+        <!-- Заголовок уровня -->
+        <div class="level-header">
+            <h1>Квантовый Генератор Звёзд</h1>
+            <div class="subtitle">Открой закон больших чисел!</div>
+        </div>
+
+        <!-- Лаборатория -->
+        <div class="lab-container">
+            <!-- Ускоритель частиц -->
+            <div class="collider">
+                <div class="collider-ring"></div>
+                <div class="collider-center"></div>
+                <div class="particle-beam"></div>
+            </div>
+            
+            <!-- Область генерации звёзд -->
+            <div class="star-field" id="star-field"></div>
+        </div>
+
+        <div class="meow">
+            <div class="meow1">
+        <!-- Статистика -->
+        <div class="stats-container">
+            <div class="stat">
+                <div class="stat-label">Всего звёзд:</div>
+                <div class="stat-value" id="total-stars">0</div>
+            </div>
+            
+            <div class="stat red">
+                <div class="stat-label">Красные гиганты:</div>
+                <div class="stat-value" id="red-stars">0 (0%)</div>
+            </div>
+            
+            <div class="stat blue">
+                <div class="stat-label">Голубые сверхгиганты:</div>
+                <div class="stat-value" id="blue-stars">0 (0%)</div>
+            </div>
+            
+            <div class="stat black">
+                <div class="stat-label">Чёрные дыры:</div>
+                <div class="stat-value" id="black-stars">0 (0%)</div>
+            </div>
+        </div>
+
+        <!-- График распределения -->
+        <div class="chart-container">
+            <div class="chart-bar red" style="width: 60%">
+                <div class="chart-label">60%</div>
+            </div>
+            <div class="chart-bar blue" style="width: 30%">
+                <div class="chart-label">30%</div>
+            </div>
+            <div class="chart-bar black" style="width: 10%">
+                <div class="chart-label">10%</div>
+            </div>
+            
+            <div class="actual-chart">
+                <div class="actual-bar red" id="actual-red-bar" style="width: 0%"></div>
+                <div class="actual-bar blue" id="actual-blue-bar" style="width: 0%"></div>
+                <div class="actual-bar black" id="actual-black-bar" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Управление -->
+        <div class="controls">
+            <button id="generate-stars" class="control-btn big-btn">
+                <span class="btn-ico">⚛️</span>
+                <span class="btn-text">Запустить ускоритель</span>
+            </button>
+            
+            <button id="reset-lab" class="control-btn">
+                <span class="btn-ico">🔄</span>
+                <span class="btn-text">Сбросить</span>
+            </button>
+            
+            <button id="back-to-map" class="control-btn">
+                <span class="btn-ico">🗺️</span>
+                <span class="btn-text">На карту</span>
+            </button>
+        </div>
+</div>
+        <!-- Задания -->
+        <div class="tasks-container">
+            <div class="task active" id="task1">
+                <h3>Задание 1: Первые 20 звёзд</h3>
+                <p>Создай 20 звёзд. Сколько чёрных дыр получилось? Ожидалось 2, но пока может быть 0 или 5 — это нормально!</p>
+                <div class="progress">
+                    <div class="progress-fill" id="progress1" style="width: 0%"></div>
+                    <div class="progress-text">0/20</div>
+                </div>
+            </div>
+
+            <div class="task" id="task2">
+                <h3>Задание 2: 100 звёзд</h3>
+                <p>Теперь распределение должно быть ближе к 60/30/10. Проверь!</p>
+                <div class="progress">
+                    <div class="progress-fill" id="progress2" style="width: 0%"></div>
+                    <div class="progress-text">0/100</div>
+                </div>
+            </div>
+
+            <div class="task" id="task3">
+                <h3>Задание 3: Своя гипотеза</h3>
+                <p>Попробуй угадать, сколько чёрных дыр будет после 50 звёзд:</p>
+                <div class="input-container">
+                    <input type="number" id="hypothesis-input" placeholder="Ваш прогноз">
+                    <button class="check-btn" id="check-hypothesis">Проверить</button>
+                </div>
+                <div class="progress">
+                    <div class="progress-fill" id="progress3" style="width: 0%"></div>
+                    <div class="progress-text">0/50</div>
+                </div>
+            </div>
+        </div>
+</div>
+        <!-- Кот-помощник -->
+        <div class="cat-helper">
+            <img src="img/cat2.png" alt="Космический кот" class="cat-image">
+            <div class="speech-bubble" id="cat-speech">
+                Привет! Этот ускоритель создаёт звёзды с разной вероятностью. Чем больше звёзд, тем чётче видно закономерность!
+            </div>
+        </div>
+    </div>
+
+    <script src="level5.js"></script>
+</body>
+</html>

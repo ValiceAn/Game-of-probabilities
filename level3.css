@@ -1,0 +1,617 @@
+/* Стили для уровня "Шариковая Рулетка" */
+:root {
+    --pad-inline: clamp(0.75rem, 3vw, 1.5rem);
+}
+
+.game-screen {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Keep purple background planets behind all level content */
+#level3 .space-bg {
+    z-index: 0;
+    pointer-events: none;
+}
+
+.level-header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    margin-top: 1.25rem;
+    padding: 0 var(--pad-inline);
+    animation: float 3s ease-in-out infinite;
+}
+
+.level-header h1 {
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: clamp(1.8rem, 6vw, 3.5rem);
+    color: #72d4f9;
+    text-shadow: 0 0 0.9375rem #4cc9f0;
+    margin-bottom: 0.625rem;
+}
+
+.level-header .subtitle {
+    font-family: 'Comic Neue', cursive;
+    font-size: clamp(1rem, 3.2vw, 1.5rem);
+    color: #ff9966;
+    text-shadow: 0 0 0.625rem #ff5e62;
+    margin-bottom: 2.5rem;
+}
+
+.game-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1.25rem auto;
+    max-width: 75rem;
+    position: relative;
+    z-index: 5;
+    padding: 0 var(--pad-inline);
+    box-sizing: border-box;
+}
+
+/* Урна с шариками */
+.urn-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 35.5rem;
+}
+
+.urn {
+    width: 34.5rem;
+    min-height: 6.25rem;
+    background: rgba(10, 10, 30, 0.7);
+    border-radius: 1.25rem;
+    border: 0.1875rem solid #4cc9f0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    box-shadow:
+        inset 0 0 1.875rem rgba(76, 201, 240, 0.5),
+        0 0 1.875rem rgba(76, 201, 240, 0.5);
+}
+
+.ball {
+    width: 3.125rem;
+    height: 3.125rem;
+    border-radius: 50%;
+    margin: 0.375rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+.ball.blue {
+    background: radial-gradient(circle at 30% 30%, #4cc9f0, #4361ee);
+    border: 0.125rem solid #72d4f9;
+}
+
+.ball.red {
+    background: radial-gradient(circle at 30% 30%, #ff5e62, #f72585);
+    border: 0.125rem solid #ff9966;
+}
+
+.ball.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 1.25rem currentColor;
+}
+
+.ball.drawn {
+    animation: ball-draw 0.5s forwards;
+}
+
+@keyframes ball-draw {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-6.25rem);
+        opacity: 0;
+    }
+}
+
+.drawn-balls {
+    background: rgba(10, 10, 30, 0.7);
+    border: 0.125rem solid #ff9966;
+    border-radius: 0.9375rem;
+    padding: 0.875rem;
+    min-width: 15.5rem;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    min-height: 6.25rem;
+    box-sizing: border-box;
+}
+
+.drawn-title {
+    font-family: 'Bruno Ace SC', sans-serif;
+    color: #4cc9f0;
+    margin-bottom: 0.625rem;
+}
+
+.drawn-balls .balls-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3.125rem;
+    flex-wrap: wrap;
+}
+
+/* Кот-помощник (desktop like before) */
+.cat-helper {
+    position: absolute;
+    left: 2.5rem;
+    top: 12.75rem;
+    width: min(25rem, 90vw);
+    z-index: 6;
+}
+
+.cat-image {
+    width: min(17.5rem, 45vw);
+    height: auto;
+    filter: drop-shadow(0 0 0.625rem #4cc9f0);
+    animation: float 6s ease-in-out infinite;
+}
+
+.speech-bubble {
+    position: absolute;
+    top: -11rem;
+    left: 0rem;
+    width: min(14.5rem, 80vw);
+    padding: 0.9375rem;
+    background: rgba(10, 10, 30, 0.9);
+    border: 0.125rem solid #ff9966;
+    border-radius: 1.25rem;
+    color: white;
+    font-family: 'Comic Neue', cursive;
+    font-size: clamp(0.95rem, 2.1vw, 1.1rem);
+    box-shadow: 0 0 1.25rem rgba(255, 153, 102, 0.5);
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition: all 0.5s;
+    backdrop-filter: blur(5px);
+}
+
+.speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -0.9375rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0.9375rem 0.9375rem 0;
+    border-style: solid;
+    border-color: #ff9966 transparent;
+}
+
+.speech-bubble.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Комбинации */
+.combinations {
+    background: rgba(10, 10, 30, 0.8);
+    border: 0.125rem solid #4cc9f0;
+    border-radius: 0.9375rem;
+    padding: 1rem;
+    margin: 1.25rem auto 0;
+    max-width: 50.5rem;
+    width: calc(100% - 2 * var(--pad-inline));
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.combinations h3 {
+    font-family: 'Bruno Ace SC', cursive;
+    color: #ff9966;
+    margin-bottom: 0.9375rem;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
+}
+
+.combinations-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.combination {
+    background: rgba(76, 201, 240, 0.1);
+    border: 0.0625rem dashed #4cc9f0;
+    border-radius: 0.625rem;
+    padding: 0.625rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.625rem;
+    transition: all 0.3s;
+}
+
+.combination.active {
+    background: rgba(76, 201, 240, 0.3);
+    border: 0.0625rem solid #4cc9f0;
+    box-shadow: 0 0 0.9375rem rgba(76, 201, 240, 0.5);
+}
+
+.comb-count {
+    color: #f2f4ff;
+    font-family: 'Comic Neue', cursive;
+    font-size: clamp(0.95rem, 2.1vw, 1.1rem);
+}
+
+/* Задачи */
+.tasks-container {
+    max-width: 68rem;
+    width: calc(100% - 2 * var(--pad-inline));
+    margin: 1.25rem auto 0;
+    position: relative;
+    z-index: 5;
+}
+
+.task {
+    background: rgba(10, 10, 30, 0.8);
+    border: 0.125rem solid #4cc9f0;
+    border-radius: 0.9375rem;
+    padding: 1rem;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 0 1.25rem rgba(76, 201, 240, 0.3);
+    backdrop-filter: blur(5px);
+    display: none;
+    box-sizing: border-box;
+}
+
+.task.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+.task h3 {
+    margin: 0 0 0.5rem 0;
+    color: #f2f4ff;
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: clamp(1.15rem, 3vw, 1.5rem);
+}
+
+.task p {
+    margin: 0.5rem 0 0.75rem;
+    color: #f6f8ff;
+    font-family: 'Comic Neue', cursive;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    line-height: 1.35;
+}
+
+.probability-display {
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    color: #ff9966;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.probability-display span {
+    color: #4cc9f0;
+    font-size: clamp(1.2rem, 3.4vw, 1.3rem);
+}
+
+.draw-btn,
+.reset-btn,
+.check-btn {
+    background: rgba(76, 201, 240, 0.2);
+    border: 0.125rem solid #4cc9f0;
+    border-radius: 1.875rem;
+    padding: 0.625rem 1.125rem;
+    font-family: 'Comic Neue', cursive;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin: 0.35rem;
+}
+
+.draw-btn:hover,
+.check-btn:hover {
+    background: rgba(76, 201, 240, 0.4);
+    transform: translateY(-0.1875rem);
+}
+
+.reset-btn {
+    background: rgba(255, 94, 98, 0.2);
+    border-color: #ff5e62;
+}
+
+.reset-btn:hover {
+    background: rgba(255, 94, 98, 0.4);
+    transform: translateY(-0.1875rem);
+}
+
+.input-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin: 1rem 0;
+    justify-content: center;
+}
+
+#combination-input {
+    padding: 0.625rem 0.875rem;
+    border: 0.125rem solid #4cc9f0;
+    border-radius: 1.875rem;
+    background: rgba(10, 10, 30, 0.7);
+    color: white;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1rem;
+    width: 7.25rem;
+    text-align: center;
+}
+
+.visual-comb {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.ball-pair {
+    display: flex;
+    gap: 0.375rem;
+    align-items: center;
+}
+
+/* Кнопки управления */
+.level-controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.875rem;
+    margin: -0.5rem auto 0.75rem;
+    position: relative;
+    z-index: 10;
+    width: calc(100% - 2 * var(--pad-inline));
+}
+
+.control-btn {
+    background: rgba(76, 201, 240, 0.2);
+    border: 0.125rem solid #4cc9f0;
+    border-radius: 3.125rem;
+    padding: 0.75rem 1.35rem;
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: clamp(0.92rem, 2.1vw, 1.1rem);
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-align: center;
+}
+
+.control-btn:hover {
+    background: rgba(76, 201, 240, 0.4);
+    transform: translateY(-0.1875rem);
+    box-shadow: 0 0.3125rem 0.9375rem rgba(76, 201, 240, 0.3);
+}
+
+/* Прогресс */
+.progress-container {
+    max-width: 37.5rem;
+    width: calc(100% - 2 * var(--pad-inline));
+    margin: 0 auto 1.5rem;
+    position: relative;
+    z-index: 5;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 1.125rem;
+    background: rgba(10, 10, 30, 0.7);
+    border: 0.125rem solid #4cc9f0;
+    border-radius: 0.625rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, #4cc9f0, #ff9966);
+    transition: width 0.5s;
+    max-width: 100% !important;
+}
+
+.progress-text {
+    font-family: 'Comic Neue', cursive;
+    color: white;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(1.25rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-0.625rem);
+    }
+}
+
+/* Laptop/Tablet adjustments */
+@media (max-width: 90rem) {
+    .level-header .subtitle {
+        margin-bottom: 1.75rem;
+    }
+
+    .urn {
+        width: min(54vw, 33rem);
+    }
+
+    .drawn-balls {
+        min-width: min(17rem, 30vw);
+    }
+
+    .cat-helper {
+        left: 0.75rem;
+        top: 12.75rem;
+        width: min(20rem, 32vw);
+    }
+
+    .cat-image {
+        width: min(15rem, 26vw);
+    }
+
+    .speech-bubble {
+        top: -10.5rem;
+        left: min(0rem, 14vw);
+        width: min(12rem, 25vw);
+        font-size: clamp(0.70rem, 1.1vw, 1rem);
+    }
+}
+
+@media (max-width: 90rem) and (min-width: 75.0625rem) {
+    .game-area {
+        justify-content: flex-start;
+        padding-left: clamp(12rem, 21vw, 16rem);
+    }
+
+    .urn-container {
+        width: min(100%, 52rem);
+    }
+}
+
+@media (max-width: 75rem) {
+    .urn {
+        width: min(52vw, 30rem);
+    }
+
+    .drawn-balls {
+        min-width: min(18rem, 35vw);
+    }
+
+    .cat-helper {
+        left: 1rem;
+        top: 11rem;
+    }
+}
+
+/* Tablet and mobile */
+@media (max-width: 56.25rem) {
+    .game-area {
+        margin-top: 0.75rem;
+    }
+
+    .urn-container {
+        flex-direction: column;
+        width: min(100%, 28rem);
+    }
+
+    .urn,
+    .drawn-balls {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .cat-helper {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: min(100%, 28rem);
+        margin: 0.75rem auto 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cat-image {
+        order: 2;
+        width: min(11rem, 45vw);
+    }
+
+    .speech-bubble {
+        position: relative;
+        order: 1;
+        top: auto;
+        left: auto;
+        width: 100%;
+        margin: 0 0 0.75rem 0;
+    }
+
+    .speech-bubble::after {
+        left: 50%;
+    }
+
+    .combinations-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Phones */
+@media (max-width: 48rem) {
+    .combinations-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .task {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 30rem) {
+    .level-header {
+        margin-top: 0.75rem;
+    }
+
+    .control-btn {
+        width: 100%;
+    }
+
+    .draw-btn,
+    .reset-btn,
+    .check-btn {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #combination-input {
+        width: 100%;
+    }
+}

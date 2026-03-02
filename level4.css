@@ -1,0 +1,557 @@
+﻿/* Стили для уровня "Космический Генератор Планет" */
+.game-screen {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.level-header {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    margin-top: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.level-header h1 {
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 3.5rem;
+    color: #72d4f9;
+    text-shadow: 0 0 15px #4cc9f0;
+    margin-bottom: 10px;
+}
+
+.level-header .subtitle {
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.5rem;
+    color: #ff9966;
+    text-shadow: 0 0 10px #ff5e62;
+    margin-bottom: 60px;
+}
+
+.planet-generator-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin: 30px auto;
+    max-width: 1400px;
+    position: relative;
+    z-index: 5;
+    gap: 30px;
+}
+
+.scanner-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 50%;
+}
+
+.scanner-display {
+    background: rgba(10, 10, 30, 0.8);
+    border: 3px solid #4cc9f0;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 0 30px rgba(76, 201, 240, 0.5);
+    backdrop-filter: blur(5px);
+    width: 100%;
+}
+
+.scanner-screen {
+    width: 100%;
+    height: 300px;
+    background: #000;
+    border: 2px solid #ff9966;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.planet-preview {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
+    animation: planet-appear 0.5s ease-out;
+}
+
+@keyframes planet-appear {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.scanning-animation {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.scan-line {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #4cc9f0, transparent);
+    position: absolute;
+    animation: scan 1.5s linear infinite;
+    box-shadow: 0 0 10px #4cc9f0;
+}
+
+@keyframes scan {
+    from { top: 0; }
+    to { top: 100%; }
+}
+
+.scan-text {
+    color: #4cc9f0;
+    font-family: 'Bruno Ace SC', cursive;
+    font-size: 1.5rem;
+    text-shadow: 0 0 10px #4cc9f0;
+    animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+.scanner-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.probability-controls {
+    background: rgba(10, 10, 30, 0.6);
+    border: 2px solid #ff9966;
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.probability-controls h3 {
+    font-family: 'Bruno Ace SC', sans-serif;
+    color: #4cc9f0;
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.probability-slider {
+    margin-bottom: 15px;
+}
+
+.probability-slider label {
+    font-family: 'Comic Neue', cursive;
+    color: white;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.slider {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #1a1a2e;
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#green-prob::-webkit-slider-thumb {
+    background: #28a745;
+    box-shadow: 0 0 5px #28a745;
+}
+
+#ice-prob::-webkit-slider-thumb {
+    background: #17a2b8;
+    box-shadow: 0 0 5px #17a2b8;
+}
+
+#lava-prob::-webkit-slider-thumb {
+    background: #dc3545;
+    box-shadow: 0 0 5px #dc3545;
+}
+
+.probability-total {
+    font-family: 'Bruno Ace SC', sans-serif;
+    color: #fec72d;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1.1rem;
+}
+
+.stats-and-tasks {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.stats-panel {
+    background: rgba(10, 10, 30, 0.8);
+    border: 2px solid #4cc9f0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.stats-panel h3 {
+    color: #ff9966;
+    font-family: 'Bruno Ace SC', cursive;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    text-align: center;
+}
+
+.stats-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.stat-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-label {
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.1rem;
+    color: white;
+    width: 120px;
+}
+
+.stat-bar-container {
+    flex: 1;
+    height: 30px;
+    background: rgba(10, 10, 30, 0.7);
+    border: 1px solid #4cc9f0;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.5s;
+}
+
+.stat-count {
+    font-family: 'Bruno Ace SC', sans-serif;
+    color: white;
+    margin-left: 10px;
+    min-width: 30px;
+    text-align: center;
+}
+
+.green-planet .stat-bar-fill {
+    background: linear-gradient(to right, #28a745, #5cb85c);
+}
+
+.ice-planet .stat-bar-fill {
+    background: linear-gradient(to right, #17a2b8, #5bc0de);
+}
+
+.lava-planet .stat-bar-fill {
+    background: linear-gradient(to right, #dc3545, #d9534f);
+}
+
+.total-scans {
+    font-family: 'Comic Neue', cursive;
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1.1rem;
+}
+
+.tasks-container {
+    background: rgba(10, 10, 30, 0.8);
+    border: 2px solid #4cc9f0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.task {
+    margin-bottom: 20px;
+    display: none;
+}
+
+.task.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+.task h3 {
+    color: #ff9966;
+    font-family: 'Bruno Ace SC', cursive;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.task p {
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.options {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.option-btn {
+    background: rgba(76, 201, 240, 0.2);
+    border: 2px solid #4cc9f0;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1;
+    min-width: 120px;
+}
+
+.option-btn:hover {
+    background: rgba(76, 201, 240, 0.4);
+    transform: translateY(-3px);
+}
+
+.option-btn.correct {
+    background: rgba(40, 167, 69, 0.7);
+    border-color: #28a745;
+    animation: pulse-green 0.5s;
+}
+
+.option-btn.incorrect {
+    background: rgba(220, 53, 69, 0.7);
+    border-color: #dc3545;
+    animation: shake 0.5s;
+}
+
+.hint {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 153, 102, 0.1);
+    border-left: 3px solid #ff9966;
+    border-radius: 0 5px 5px 0;
+    font-family: 'Comic Neue', cursive;
+    color: #ffcc99;
+    display: none;
+}
+
+.hint.hidden {
+    display: none;
+}
+
+.hint:not(.hidden) {
+    display: block;
+}
+
+.hint-btn {
+    background: transparent;
+    border: none;
+    color: #4cc9f0;
+    font-family: 'Comic Neue', cursive;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+}
+
+.level-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px auto;
+    position: relative;
+    z-index: 10;
+}
+
+.control-btn {
+    background: rgba(76, 201, 240, 0.2);
+    border: 2px solid #4cc9f0;
+    border-radius: 50px;
+    padding: 12px 25px;
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: 1.1rem;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-btn:hover {
+    background: rgba(76, 201, 240, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+}
+
+.control-btn.big-btn {
+    padding: 15px 30px;
+    font-size: 1.3rem;
+}
+
+.achievements-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(10, 10, 30, 0.9);
+    border: 2px solid #fec72d;
+    border-radius: 15px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 0 20px rgba(254, 199, 45, 0.3);
+    backdrop-filter: blur(5px);
+    z-index: 100;
+}
+
+.achievements-panel h3 {
+    color: #fec72d;
+    font-family: 'Bruno Ace SC', cursive;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.achievement {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+.achievement.unlocked {
+    opacity: 1;
+}
+
+.achievement-icon {
+    font-size: 1.5rem;
+}
+
+.achievement-text {
+    font-family: 'Comic Neue', cursive;
+    font-size: 0.9rem;
+    color: white;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-green {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .planet-generator-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .scanner-panel, .stats-and-tasks {
+        width: 100%;
+    }
+    
+    .achievements-panel {
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+    }
+}
+
+/* Кот-помощник */
+.cat-helper {
+    position: absolute;
+    left: 5px;
+    top: 105px;
+}
+
+.cat-image {
+    width: 200px;
+    height: auto;
+    filter: drop-shadow(0 0 10px #4cc9f0);
+    animation: float 6s ease-in-out infinite;
+}
+
+.speech-bubble {
+    position: absolute;
+    top: -80px;
+    left: 160px;
+    width: 250px;
+    padding: 15px;
+    background: rgba(10, 10, 30, 0.9);
+    border: 2px solid #ff9966;
+    border-radius: 20px;
+    color: white;
+    font-family: 'Comic Neue', cursive;
+    font-size: 1.1rem;
+    box-shadow: 0 0 20px rgba(255, 153, 102, 0.5);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s;
+    backdrop-filter: blur(5px);
+}
+
+.speech-bubble.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.planet-info{
+    font-size: 35px;
+}
