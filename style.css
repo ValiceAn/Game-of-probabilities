@@ -17,6 +17,68 @@ body {
     display: block;
 }
 
+html.preload-active,
+html.preload-active body {
+    overflow: hidden;
+}
+
+html.preload-active body > *:not(#global-preloader) {
+    visibility: hidden;
+}
+
+#global-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(circle at 18% 86%, rgba(90, 12, 150, 0.6), transparent 36%),
+        radial-gradient(circle at 84% 10%, rgba(72, 20, 150, 0.45), transparent 32%),
+        linear-gradient(135deg, #0b1025 0%, #16213e 55%, #1f2b57 100%);
+    opacity: 1;
+    transition: opacity 0.4s ease;
+}
+
+#global-preloader.hidden {
+    opacity: 0;
+}
+
+.loader-shell {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+}
+
+.loader-orbit {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 3px solid rgba(76, 201, 240, 0.25);
+    border-top-color: #4cc9f0;
+    border-right-color: #f4906a;
+    animation: loader-spin 1s linear infinite;
+    box-shadow: 0 0 16px rgba(76, 201, 240, 0.45);
+}
+
+.loader-core {
+    width: 20px;
+    height: 20px;
+    margin-top: -56px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #7de4ff 0%, #2b93ca 80%);
+    box-shadow: 0 0 18px rgba(76, 201, 240, 0.75);
+}
+
+.loader-text {
+    margin-top: 8px;
+    color: #e8f3ff;
+    font-family: 'Comic Neue', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(76, 201, 240, 0.65);
+}
+
 .lang-switch-btn {
     position: fixed;
     top: 16px;
@@ -515,6 +577,12 @@ body {
     text-align: center;
     margin-top: 10vh;
     perspective: 1000px;
+}
+
+@keyframes loader-spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .title-word {
