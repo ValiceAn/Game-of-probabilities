@@ -198,7 +198,7 @@
     justify-self: center;
     align-self: start;
     position: relative;
-    width: min(100%, 360px);
+    width: min(100%, 300px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -206,7 +206,7 @@
 
 .cat-image {
     order: 2;
-    width: min(250px, 100%);
+    width: min(220px, 100%);
     height: auto;
     filter: drop-shadow(0 0 10px #4cc9f0);
     animation: float 6s ease-in-out infinite;
@@ -217,8 +217,8 @@
     position: relative;
     top: auto;
     left: auto;
-    width: min(320px, 100%);
-    align-self: flex-end;
+    width: min(280px, 100%);
+    align-self: center;
     margin-top: 0;
     margin-bottom: 12px;
     padding: 15px;
@@ -239,7 +239,7 @@
     content: '';
     position: absolute;
     bottom: -15px;
-    left: 10%;
+    left: 50%;
     transform: translateX(-50%);
     border-width: 15px 15px 0;
     border-style: solid;
@@ -279,9 +279,11 @@
 }
 
 .challenge-options {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 10px;
     margin-top: 15px;
+    width: 100%;
 }
 
 .challenge-btn {
@@ -294,7 +296,13 @@
     color: white;
     cursor: pointer;
     transition: all 0.3s;
-    flex: 1;
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .challenge-btn:hover {
@@ -586,7 +594,7 @@
     }
 
     .challenge-options {
-        flex-wrap: wrap;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .speech-bubble {
@@ -598,12 +606,12 @@
 /* Desktop position tuning to match reference */
 @media (min-width: 901px) {
     .game-area {
-        max-width: 1280px;
-        grid-template-columns: minmax(18rem, 22rem) minmax(20rem, 24rem) minmax(18rem, 24rem);
+        max-width: 1200px;
+        grid-template-columns: minmax(14rem, 1fr) minmax(17rem, 1fr) minmax(14rem, 1fr);
         grid-template-areas:
             "stats coin cat"
             "stats question cat";
-        gap: 20px 48px;
+        gap: 20px clamp(16px, 2.5vw, 40px);
         align-items: start;
         justify-items: center;
     }
