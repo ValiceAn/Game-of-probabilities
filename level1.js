@@ -158,13 +158,15 @@ function showTask(index) {
 }
     
     function rotateDiceToValue(value) {
-        // Углы поворота для каждого значения кубика
+        // Углы поворота для каждого значения кубика.
+        // Mapping must match faces in level1.html:
+        // front=1, back=6, right=4, left=3, top=2, bottom=5.
         const rotations = {
             1: { x: 0, y: 0, z: 0 },
-            2: { x: 90, y: 0, z: 0 },
-            3: { x: 0, y: -90, z: 0 },
-            4: { x: 0, y: 90, z: 0 },
-            5: { x: -90, y: 0, z: 0 },
+            2: { x: -90, y: 0, z: 0 },
+            3: { x: 0, y: 90, z: 0 },
+            4: { x: 0, y: -90, z: 0 },
+            5: { x: 90, y: 0, z: 0 },
             6: { x: 180, y: 0, z: 0 }
         };
         
