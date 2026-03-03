@@ -1,5 +1,8 @@
 // Инициализация игры при загрузке
 const MAP_CAT_LEVEL_KEY = 'mapCatLevel';
+const t = (key, fallback, params = {}) => (
+    window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
+);
 
 document.addEventListener('DOMContentLoaded', function() {
     // Проверяем сохраненный прогресс
@@ -39,7 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Планета заблокирована - показать сообщение
                 const catSpeech = document.createElement('div');
                 catSpeech.className = 'cat-message';
-                catSpeech.textContent = 'Этот уровень ещё заблокирован! Пройди предыдущие уровни, чтобы открыть его.';
+                catSpeech.textContent = t(
+                    'index.locked',
+                    'Этот уровень ещё заблокирован! Пройди предыдущие уровни, чтобы открыть его.'
+                );
                 document.querySelector('.galaxy-map').appendChild(catSpeech);
                 
                 setTimeout(() => {
@@ -206,7 +212,7 @@ function unlockLevel(levelNum) {
         // Показываем анимацию разблокировки
         const unlockEffect = document.createElement('div');
         unlockEffect.className = 'unlock-effect';
-        unlockEffect.innerHTML = '🔓 Уровень разблокирован!';
+        unlockEffect.innerHTML = t('index.unlocked', '🔓 Уровень разблокирован!');
         nextPlanet.appendChild(unlockEffect);
         
         setTimeout(() => {

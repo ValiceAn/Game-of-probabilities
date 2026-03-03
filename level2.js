@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const t = (key, fallback, params = {}) => (
+        window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
+    );
     // Элементы интерфейса
     const coin = document.getElementById('coin');
     const flipBtn = document.getElementById('flip-coin');
@@ -64,7 +67,7 @@ if (window.opener) {
         riskModal.classList.remove('visible');
         gameState = 'flipping';
         flipBtn.disabled = false;
-        updateCatSpeech("Отлично! Бросай монетку, но помни о риске!");
+        updateCatSpeech(t('level2.catRisk', 'Отлично! Бросай монетку, но помни о риске!'));
     });
 
     playSafeBtn.addEventListener('click', function() {
@@ -72,7 +75,7 @@ if (window.opener) {
         riskModal.classList.remove('visible');
         gameState = 'flipping';
         flipBtn.disabled = false;
-        updateCatSpeech("Безопасный выбор! Бросай монетку!");
+        updateCatSpeech(t('level2.catSafe', 'Безопасный выбор! Бросай монетку!'));
     });
 
     // Функция броска монетки
@@ -105,14 +108,14 @@ if (window.opener) {
                 if (riskTaken) {
                     // Если рискнули и выпал орёл - получаем бонус +3 вместо штрафа -2
                     headsCount += 3;
-                    updateCatSpeech("Ура! Ты рискнул и получил бонус +3 очка!");
+                    updateCatSpeech(t('level2.riskWin', 'Ура! Ты рискнул и получил бонус +3 очка!'));
                 }
             } else {
                 tailsCount++;
                 if (riskTaken) {
                     // Если рискнули и выпала решка - штраф -1
                     headsCount = Math.max(0, headsCount - 1);
-                    updateCatSpeech("Решка! Ты теряешь 1 очко из-за риска.");
+                    updateCatSpeech(t('level2.riskLose', 'Решка! Ты теряешь 1 очко из-за риска.'));
                 }
             }
             
@@ -136,14 +139,18 @@ if (window.opener) {
         
         const progressPercent = Math.min(100, (headsCount / headsGoal) * 100);
         progressFill.style.width = `${progressPercent}%`;
-        progressText.textContent = `${headsCount} орлов из ${headsGoal}`;
+        progressText.textContent = t(
+            'level2.progress',
+            '{heads} орлов из {goal}',
+            { heads: headsCount, goal: headsGoal }
+        );
         
         // Проверяем, достигли ли цели
         if (headsCount >= headsGoal) {
-            updateCatSpeech("Ура! Ты собрал нужное количество орлов! Теперь давай изучим кое-что интересное...");
+            updateCatSpeech(t('level2.goalDone', 'Ура! Ты собрал нужное количество орлов! Теперь давай изучим кое-что интересное...'));
             setTimeout(startMontyHallGame, 2000);
         } else if (totalFlips >= flipsGoal) {
-            updateCatSpeech("О нет! Ты использовал все попытки. Попробуй ещё раз!");
+            updateCatSpeech(t('level2.goalFail', 'О нет! Ты использовал все попытки. Попробуй ещё раз!'));
             setTimeout(resetGame, 3000);
         }
     }
@@ -156,7 +163,7 @@ if (window.opener) {
             flipBtn.disabled = true;
             
             setTimeout(() => {
-                updateCatSpeech("Стоп! У меня есть предложение...");
+                updateCatSpeech(t('level2.stopOffer', 'Стоп! У меня есть предложение...'));
                 setTimeout(() => {
                     riskModal.classList.add('visible');
                 }, 1500);
@@ -173,29 +180,41 @@ if (window.opener) {
     function showRandomChallenge() {
         const challenges = [
             {
-                question: "Какова вероятность, что следующий бросок будет орлом?",
-                options: ["50%", "70%", "Зависит от предыдущих бросков"],
+                question: t('level2.ch1.q', 'Какова вероятность, что следующий бросок будет орлом?'),
+                options: [
+                    t('level2.ch1.o1', '50%'),
+                    t('level2.ch1.o2', '70%'),
+                    t('level2.ch1.o3', 'Зависит от предыдущих бросков')
+                ],
                 correct: 0,
-                explanation: "Каждый бросок монетки независим, вероятность орла всегда 50%!"
+                explanation: t('level2.ch1.ex', 'Каждый бросок монетки независим, вероятность орла всегда 50%!')
             },
             {
-                question: "Если было 5 орлов подряд, что вероятнее на 6-й бросок?",
-                options: ["Орёл", "Решка", "Одинаково"],
+                question: t('level2.ch2.q', 'Если было 5 орлов подряд, что вероятнее на 6-й бросок?'),
+                options: [
+                    t('level2.ch2.o1', 'Орёл'),
+                    t('level2.ch2.o2', 'Решка'),
+                    t('level2.ch2.o3', 'Одинаково')
+                ],
                 correct: 2,
-                explanation: "Монетка не помнит предыдущие броски - это называется независимость событий!"
+                explanation: t('level2.ch2.ex', 'Монетка не помнит предыдущие броски - это называется независимость событий!')
             },
             {
-                question: "Какова вероятность двух орлов подряд?",
-                options: ["25%", "50%", "75%"],
+                question: t('level2.ch3.q', 'Какова вероятность двух орлов подряд?'),
+                options: [
+                    t('level2.ch3.o1', '25%'),
+                    t('level2.ch3.o2', '50%'),
+                    t('level2.ch3.o3', '75%')
+                ],
                 correct: 0,
-                explanation: "Вероятность каждого орла 50%, а двух подряд - 50% × 50% = 25%!"
+                explanation: t('level2.ch3.ex', 'Вероятность каждого орла 50%, а двух подряд - 50% × 50% = 25%!')
             }
         ];
         
         const challenge = challenges[Math.floor(Math.random() * challenges.length)];
         
         challengeContainer.innerHTML = `
-            <h3>Вопрос на размышление</h3>
+            <h3>${t('level2.challengeTitle', 'Вопрос на размышление')}</h3>
             <p>${challenge.question}</p>
             <div class="challenge-options">
                 ${challenge.options.map((option, i) => `
@@ -212,10 +231,10 @@ if (window.opener) {
                 
                 if (isCorrect) {
                     this.classList.add('correct');
-                    updateCatSpeech("Правильно! " + challenge.explanation);
+                    updateCatSpeech(t('level2.correctPrefix', 'Правильно! ') + challenge.explanation);
                 } else {
                     this.classList.add('incorrect');
-                    updateCatSpeech("Не совсем! " + challenge.explanation);
+                    updateCatSpeech(t('level2.incorrectPrefix', 'Не совсем! ') + challenge.explanation);
                 }
                 
                 // Показываем объяснение
@@ -246,7 +265,7 @@ if (window.opener) {
         });
         
         montyHallModal.classList.add('visible');
-        updateCatSpeech("Выбери дверь, за которой приз! После твоего выбора я открою одну пустую.");
+        updateCatSpeech(t('level2.montyPick', 'Выбери дверь, за которой приз! После твоего выбора я открою одну пустую.'));
     }
 
     // Обработчики для парадокса Монти Холла
@@ -267,27 +286,31 @@ if (window.opener) {
                 // Показываем кнопки для выбора - поменять или оставить
                 setTimeout(() => {
                     montyResult.innerHTML = `
-                        <p>Ты выбрал дверь ${selectedDoor}, я открыл дверь ${doorToOpen}.</p>
-                        <p>Хочешь поменять свой выбор на оставшуюся дверь или оставить текущий выбор?</p>
+                        <p>${t('level2.montyLine1', 'Ты выбрал дверь {selected}, я открыл дверь {opened}.', { selected: selectedDoor, opened: doorToOpen })}</p>
+                        <p>${t('level2.montyLine2', 'Хочешь поменять свой выбор на оставшуюся дверь или оставить текущий выбор?')}</p>
                     `;
                     
                     // Создаем кнопки для выбора
                     const switchBtn = document.createElement('button');
                     switchBtn.className = 'modal-btn';
-                    switchBtn.textContent = 'Поменять выбор';
+                    switchBtn.textContent = t('level2.switchChoice', 'Поменять выбор');
                     switchBtn.addEventListener('click', () => handleMontyChoice(true));
                     
                     const stayBtn = document.createElement('button');
                     stayBtn.className = 'modal-btn';
-                    stayBtn.textContent = 'Оставить выбор';
+                    stayBtn.textContent = t('level2.stayChoice', 'Оставить выбор');
                     stayBtn.addEventListener('click', () => handleMontyChoice(false));
                     
                     // Очищаем и добавляем новые элементы
                     montyResult.innerHTML = '';
                     montyResult.appendChild(document.createElement('p')).textContent = 
-                        `Ты выбрал дверь ${selectedDoor}, я открыл дверь ${doorToOpen}.`;
+                        t(
+                            'level2.montyLine1',
+                            'Ты выбрал дверь {selected}, я открыл дверь {opened}.',
+                            { selected: selectedDoor, opened: doorToOpen }
+                        );
                     montyResult.appendChild(document.createElement('p')).textContent = 
-                        'Хочешь поменять свой выбор на оставшуюся дверь или оставить текущий выбор?';
+                        t('level2.montyLine2', 'Хочешь поменять свой выбор на оставшуюся дверь или оставить текущий выбор?');
                     
                     const btnContainer = document.createElement('div');
                     btnContainer.className = 'modal-options';
@@ -317,10 +340,17 @@ if (window.opener) {
         const won = finalChoice === prizeDoor;
         
         // Показываем результат
+        const action = shouldSwitch
+            ? t('level2.changed', 'поменял')
+            : t('level2.stayed', 'оставил');
+        const result = won
+            ? t('level2.won', 'выиграл')
+            : t('level2.lost', 'проиграл');
+
         montyResult.innerHTML = `
-            <p>Ты ${shouldSwitch ? 'поменял' : 'оставил'} свой выбор и ${won ? 'выиграл' : 'проиграл'}!</p>
-            <p>Приз был за дверью ${prizeDoor}.</p>
-            <p>Это демонстрация парадокса Монти Холла - смена выбора увеличивает шансы с 1/3 до 2/3!</p>
+            <p>${t('level2.result1', 'Ты {action} свой выбор и {result}!', { action, result })}</p>
+            <p>${t('level2.result2', 'Приз был за дверью {door}.', { door: prizeDoor })}</p>
+            <p>${t('level2.result3', 'Это демонстрация парадокса Монти Холла - смена выбора увеличивает шансы с 1/3 до 2/3!')}</p>
         `;
         
         // Подсвечиваем выигрышную дверь
@@ -352,14 +382,19 @@ if (window.opener) {
         riskTaken = false;
         gameState = 'flipping';
         updateStats();
-        updateCatSpeech("Давай попробуем ещё раз! Бросай монетку и собирай орлов.");
+        updateCatSpeech(t('level2.reset', 'Давай попробуем ещё раз! Бросай монетку и собирай орлов.'));
         showRandomChallenge(); // Показываем вопрос после сброса
     }
 
     // Завершение уровня
     function completeLevel() {
         gameState = 'completed';
-        updateCatSpeech("Поздравляю! Ты завершил уровень 'Монетный Барьер'! Теперь ты знаешь больше о вероятности!");
+        updateCatSpeech(
+            t(
+                'level2.complete',
+                'Поздравляю! Ты завершил уровень "Монетный Барьер"! Теперь ты знаешь больше о вероятности!'
+            )
+        );
     }
 
     // Инициализируем игру при загрузке

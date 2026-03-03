@@ -1,5 +1,8 @@
 // Инициализация уровня 4 - Космический Генератор Планет
 document.addEventListener('DOMContentLoaded', function() {
+    const t = (key, fallback, params = {}) => (
+        window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
+    );
     // Элементы интерфейса
     const scanBtn = document.getElementById('scan-btn');
     const scannerDisplay = document.getElementById('scanner-display');
@@ -51,24 +54,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Планеты и их свойства
     const planets = {
         green: {
-            name: "Зелёная планета",
-            emoji: "Зелёная",
+            name: t('level4.planetGreenName', 'Зелёная планета'),
+            emoji: t('level4.planetGreenEmoji', 'Зелёная'),
             color: "#28a745",
-            desc: "Идеальна для базы! Есть вода и растения.",
+            desc: t('level4.planetGreenDesc', 'Идеальна для базы! Есть вода и растения.'),
             sound: new Audio('sounds/green_planet.mp3')
         },
         ice: {
-            name: "Ледяная планета",
-            emoji: "Ледяная",
+            name: t('level4.planetIceName', 'Ледяная планета'),
+            emoji: t('level4.planetIceEmoji', 'Ледяная'),
             color: "#17a2b8",
-            desc: "Холодно, но есть полезные ископаемые.",
+            desc: t('level4.planetIceDesc', 'Холодно, но есть полезные ископаемые.'),
             sound: new Audio('sounds/ice_planet.mp3')
         },
         lava: {
-            name: "Лавовая планета",
-            emoji: "Лавовая",
+            name: t('level4.planetLavaName', 'Лавовая планета'),
+            emoji: t('level4.planetLavaEmoji', 'Лавовая'),
             color: "#dc3545",
-            desc: "Опасно, но можно собрать редкие кристаллы!",
+            desc: t('level4.planetLavaDesc', 'Опасно, но можно собрать редкие кристаллы!'),
             sound: new Audio('sounds/lava_planet.mp3')
         }
     };
@@ -128,7 +131,7 @@ if (window.opener) {
                     catSpeech.textContent = getRandomCongratulation();
                 } else {
                     this.classList.add('incorrect');
-                    catSpeech.textContent = 'Попробуй ещё раз! Обрати внимание на вероятности.';
+                    catSpeech.textContent = t('level4.tryAgain', 'Попробуй ещё раз! Обрати внимание на вероятности.');
                 }
             }
         });
@@ -140,7 +143,9 @@ hintBtns.forEach(btn => {
         const taskContainer = this.closest('.task');
         const hint = taskContainer.querySelector('.hint');
         hint.classList.toggle('hidden');
-        this.textContent = hint.classList.contains('hidden') ? 'Показать подсказку' : 'Скрыть подсказку';
+        this.textContent = hint.classList.contains('hidden')
+            ? t('common.showHint', 'Показать подсказку')
+            : t('common.hideHint', 'Скрыть подсказку');
     });
 });
     
@@ -181,7 +186,10 @@ hintBtns.forEach(btn => {
         const total = green + ice + lava;
         
         if (total !== 100) {
-            catSpeech.textContent = "Сумма вероятностей должна быть ровно 100%! Настрой сканер правильно.";
+            catSpeech.textContent = t(
+                'level4.sumLong',
+                'Сумма вероятностей должна быть ровно 100%! Настрой сканер правильно.'
+            );
             return;
         }
         
@@ -275,9 +283,16 @@ hintBtns.forEach(btn => {
     function updateCatSpeech(planetType) {
         const planet = planets[planetType];
         const phrases = [
-            `Найдена ${planet.name.toLowerCase()}! ${planet.desc}`,
-            `Результат сканирования: ${planet.name}!`,
-            `Ух ты! Это ${planet.name.toLowerCase()}!`,
+            t('level4.scanPhrase1', 'Найдена {planet}! {desc}', {
+                planet: planet.name.toLowerCase(),
+                desc: planet.desc
+            }),
+            t('level4.scanPhrase2', 'Результат сканирования: {planetName}!', {
+                planetName: planet.name
+            }),
+            t('level4.scanPhrase3', 'Ух ты! Это {planet}!', {
+                planet: planet.name.toLowerCase()
+            }),
         ];
         
         catSpeech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
@@ -285,10 +300,10 @@ hintBtns.forEach(btn => {
     
     function getRandomCongratulation() {
         const phrases = [
-            'Правильно! Ты отлично разбираешься в вероятности!',
-            'Верно! Космический сканер гордится тобой!',
-            'Молодец! Ты решил задачу как настоящий учёный!',
-            'Отличная работа! Ты понял принцип вероятности!'
+            t('level4.good1', 'Правильно! Ты отлично разбираешься в вероятности!'),
+            t('level4.good2', 'Верно! Космический сканер гордится тобой!'),
+            t('level4.good3', 'Молодец! Ты решил задачу как настоящий учёный!'),
+            t('level4.good4', 'Отличная работа! Ты понял принцип вероятности!')
         ];
         
         return phrases[Math.floor(Math.random() * phrases.length)];
@@ -296,7 +311,10 @@ hintBtns.forEach(btn => {
     
     function completeLevel() {
         // Показать сообщение о завершении уровня
-        catSpeech.textContent = 'Поздравляю! Ты завершил уровень "Космический Генератор Планет"! Теперь ты знаешь, как работает вероятность!';
+        catSpeech.textContent = t(
+            'level4.complete',
+            'Поздравляю! Ты завершил уровень "Космический Генератор Планет"! Теперь ты знаешь, как работает вероятность!'
+        );
     }
     
     function checkAchievements() {
@@ -309,7 +327,10 @@ hintBtns.forEach(btn => {
             achievementsPanel.classList.remove('hidden');
             
             // Показываем сообщение
-            catSpeech.textContent = 'Удивительно! 3 лавовые планеты подряд! Ты получил термоустойчивый сканер!';
+            catSpeech.textContent = t(
+                'level4.achLava',
+                'Удивительно! 3 лавовые планеты подряд! Ты получил термоустойчивый сканер!'
+            );
         }
         
         // Проверяем, есть ли 5 ледяных планет подряд
@@ -323,7 +344,10 @@ hintBtns.forEach(btn => {
             achievementsPanel.classList.remove('hidden');
             
             // Показываем сообщение
-            catSpeech.textContent = 'Осторожно! 5 ледяных планет подряд! Корабль может замедлиться из-за обледенения!';
+            catSpeech.textContent = t(
+                'level4.achIce',
+                'Осторожно! 5 ледяных планет подряд! Корабль может замедлиться из-за обледенения!'
+            );
         }
     }
     
@@ -333,13 +357,16 @@ hintBtns.forEach(btn => {
         const lava = parseInt(lavaProb.value);
         
         if (green + ice + lava !== 100) {
-            catSpeech.textContent = "Сумма вероятностей должна быть ровно 100%!";
+            catSpeech.textContent = t('level4.sumShort', 'Сумма вероятностей должна быть ровно 100%!');
             return;
         }
         
         if (lava > ice) {
             checkSettingsBtn.classList.add('correct');
-            catSpeech.textContent = "Отлично! Теперь лавовые планеты будут встречаться чаще ледяных!";
+            catSpeech.textContent = t(
+                'level4.settingsOk',
+                'Отлично! Теперь лавовые планеты будут встречаться чаще ледяных!'
+            );
             completedTasks++;
             
             // Показать кнопку следующего задания
@@ -350,7 +377,10 @@ hintBtns.forEach(btn => {
             }
         } else {
             checkSettingsBtn.classList.add('incorrect');
-            catSpeech.textContent = "Попробуй ещё раз! Сделай значение для лавовой планеты больше, чем для ледяной.";
+            catSpeech.textContent = t(
+                'level4.settingsRetry',
+                'Попробуй ещё раз! Сделай значение для лавовой планеты больше, чем для ледяной.'
+            );
         }
     }
 });

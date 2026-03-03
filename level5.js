@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const t = (key, fallback, params = {}) => (
+        window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
+    );
     // Элементы интерфейса
     const starField = document.getElementById('star-field');
     const generateBtn = document.getElementById('generate-stars');
@@ -225,8 +228,11 @@ document.addEventListener('DOMContentLoaded', function() {
             progressText1.textContent = `${starsData.total}/20`;
             
             if (starsData.total === 20) {
-                catSpeech.textContent = `Отлично! Ты создал 20 звёзд. Чёрных дыр получилось ${starsData.black}. 
-                Ожидалось около 2, но пока возможны отклонения. Это нормально!`;
+                catSpeech.textContent = t(
+                    'level5.msg20',
+                    'Отлично! Ты создал 20 звёзд. Чёрных дыр получилось {black}. Ожидалось около 2, но пока возможны отклонения. Это нормально!',
+                    { black: starsData.black }
+                );
                 
                 // Переход к следующему заданию
                 setTimeout(() => {
@@ -243,15 +249,15 @@ document.addEventListener('DOMContentLoaded', function() {
             progressText2.textContent = `${starsData.total}/100`;
             
             if (starsData.total === 100) {
-                const redDiff = Math.abs(60 - Math.round((starsData.red / 100) * 100));
-                const blueDiff = Math.abs(30 - Math.round((starsData.blue / 100) * 100));
-                const blackDiff = Math.abs(10 - Math.round((starsData.black / 100) * 100));
-                
-                catSpeech.textContent = `Супер! После 100 звёзд распределение: 
-                ${Math.round((starsData.red / 100) * 100)}% красных, 
-                ${Math.round((starsData.blue / 100) * 100)}% голубых, 
-                ${Math.round((starsData.black / 100) * 100)}% чёрных дыр. 
-                Уже ближе к ожидаемым 60/30/10!`;
+                catSpeech.textContent = t(
+                    'level5.msg100',
+                    'Супер! После 100 звёзд распределение: {red}% красных, {blue}% голубых, {black}% чёрных дыр.',
+                    {
+                        red: Math.round((starsData.red / 100) * 100),
+                        blue: Math.round((starsData.blue / 100) * 100),
+                        black: Math.round((starsData.black / 100) * 100)
+                    }
+                );
                 
                 // Переход к следующему заданию
                 setTimeout(() => {
@@ -269,8 +275,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (starsData.total === 150) {
                 const expectedBlack = Math.round(150 * 0.1);
-                catSpeech.textContent = `После 150 звёзд чёрных дыр получилось ${starsData.black}. 
-                Ожидалось около ${expectedBlack}. Видишь, как работает закон больших чисел?`;
+                catSpeech.textContent = t(
+                    'level5.msg150',
+                    'После 150 звёзд чёрных дыр получилось {black}. Ожидалось около {expected}.',
+                    { black: starsData.black, expected: expectedBlack }
+                );
                 
                 // Завершение уровня
                 setTimeout(() => {
@@ -285,17 +294,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const userGuess = parseInt(hypothesisInput.value);
         
         if (isNaN(userGuess)) {
-            catSpeech.textContent = 'Пожалуйста, введите число!';
+            catSpeech.textContent = t('level5.enter', 'Пожалуйста, введите число!');
             return;
         }
         
         const expected = Math.round(50 * starProbabilities.black);
         
         if (Math.abs(userGuess - expected) <= 2) {
-            catSpeech.textContent = `Отличная догадка! Действительно, после 50 звёзд обычно получается около ${expected} чёрных дыр.`;
+            catSpeech.textContent = t(
+                'level5.guessGood',
+                'Отличная догадка! Действительно, после 50 звёзд обычно получается около {expected} чёрных дыр.',
+                { expected }
+            );
         } else {
-            catSpeech.textContent = `Интересная гипотеза! На самом деле, после 50 звёзд обычно получается около ${expected} чёрных дыр. 
-            Попробуй создать 50 звёзд и проверь!`;
+            catSpeech.textContent = t(
+                'level5.guessOff',
+                'Интересная гипотеза! На самом деле, после 50 звёзд обычно получается около {expected} чёрных дыр. Попробуй создать 50 звёзд и проверь!',
+                { expected }
+            );
         }
     }
     
@@ -322,12 +338,15 @@ document.addEventListener('DOMContentLoaded', function() {
             progressText3.textContent = '0/50';
         }
         
-        catSpeech.textContent = 'Лаборатория очищена. Можно начинать заново!';
+        catSpeech.textContent = t('level5.labReset', 'Лаборатория очищена. Можно начинать заново!');
     }
     
     // Завершение уровня
     function completeLevel() {
-        catSpeech.textContent = 'Ты доказал: даже в квантовом хаосе есть порядок! Это и есть закон больших чисел.';
+        catSpeech.textContent = t(
+            'level5.complete',
+            'Ты доказал: даже в квантовом хаосе есть порядок! Это и есть закон больших чисел.'
+        );
     }
     
     // Обработчики событий

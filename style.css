@@ -17,6 +17,34 @@ body {
     display: block;
 }
 
+.lang-switch-btn {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 5000;
+    border: 2px solid #4cc9f0;
+    border-radius: 999px;
+    background: rgba(5, 8, 40, 0.9);
+    color: #ffffff;
+    font-family: 'Comic Neue', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1;
+    padding: 10px 16px;
+    cursor: pointer;
+    box-shadow: 0 0 14px rgba(76, 201, 240, 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lang-switch-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(76, 201, 240, 0.65);
+}
+
+.lang-switch-btn:active {
+    transform: translateY(0);
+}
+
 .screen {
     width: 100%;
     min-height: 100vh;
@@ -485,7 +513,7 @@ body {
     position: relative;
     z-index: 10;
     text-align: center;
-    margin-top: 8vh;
+    margin-top: 10vh;
     perspective: 1000px;
 }
 
@@ -536,7 +564,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 25px auto;
+    margin: 35px auto 25px;
     position: relative;
     z-index: 10;
 }
@@ -1406,7 +1434,7 @@ body {
     }
 
     .main-title {
-        margin-top: 1.5rem;
+        margin-top: 2rem;
     }
 
     .title-word {
@@ -1551,6 +1579,13 @@ body {
 }
 
 @media (max-width: 36rem) {
+    .lang-switch-btn {
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
     .title-word {
         font-size: clamp(1.8rem, 11.5vw, 2.6rem);
     }

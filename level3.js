@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const t = (key, fallback, params = {}) => (
+        window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
+    );
     // Элементы интерфейса
     const urn = document.getElementById('urn');
     const drawnBallsContainer = document.querySelector('.drawn-balls .balls-container');
@@ -129,9 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
         combinationsGrid.innerHTML = '';
         
         const types = [
-            {name: "2 синих", color1: "blue", color2: "blue", count: (balls.blue * (balls.blue - 1)) / 2},
-            {name: "2 красных", color1: "red", color2: "red", count: (balls.red * (balls.red - 1)) / 2},
-            {name: "1 синий + 1 красный", color1: "blue", color2: "red", count: balls.blue * balls.red}
+            {name: t('level3.type2blue', '2 синих'), color1: 'blue', color2: 'blue', count: (balls.blue * (balls.blue - 1)) / 2},
+            {name: t('level3.type2red', '2 красных'), color1: 'red', color2: 'red', count: (balls.red * (balls.red - 1)) / 2},
+            {name: t('level3.typeMixed', '1 синий + 1 красный'), color1: 'blue', color2: 'red', count: balls.blue * balls.red}
         ];
         
         types.forEach(type => {
@@ -140,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
             comb.innerHTML = `
                 <div class="ball ${type.color1}">${type.color1 === "blue" ? "B" : "R"}</div>
                 <div class="ball ${type.color2}">${type.color2 === "blue" ? "B" : "R"}</div>
-                <div class="comb-count">${type.count} способов</div>
+                <div class="comb-count">${t('level3.ways', '{count} способов', { count: type.count })}</div>
             `;
             combinationsGrid.appendChild(comb);
         });
@@ -170,12 +173,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const correctAnswer = initialBalls.blue * initialBalls.red;
         
         if (isNaN(userAnswer)) {
-            catSpeech.textContent = 'Пожалуйста, введите число!';
+            catSpeech.textContent = t('level3.enterNumber', 'Пожалуйста, введите число!');
             return;
         }
         
         if (userAnswer === correctAnswer) {
-            catSpeech.textContent = 'Правильно! Действительно, существует ' + correctAnswer + ' способов вытянуть 1 синий и 1 красный шарик.';
+            catSpeech.textContent = t(
+                'level3.correct',
+                'Правильно! Действительно, существует {count} способов вытянуть 1 синий и 1 красный шарик.',
+                { count: correctAnswer }
+            );
             
             // Показываем все комбинации
             showAllCombinations();
@@ -194,7 +201,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 completeLevel();
             }
         } else {
-            catSpeech.textContent = 'Неверно. Попробуй еще раз! Подсказка: умножь количество синих шариков на количество красных.';
+            catSpeech.textContent = t(
+                'level3.incorrect',
+                'Неверно. Попробуй еще раз! Подсказка: умножь количество синих шариков на количество красных.'
+            );
         }
     }
     
@@ -245,15 +255,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const bothBlue = drawnBalls.every(ball => ball.color === 'blue');
         
         if (bothBlue) {
-            catSpeech.textContent = 'Ура! Ты вытянул два синих шарика подряд! Теперь ты видишь, как вычисляется вероятность такого события.';
+            catSpeech.textContent = t(
+                'level3.twoBlueWin',
+                'Ура! Ты вытянул два синих шарика подряд! Теперь ты видишь, как вычисляется вероятность такого события.'
+            );
             if (completedTasks <= currentTask) {
                 completedTasks = currentTask + 1;
                 updateProgress();
             }
             nextTaskBtn.classList.remove('hidden');
         } else {
-            catSpeech.textContent = 'Не получилось два синих подряд. Попробуй еще раз! Помни, вероятность этого события ' + 
-                                  prob1Display.textContent.split(' (')[0] + '.';
+            catSpeech.textContent = t(
+                'level3.twoBlueFail',
+                'Не получилось два синих подряд. Попробуй еще раз! Помни, вероятность этого события {prob}.',
+                { prob: prob1Display.textContent.split(' (')[0] }
+            );
         }
         
         updateProbabilityDisplay(1);
@@ -266,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Сначала вытягиваем красный
         const redBalls = [...urn.querySelectorAll('.ball.red')];
         if (redBalls.length === 0) {
-            catSpeech.textContent = 'Красных шариков больше нет! Нажми "Начать заново".';
+            catSpeech.textContent = t('level3.noRedLeft', 'Красных шариков больше нет! Нажми "Начать заново".');
             return;
         }
         
@@ -289,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateProbabilityDisplay(2);
             
             // Теперь можно вытянуть второй шарик
-            drawAfterRedBtn.textContent = 'Вытянуть второй шарик';
+            drawAfterRedBtn.textContent = t('level3.drawSecond', 'Вытянуть второй шарик');
             drawAfterRedBtn.onclick = drawSecondBallAfterRed;
         }, 500);
     }
@@ -326,14 +342,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Проверка результата для задания 2
     function checkAfterRedResult(secondIsBlue) {
         if (secondIsBlue) {
-            catSpeech.textContent = 'Ты вытянул синий шарик после красного!';
+            catSpeech.textContent = t('level3.afterRedBlue', 'Ты вытянул синий шарик после красного!');
             if (completedTasks <= currentTask) {
                 completedTasks = currentTask + 1;
                 updateProgress();
             }
             nextTaskBtn.classList.remove('hidden');
         } else {
-            catSpeech.textContent = 'В этот раз второй шарик оказался красным. Попробуй еще раз!';
+            catSpeech.textContent = t('level3.afterRedRed', 'В этот раз второй шарик оказался красным. Попробуй еще раз!');
         }
         
         updateProbabilityDisplay(2);
@@ -346,7 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
         createBalls();
         
         // Сброс кнопки для задания 2
-        drawAfterRedBtn.textContent = 'Вытянуть после красного';
+        drawAfterRedBtn.textContent = t('level3.drawAfterRed', 'Вытянуть после красного');
         drawAfterRedBtn.onclick = drawAfterRed;
     }
     
@@ -354,7 +370,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateProgress() {
         const percent = (completedTasks / totalTasks) * 100;
         progressFill.style.width = `${percent}%`;
-        progressText.textContent = `${completedTasks}/${totalTasks} задач выполнено`;
+        progressText.textContent = t(
+            'level3.progress',
+            '{done}/{total} задач выполнено',
+            { done: completedTasks, total: totalTasks }
+        );
         
         // Добавляем анимацию при обновлении прогресса
         progressFill.style.transition = 'width 0.5s ease-in-out';
@@ -366,7 +386,10 @@ document.addEventListener('DOMContentLoaded', function() {
         completedTasks = totalTasks;
         updateProgress();
         
-        catSpeech.textContent = 'Поздравляю! Ты освоил комбинаторику и зависимые события! Теперь ты понимаешь, как меняются вероятности.';
+        catSpeech.textContent = t(
+            'level3.complete',
+            'Поздравляю! Ты освоил комбинаторику и зависимые события! Теперь ты понимаешь, как меняются вероятности.'
+        );
         nextTaskBtn.classList.add('hidden');
     }
     

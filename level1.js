@@ -1,5 +1,8 @@
 // Инициализация уровня
 document.addEventListener('DOMContentLoaded', function() {
+    const t = (key, fallback, params = {}) => (
+        window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
+    );
     const dice = document.getElementById('dice');
     const rollBtn = document.getElementById('roll-dice');
     const nextTaskBtn = document.getElementById('next-task');
@@ -111,7 +114,10 @@ optionBtns.forEach(btn => {
         } else {
             this.classList.add('incorrect');
             // Не блокируем другие кнопки, позволяем попробовать снова
-            catSpeech.textContent = 'Попробуй ещё раз! Вспомни, сколько всего граней у кубика.';
+            catSpeech.textContent = t(
+                'level1.tryAgain',
+                'Попробуй ещё раз! Вспомни, сколько всего граней у кубика.'
+            );
         }
     });
 });
@@ -121,7 +127,9 @@ optionBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const hint = this.previousElementSibling;
             hint.classList.toggle('hidden');
-            this.textContent = hint.classList.contains('hidden') ? 'Показать подсказку' : 'Скрыть подсказку';
+            this.textContent = hint.classList.contains('hidden')
+                ? t('common.showHint', 'Показать подсказку')
+                : t('common.hideHint', 'Скрыть подсказку');
         });
     });
     
@@ -141,7 +149,9 @@ function showTask(index) {
     
     // Скрыть подсказки
     document.querySelectorAll('.hint').forEach(h => h.classList.add('hidden'));
-    document.querySelectorAll('.hint-btn').forEach(b => b.textContent = 'Показать подсказку');
+    document.querySelectorAll('.hint-btn').forEach(b => {
+        b.textContent = t('common.showHint', 'Показать подсказку');
+    });
     
     // Скрыть кнопку следующего задания
     nextTaskBtn.classList.add('hidden');
@@ -164,10 +174,10 @@ function showTask(index) {
     
     function updateCatSpeech(value) {
         const phrases = [
-            `Выпало число ${value}! Как это связано с задачей?`,
-            `Кубик показал ${value}. Интересно, как это поможет тебе ответить?`,
-            `Ого, ${value}! Теперь подумай над заданием.`,
-            `${value} - хорошее число! Но как оно связано с вероятностью?`
+            t('level1.rollPhrase1', 'Выпало число {value}! Как это связано с задачей?', { value }),
+            t('level1.rollPhrase2', 'Кубик показал {value}. Интересно, как это поможет тебе ответить?', { value }),
+            t('level1.rollPhrase3', 'Ого, {value}! Теперь подумай над заданием.', { value }),
+            t('level1.rollPhrase4', '{value} - хорошее число! Но как оно связано с вероятностью?', { value })
         ];
         
         catSpeech.textContent = phrases[Math.floor(Math.random() * phrases.length)];
@@ -175,10 +185,10 @@ function showTask(index) {
     
     function getRandomCongratulation() {
         const phrases = [
-            'Правильно! Ты отлично разбираешься в вероятности!',
-            'Верно! Космический кубик гордится тобой!',
-            'Молодец! Ты решил задачу как настоящий математик!',
-            'Отличная работа! Ты понял принцип вероятности!'
+            t('level1.good1', 'Правильно! Ты отлично разбираешься в вероятности!'),
+            t('level1.good2', 'Верно! Космический кубик гордится тобой!'),
+            t('level1.good3', 'Молодец! Ты решил задачу как настоящий математик!'),
+            t('level1.good4', 'Отличная работа! Ты понял принцип вероятности!')
         ];
         
         return phrases[Math.floor(Math.random() * phrases.length)];
@@ -187,12 +197,19 @@ function showTask(index) {
     function updateProgress() {
         const percent = (completedTasks / totalTasks) * 100;
         progressFill.style.width = `${percent}%`;
-        progressText.textContent = `${completedTasks}/${totalTasks} задач выполнено`;
+        progressText.textContent = t(
+            'level1.progress',
+            '{done}/{total} задач выполнено',
+            { done: completedTasks, total: totalTasks }
+        );
     }
     
     function completeLevel() {
         // Показать сообщение о завершении уровня
-        catSpeech.textContent = 'Поздравляю! Ты завершил уровень "Кубик Галактики"! Теперь ты знаешь основы вероятности!';
+        catSpeech.textContent = t(
+            'level1.complete',
+            'Поздравляю! Ты завершил уровень "Кубик Галактики"! Теперь ты знаешь основы вероятности!'
+        );
     }
     
     function updateStats(value) {
@@ -214,9 +231,9 @@ function showTask(index) {
     
     function renderStats() {
         statsContainer.innerHTML = `
-            <h3>Статистика бросков:</h3>
+            <h3>${t('level1.statsTitleColon', 'Статистика бросков:')}</h3>
             <div class="stat-item">
-                <span>Всего бросков:</span>
+                <span>${t('level1.totalRolls', 'Всего бросков:')}</span>
                 <span class="stat-value">${stats.totalRolls}</span>
             </div>
             <div class="stat-row">
@@ -229,15 +246,15 @@ function showTask(index) {
                 `).join('')}
             </div>
             <div class="stat-item">
-                <span>Чётные:</span>
+                <span>${t('level1.even', 'Чётные:')}</span>
                 <span class="stat-value">${stats.even} (${Math.round((stats.even / stats.totalRolls) * 100)}%)</span>
             </div>
             <div class="stat-item">
-                <span>Нечётные:</span>
+                <span>${t('level1.odd', 'Нечётные:')}</span>
                 <span class="stat-value">${stats.odd} (${Math.round((stats.odd / stats.totalRolls) * 100)}%)</span>
             </div>
             <div class="stat-item">
-                <span>Больше 3:</span>
+                <span>${t('level1.gt3', 'Больше 3:')}</span>
                 <span class="stat-value">${stats.greaterThan3} (${Math.round((stats.greaterThan3 / stats.totalRolls) * 100)}%)</span>
             </div>
         `;
