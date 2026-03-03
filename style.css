@@ -1118,7 +1118,19 @@ body {
 /* Стили для учебника */
 #tutorial-menu {
     background: radial-gradient(ellipse at bottom, #0a0a1a 0%, #000033 100%);
+    justify-content: flex-start;
     overflow-y: auto;
+}
+
+#tutorial-menu .space-bg {
+    z-index: 0;
+    pointer-events: none;
+}
+
+#tutorial-menu .level-title,
+#tutorial-menu .tutorial-container {
+    position: relative;
+    z-index: 2;
 }
 
 .cosmic-title {
@@ -1287,6 +1299,8 @@ body {
 
 .tutorial-cat {
     position: fixed;
+    width: clamp(12rem, 18vw, 18.75rem);
+    height: auto;
     bottom: 20px;
     left: 20px;
     filter: drop-shadow(0 0 15px #4cc9f0);
