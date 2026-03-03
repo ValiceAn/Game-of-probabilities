@@ -59,7 +59,7 @@
     height: 100%;
     border: 5px solid #4cc9f0;
     border-radius: 50%;
-    box-shadow: 
+    box-shadow:
         0 0 30px #4cc9f0,
         inset 0 0 30px #4cc9f0;
     animation: rotate 20s linear infinite;
@@ -394,7 +394,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         linear-gradient(rgba(76, 201, 240, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(76, 201, 240, 0.1) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -403,43 +403,93 @@
 
 /* Анимации */
 @keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes beam-rotate {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
 @keyframes star-appear {
-    from { transform: scale(0); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes blue-pulse {
-    from { transform: scale(1); box-shadow: 0 0 20px #4cc9f0; }
-    to { transform: scale(1.1); box-shadow: 0 0 40px #4cc9f0; }
+    from {
+        transform: scale(1);
+        box-shadow: 0 0 20px #4cc9f0;
+    }
+
+    to {
+        transform: scale(1.1);
+        box-shadow: 0 0 40px #4cc9f0;
+    }
 }
 
 @keyframes black-hole {
-    from { transform: scale(1); box-shadow: 0 0 20px #7209b7; }
-    to { transform: scale(0.9); box-shadow: 0 0 50px #7209b7; }
+    from {
+        transform: scale(1);
+        box-shadow: 0 0 20px #7209b7;
+    }
+
+    to {
+        transform: scale(0.9);
+        box-shadow: 0 0 50px #7209b7;
+    }
 }
 
 @keyframes grid-move {
-    from { background-position: 0 0; }
-    to { background-position: 1000px 1000px; }
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 1000px 1000px;
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 /* Адаптация для мобильных */
@@ -447,25 +497,25 @@
     .level-header h1 {
         font-size: 2.5rem;
     }
-    
+
     .stats-container {
         gap: 10px;
     }
-    
+
     .stat {
         min-width: 150px;
         padding: 10px 15px;
     }
-    
+
     .cat-helper {
         left: 20px;
         top: 120px;
     }
-    
+
     .cat-image {
         width: 120px;
     }
-    
+
     .speech-bubble {
         left: 100px;
         width: 200px;
@@ -532,9 +582,254 @@
     box-shadow: 0 5px 15px rgba(255, 153, 102, 0.3);
 }
 
-.meow{
+.meow {
     margin-left: 15px;
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+/* Responsive layout overrides */
+:root {
+    --l5-pad: clamp(0.75rem, 2.5vw, 1.75rem);
+    --l5-max-content: 1280px;
+}
+
+.game-screen {
+    padding-inline: var(--l5-pad);
+}
+
+.level-header {
+    margin-top: clamp(0.75rem, 2vw, 1.5rem);
+    padding-inline: var(--l5-pad);
+}
+
+.level-header h1 {
+    font-size: clamp(2rem, 5.8vw, 3.6rem);
+}
+
+.level-header .subtitle {
+    font-size: clamp(1rem, 3.2vw, 1.55rem);
+    margin-bottom: clamp(0.875rem, 2.2vw, 1.5rem);
+}
+
+.lab-container {
+    width: min(100%, var(--l5-max-content));
+    height: clamp(220px, 34vw, 430px);
+    box-sizing: border-box;
+}
+
+.collider {
+    width: clamp(180px, 24vw, 320px);
+    height: clamp(180px, 24vw, 320px);
+}
+
+.collider-ring {
+    border-width: clamp(3px, 0.35vw, 5px);
+}
+
+.collider-center {
+    width: clamp(36px, 4vw, 52px);
+    height: clamp(36px, 4vw, 52px);
+}
+
+.particle-beam {
+    width: clamp(6px, 0.7vw, 10px);
+    height: clamp(70px, 9vw, 105px);
+}
+
+.meow {
+    margin: clamp(0.625rem, 1.2vw, 1rem) auto 0;
+    width: min(100%, var(--l5-max-content));
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(1rem, 2.4vw, 2rem);
+    align-items: start;
+    padding-inline: var(--l5-pad);
+    box-sizing: border-box;
+}
+
+.meow1 {
+    min-width: 0;
+    width: 100%;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: clamp(0.625rem, 1.7vw, 1.25rem);
+    width: 100%;
+    margin: 0 auto 1rem;
+}
+
+.stat {
+    min-width: 0;
+    width: 100%;
+    padding: clamp(0.625rem, 1.4vw, 0.9375rem) clamp(0.75rem, 1.8vw, 1.5rem);
+    box-sizing: border-box;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0.75rem auto 0;
+}
+
+.controls {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: clamp(0.625rem, 1.8vw, 1.25rem);
+    margin: clamp(1rem, 2.2vw, 1.875rem) auto 0;
+    width: 100%;
+}
+
+.control-btn {
+    padding: clamp(0.625rem, 1.2vw, 0.9375rem) clamp(0.875rem, 1.8vw, 1.5625rem);
+    font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+    justify-content: center;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.control-btn .btn-text {
+    white-space: normal;
+    text-align: center;
+}
+
+.big-btn {
+    padding: clamp(0.75rem, 1.4vw, 1.25rem) clamp(1rem, 2.3vw, 2.2rem);
+    font-size: clamp(1rem, 1.8vw, 1.3rem);
+}
+
+.tasks-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    min-width: 0;
+}
+
+.task {
+    padding: clamp(0.875rem, 1.8vw, 1.25rem);
+}
+
+.input-container {
+    flex-wrap: wrap;
+}
+
+.cat-helper {
+    left: clamp(0.5rem, 1.8vw, 2.5rem);
+    top: clamp(14rem, 10vw, 10rem);
+    width: clamp(7.5rem, 14vw, 12.5rem);
+    pointer-events: none;
+    user-select: none;
+}
+
+.cat-image {
+    width: 100%;
+}
+
+.speech-bubble {
+    top: -2.75rem;
+    left: calc(100% - 0.625rem);
+    width: clamp(11.5rem, 23vw, 17rem);
+    padding: clamp(0.625rem, 1.1vw, 0.9375rem);
+    font-size: clamp(0.85rem, 1.35vw, 1.1rem);
+    line-height: 1.35;
+}
+
+@media (max-width: 1100px) {
+    .meow {
+        grid-template-columns: 1fr;
+    }
+
+    .tasks-container {
+        margin-top: 0.25rem;
+    }
+
+    .cat-helper {
+        left: 0.625rem;
+        right: auto;
+        top: 19rem;
+        width: clamp(9.7rem, 26vw, 12rem);
+    }
+
+    .speech-bubble {
+        left: calc(100% - 8rem);
+        right: auto;
+        top: -7.5rem;
+        width: min(40vw, 14.5rem);
+        font-size: clamp(0.78rem, 1.4vw, 0.95rem);
+    }
+}
+
+@media (max-width: 900px) {
+    .level-header {
+        margin-top: 0.625rem;
+    }
+
+    .lab-container {
+        height: clamp(200px, 52vw, 320px);
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .control-btn {
+        flex: 1 1 220px;
+    }
+
+    .cat-helper {
+        left: 2.5rem;
+        right: auto;
+        top: 17.5rem;
+        width: clamp(8.5rem, 22vw, 10rem);
+    }
+
+    .speech-bubble {
+        left: calc(100% - 8rem);
+        right: auto;
+        top: -7.5rem;
+        width: min(30vw, 12rem);
+        padding: 0.5rem 0.625rem;
+        font-size: 0.82rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    .control-btn,
+    .big-btn {
+        width: 100%;
+    }
+
+    .input-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #hypothesis-input,
+    .check-btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cat-helper {
+        left: 0.75rem;
+        right: auto;
+        top: 14.75rem;
+        width: clamp(7rem, 25vw, 8.75rem);
+    }
+
+    .speech-bubble {
+        left: calc(100% - 7rem);
+        right: auto;
+        top: -5.1rem;
+        width: min(52vw, 9rem);
+        font-size: 0.56rem;
+        line-height: 1.25;
+    }
 }
