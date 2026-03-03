@@ -52,21 +52,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const planets = {
         green: {
             name: "Зелёная планета",
-            emoji: "🟢",
+            emoji: "Зелёная",
             color: "#28a745",
             desc: "Идеальна для базы! Есть вода и растения.",
             sound: new Audio('sounds/green_planet.mp3')
         },
         ice: {
             name: "Ледяная планета",
-            emoji: "❄️",
+            emoji: "Ледяная",
             color: "#17a2b8",
             desc: "Холодно, но есть полезные ископаемые.",
             sound: new Audio('sounds/ice_planet.mp3')
         },
         lava: {
             name: "Лавовая планета",
-            emoji: "🌋",
+            emoji: "Лавовая",
             color: "#dc3545",
             desc: "Опасно, но можно собрать редкие кристаллы!",
             sound: new Audio('sounds/lava_planet.mp3')

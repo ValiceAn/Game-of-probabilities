@@ -3,6 +3,7 @@
     --screen-padding-inline: clamp(0.75rem, 3vw, 1.5rem);
     --content-max-width: 75rem;
     --dice-size: clamp(8.75rem, 26vw, 12.5rem);
+    --cat-size: clamp(10rem, 22vw, 18.5rem);
 }
 
 body {
@@ -189,8 +190,8 @@ body {
 /* Кот-помощник */
 .cat-helper {
     position: relative;
-    width: 100%;
-    max-width: 18.75rem;
+    width: min(100%, var(--cat-size));
+    max-width: var(--cat-size);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -200,7 +201,7 @@ body {
 .cat-image {
     order: 2;
     width: 100%;
-    max-width: 18.5rem;
+    max-width: 100%;
     height: auto;
     filter: drop-shadow(0 0 0.625rem #4cc9f0);
     animation: float 6s ease-in-out infinite;
@@ -542,7 +543,10 @@ body {
 
 /* Мобильные устройства (до 30rem / 480px) */
 @media (max-width: 29.9375rem) {
-    .game-screen { --dice-size: clamp(8rem, 52vw, 9.375rem); }
+    .game-screen {
+        --dice-size: clamp(8rem, 52vw, 9.375rem);
+        --cat-size: clamp(8.75rem, 36vw, 10.75rem);
+    }
 
     .level-header {
         margin-top: 0.9375rem;
@@ -598,7 +602,10 @@ body {
 
 /* Мобильные устройства (30.0625rem - 47.9375rem / 481px - 767px) */
 @media (min-width: 30.0625rem) and (max-width: 47.9375rem) {
-    .game-screen { --dice-size: clamp(9.5rem, 34vw, 11.25rem); }
+    .game-screen {
+        --dice-size: clamp(9.5rem, 34vw, 11.25rem);
+        --cat-size: clamp(9.5rem, 30vw, 12.5rem);
+    }
 
     .game-area {
         gap: 1.5625rem;
@@ -706,7 +713,7 @@ body {
     .game-area > .cat-helper {
         order: 3;
         flex: 0 1 auto;
-        max-width: 18.75rem;
+        max-width: var(--cat-size);
         justify-self: end;
     }
 
