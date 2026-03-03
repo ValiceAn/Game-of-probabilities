@@ -329,7 +329,7 @@
     margin: 86px auto;
     position: relative;
     z-index: 10;
-    left: -7px;
+    left: 0px;
 }
 
 .control-btn {

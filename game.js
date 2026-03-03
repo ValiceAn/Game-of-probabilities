@@ -1,5 +1,12 @@
 // Инициализация игры при загрузке
 const MAP_CAT_LEVEL_KEY = 'mapCatLevel';
+const FIXED_CAT_POSITIONS = {
+    1: { left: 84.8, top: 148.813 },
+    2: { left: 341.2, top: 70.18 },
+    3: { left: 599.6, top: 197.997 },
+    4: { left: 872, top: 7.847 },
+    5: { left: 1078.8, top: 255.197 }
+};
 const t = (key, fallback, params = {}) => (
     window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
 );
@@ -117,9 +124,14 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
         const maxLeft = Math.max(0, mapRect.width - catWidth);
         const maxTop = Math.max(0, mapRect.height - catHeight);
 
+        const isDesktop = window.matchMedia('(min-width: 64.01rem)').matches;
+        const fixedPosition = isDesktop ? FIXED_CAT_POSITIONS[level] : null;
+        const finalLeft = fixedPosition ? fixedPosition.left : desiredLeft;
+        const finalTop = fixedPosition ? fixedPosition.top : desiredTop;
+
         cat.style.transition = shouldAnimate ? 'left 0.6s ease, top 0.6s ease' : 'none';
-        cat.style.left = `${clamp(desiredLeft, 0, maxLeft)}px`;
-        cat.style.top = `${clamp(desiredTop, 0, maxTop)}px`;
+        cat.style.left = `${clamp(finalLeft, 0, maxLeft)}px`;
+        cat.style.top = `${clamp(finalTop, 0, maxTop)}px`;
         cat.dataset.level = String(level);
 
         if (!shouldAnimate) {
@@ -287,20 +299,25 @@ function updateLevelPath() {
     svg.setAttribute('preserveAspectRatio', 'none');
 
     let d = `M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`;
+
     if (points.length === 2) {
-        d += ` Q ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}, ${points[1].x.toFixed(2)} ${points[1].y.toFixed(2)}`;
+        d += ` L ${points[1].x.toFixed(2)} ${points[1].y.toFixed(2)}`;
     } else {
-        for (let i = 1; i < points.length - 1; i++) {
+        // Catmull-Rom -> Bezier: smooth curve that passes through every point.
+        const tension = 1;
+        for (let i = 0; i < points.length - 1; i++) {
+            const prev = points[i - 1] || points[i];
             const current = points[i];
             const next = points[i + 1];
-            const midX = (current.x + next.x) * 0.5;
-            const midY = (current.y + next.y) * 0.5;
-            d += ` Q ${current.x.toFixed(2)} ${current.y.toFixed(2)}, ${midX.toFixed(2)} ${midY.toFixed(2)}`;
-        }
+            const afterNext = points[i + 2] || next;
 
-        const prev = points[points.length - 2];
-        const last = points[points.length - 1];
-        d += ` Q ${prev.x.toFixed(2)} ${prev.y.toFixed(2)}, ${last.x.toFixed(2)} ${last.y.toFixed(2)}`;
+            const cp1x = current.x + ((next.x - prev.x) / 6) * tension;
+            const cp1y = current.y + ((next.y - prev.y) / 6) * tension;
+            const cp2x = next.x - ((afterNext.x - current.x) / 6) * tension;
+            const cp2y = next.y - ((afterNext.y - current.y) / 6) * tension;
+
+            d += ` C ${cp1x.toFixed(2)} ${cp1y.toFixed(2)}, ${cp2x.toFixed(2)} ${cp2y.toFixed(2)}, ${next.x.toFixed(2)} ${next.y.toFixed(2)}`;
+        }
     }
 
     path.setAttribute('d', d);
