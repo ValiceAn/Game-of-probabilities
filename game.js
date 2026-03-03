@@ -1,4 +1,6 @@
 // Инициализация игры при загрузке
+const MAP_CAT_LEVEL_KEY = 'mapCatLevel';
+
 document.addEventListener('DOMContentLoaded', function() {
     // Проверяем сохраненный прогресс
     const unlockedLevels = JSON.parse(localStorage.getItem('unlockedLevels')) || [1];
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('level-select').classList.add('visible');
         
         // Анимация кота-проводника
-        animateCatToLevel(1);
+        animateCatToLevel(getPreferredMapCatLevel());
     });
 
     // Обработка кнопки "В главное меню"
@@ -46,8 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            const level = this.getAttribute('data-level');
-            startLevel(level);
+            const level = Number(this.getAttribute('data-level'));
+            savePreferredMapCatLevel(level);
+            startLevel(String(level));
         });
     });
 
@@ -64,33 +67,80 @@ if (justCompleted) {
 }
 
     // Синхронизируем путь карты с фактическими позициями планет.
-    updateLevelPath();
-    window.addEventListener('resize', updateLevelPath);
+    const syncMapLayout = () => {
+        updateLevelPath();
+        animateCatToLevel(getPreferredMapCatLevel(), false);
+    };
+
+    const scheduleSyncMapLayout = () => requestAnimationFrame(syncMapLayout);
+
+    scheduleSyncMapLayout();
+    window.addEventListener('resize', scheduleSyncMapLayout);
+    window.addEventListener('orientationchange', scheduleSyncMapLayout);
 
     const startBtn = document.getElementById('start-btn');
     if (startBtn) {
-        startBtn.addEventListener('click', () => requestAnimationFrame(updateLevelPath));
+        startBtn.addEventListener('click', scheduleSyncMapLayout);
     }
 });
 
 // Функция для анимации кота к определенному уровню
-function animateCatToLevel(levelNum) {
+function animateCatToLevel(levelNum, shouldAnimate = true) {
+    const level = Number(levelNum);
     const cat = document.getElementById('map-cat');
-    if (!cat) return;
-    
-    cat.style.transition = 'all 1s ease-in-out';
-    cat.style.left = `${15 + (levelNum-1)*20}%`;
-    cat.style.bottom = `${50 + (levelNum%2 ? -10 : 10)}%`;
+    const map = document.querySelector('.galaxy-map');
+    const planet = document.querySelector(`.level-planet[data-level="${level}"]`);
+    if (!cat || !map || !planet) return;
+
+    const positionCat = () => {
+        const mapRect = map.getBoundingClientRect();
+        const planetTarget = planet.querySelector('.level-image') || planet;
+        const planetRect = planetTarget.getBoundingClientRect();
+        const catRect = cat.getBoundingClientRect();
+        const catWidth = catRect.width || cat.offsetWidth;
+        const catHeight = catRect.height || cat.offsetHeight;
+
+        if (!mapRect.width || !mapRect.height || !catWidth || !catHeight) return;
+
+        const planetCenterX = planetRect.left - mapRect.left + (planetRect.width / 2);
+        const planetCenterY = planetRect.top - mapRect.top + (planetRect.height / 2);
+        const planetRadius = planetRect.height / 2;
+
+        const desiredLeft = planetCenterX - (catWidth / 2);
+        const desiredTop = planetCenterY - (catHeight * 0.78) + (planetRadius * 0.42);
+        const maxLeft = Math.max(0, mapRect.width - catWidth);
+        const maxTop = Math.max(0, mapRect.height - catHeight);
+
+        cat.style.transition = shouldAnimate ? 'left 0.6s ease, top 0.6s ease' : 'none';
+        cat.style.left = `${clamp(desiredLeft, 0, maxLeft)}px`;
+        cat.style.top = `${clamp(desiredTop, 0, maxTop)}px`;
+        cat.dataset.level = String(level);
+
+        if (!shouldAnimate) {
+            requestAnimationFrame(() => {
+                cat.style.transition = 'left 0.6s ease, top 0.6s ease';
+            });
+        }
+    };
+
+    if (cat.complete) {
+        requestAnimationFrame(positionCat);
+    } else {
+        cat.addEventListener('load', () => requestAnimationFrame(positionCat), { once: true });
+    }
 }
 
 // Функция запуска уровня
 function startLevel(levelNum) {
+    const levelId = String(levelNum);
+    savePreferredMapCatLevel(Number(levelId));
+
     // Анимация кота к выбранному уровню
-    animateCatToLevel(levelNum);
+    animateCatToLevel(Number(levelId));
     
     // Через 1 секунду - переход на уровень
     setTimeout(() => {
-        switch(levelNum) {
+        switch(levelId) {
             case '1':
                 window.location.href = 'level1.html';
                 break;
@@ -113,6 +163,27 @@ function startLevel(levelNum) {
 }
 
 // Функция разблокировки уровня
+function savePreferredMapCatLevel(levelNum) {
+    if (Number.isFinite(levelNum) && levelNum > 0) {
+        localStorage.setItem(MAP_CAT_LEVEL_KEY, String(levelNum));
+    }
+}
+
+function getPreferredMapCatLevel() {
+    const storedLevel = Number(localStorage.getItem(MAP_CAT_LEVEL_KEY));
+    if (Number.isFinite(storedLevel) && document.querySelector(`.level-planet[data-level="${storedLevel}"]`)) {
+        return storedLevel;
+    }
+
+    const unlockedLevels = JSON.parse(localStorage.getItem('unlockedLevels')) || [1];
+    const fallbackLevel = unlockedLevels.length ? Math.max(...unlockedLevels) : 1;
+    return document.querySelector(`.level-planet[data-level="${fallbackLevel}"]`) ? fallbackLevel : 1;
+}
+
+function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+}
+
 function unlockLevel(levelNum) {
     // Получаем текущий прогресс
     const unlockedLevels = JSON.parse(localStorage.getItem('unlockedLevels')) || [1];
@@ -194,23 +265,36 @@ function updateLevelPath() {
 
     const mapRect = map.getBoundingClientRect();
     const points = planets.map((planet) => {
-        const rect = planet.getBoundingClientRect();
+        const target = planet.querySelector('.level-image') || planet;
+        const rect = target.getBoundingClientRect();
         return {
             x: rect.left - mapRect.left + rect.width / 2,
             y: rect.top - mapRect.top + rect.height / 2
         };
     });
 
+    if (points.length < 2) return;
+
+    svg.setAttribute('width', `${mapRect.width}`);
+    svg.setAttribute('height', `${mapRect.height}`);
     svg.setAttribute('viewBox', `0 0 ${mapRect.width} ${mapRect.height}`);
     svg.setAttribute('preserveAspectRatio', 'none');
 
     let d = `M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`;
-    for (let i = 1; i < points.length; i++) {
-        const prev = points[i - 1];
-        const curr = points[i];
-        const midX = prev.x + (curr.x - prev.x) * 0.5;
+    if (points.length === 2) {
+        d += ` Q ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}, ${points[1].x.toFixed(2)} ${points[1].y.toFixed(2)}`;
+    } else {
+        for (let i = 1; i < points.length - 1; i++) {
+            const current = points[i];
+            const next = points[i + 1];
+            const midX = (current.x + next.x) * 0.5;
+            const midY = (current.y + next.y) * 0.5;
+            d += ` Q ${current.x.toFixed(2)} ${current.y.toFixed(2)}, ${midX.toFixed(2)} ${midY.toFixed(2)}`;
+        }
 
-        d += ` C ${midX.toFixed(2)} ${prev.y.toFixed(2)}, ${midX.toFixed(2)} ${curr.y.toFixed(2)}, ${curr.x.toFixed(2)} ${curr.y.toFixed(2)}`;
+        const prev = points[points.length - 2];
+        const last = points[points.length - 1];
+        d += ` Q ${prev.x.toFixed(2)} ${prev.y.toFixed(2)}, ${last.x.toFixed(2)} ${last.y.toFixed(2)}`;
     }
 
     path.setAttribute('d', d);
