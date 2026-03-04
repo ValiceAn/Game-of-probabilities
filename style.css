@@ -1907,3 +1907,37 @@ html.skip-screen-fade .screen {
         }
     }
 }
+
+/* Stable language button on phones + per-page placement */
+@media (max-width: 64rem) {
+    .lang-switch-btn {
+        position: fixed !important;
+        top: var(--lang-btn-top, calc(env(safe-area-inset-top) + 10px)) !important;
+        right: var(--lang-btn-right, 10px) !important;
+        left: auto !important;
+        bottom: auto !important;
+        z-index: 7000 !important;
+        transform: translateZ(0);
+        will-change: transform;
+    }
+
+    .lang-switch-btn.lang-page-index {
+        --lang-btn-top: calc(env(safe-area-inset-top) + 106px);
+    }
+
+    body.active-level-select .lang-switch-btn.lang-page-index,
+    body.active-tutorial-menu .lang-switch-btn.lang-page-index {
+        --lang-btn-top: calc(env(safe-area-inset-top) + 72px);
+    }
+
+    .lang-switch-btn.lang-page-level1 {
+        --lang-btn-top: calc(env(safe-area-inset-top) + 95px);
+    }
+
+    .lang-switch-btn.lang-page-level2,
+    .lang-switch-btn.lang-page-level3,
+    .lang-switch-btn.lang-page-level4,
+    .lang-switch-btn.lang-page-level5 {
+        --lang-btn-top: calc(env(safe-area-inset-top) + 12px);
+    }
+}

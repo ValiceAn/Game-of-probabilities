@@ -29,6 +29,12 @@ function setActiveScreen(activeId) {
         el.classList.toggle('visible', isActive);
         el.classList.toggle('hidden', !isActive);
     });
+
+    const body = document.body;
+    if (body) {
+        SCREEN_IDS.forEach((screenId) => body.classList.remove(`active-${screenId}`));
+        body.classList.add(`active-${safeActiveId}`);
+    }
     try {
         sessionStorage.setItem(ACTIVE_SCREEN_KEY, safeActiveId);
     } catch (e) {
@@ -97,14 +103,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Проверяем, был ли переход с пройденного уровня
 const params = new URLSearchParams(window.location.search);
-const justCompleted = params.get('completed');
-if (justCompleted) {
-    unlockLevel(parseInt(justCompleted));
-    // Показываем карту уровней вместо главного меню
+const justCompletedRaw = params.get('completed');
+const justCompleted = Number.parseInt(justCompletedRaw || '', 10);
+if (Number.isFinite(justCompleted) && justCompleted > 0) {
+    unlockLevel(justCompleted);
+    // Show map only on direct return from completed level.
     setActiveScreen('level-select');
 } else {
-    // Restore the last active screen after refresh/navigation.
-    setActiveScreen(getRememberedScreen() || 'start-menu');
+    // Default refresh/open state should always be the first screen.
+    setActiveScreen('start-menu');
+}
+
+// Remove transient completion param so later refresh doesn't jump to map again.
+if (params.has('completed')) {
+    params.delete('completed');
+    const nextQuery = params.toString();
+    const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ''}${window.location.hash}`;
+    window.history.replaceState(null, '', nextUrl);
 }
 
     // Re-enable normal transitions after initial route state is applied.
@@ -353,3 +368,5 @@ function updateLevelPath() {
 
     path.setAttribute('d', d);
 }
+
+

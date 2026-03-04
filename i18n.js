@@ -452,8 +452,10 @@
 
     function addToggle() {
         const btn = document.createElement('button');
+        const pageKey = getPage().replace(/\.html$/, '').replace(/[^a-z0-9_-]/g, '');
         btn.id = 'lang-switch-btn';
         btn.className = 'lang-switch-btn';
+        btn.classList.add(`lang-page-${pageKey}`);
         btn.type = 'button';
         btn.textContent = currentLang === 'ru' ? 'English' : 'Русский';
         btn.addEventListener('click', () => {
