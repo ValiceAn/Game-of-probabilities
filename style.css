@@ -7,7 +7,11 @@
 
 html,
 body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
     scrollbar-gutter: stable;
+    overscroll-behavior-x: none;
 }
 
 body {
@@ -20,6 +24,16 @@ body {
     overflow-y: auto;
     color: #fff;
     display: block;
+    touch-action: pan-y;
+}
+
+@supports (overflow: clip) {
+    html,
+    body,
+    .screen,
+    .game-screen {
+        overflow-x: clip;
+    }
 }
 
 html.preload-active,
