@@ -1739,3 +1739,16 @@ html.preload-active body>*:not(#global-preloader) {
         width: clamp(5rem, 20vw, 6.8rem);
     }
 }
+
+/* Mobile readability override for Russian text */
+@media (max-width: 48rem) {
+    html[lang="ru"] .game-screen :is(h1, h2, h3, h4, p, span, button, label, input, textarea, .btn-text, .hint-btn, .progress-text) {
+        font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
+        font-style: normal !important;
+        letter-spacing: normal !important;
+    }
+
+    html[lang="ru"] .game-screen :is(p, .hint, .hint-btn, .stats-placeholder, .stat-label, .stat-value, .progress-text) {
+        text-shadow: none !important;
+    }
+}
