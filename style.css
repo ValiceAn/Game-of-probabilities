@@ -1789,5 +1789,11 @@ html.skip-screen-fade .screen {
         ) {
             text-shadow: none !important;
         }
+
+        html[lang="ru"] :is(.subtitle span, .level-header .subtitle, .game-subtitle, .cosmic-title) {
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.01em !important;
+        }
     }
 }
