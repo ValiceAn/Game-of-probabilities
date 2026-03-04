@@ -1877,8 +1877,10 @@ html.skip-screen-fade .screen {
     @media (max-width: 64rem) {
         html,
         body {
+            height: 100%;
             min-height: 100svh;
             min-height: -webkit-fill-available;
+            overflow: hidden;
         }
 
         body {
@@ -1888,8 +1890,10 @@ html.skip-screen-fade .screen {
         .screen,
         .game-screen {
             min-height: 100svh !important;
-            height: auto !important;
-            overscroll-behavior: contain;
+            height: 100svh !important;
+            overflow-y: auto;
+            overflow-x: hidden;
+            overscroll-behavior-y: contain;
             -webkit-overflow-scrolling: touch;
         }
 
