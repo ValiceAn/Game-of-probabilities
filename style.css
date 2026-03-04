@@ -1758,10 +1758,13 @@ html.skip-screen-fade .screen {
 
 @media (max-width: 36rem) {
     .lang-switch-btn {
-        top: 109px;
-        right: 10px;
+        position: fixed;
+        top: calc(env(safe-area-inset-top) + 98px);
+        right: 21px;
         padding: 8px 12px;
         font-size: 0.9rem;
+        z-index: 6000;
+        transform: translateZ(0);
     }
 
     .title-word {
