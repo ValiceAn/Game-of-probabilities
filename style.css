@@ -1771,6 +1771,12 @@ html.skip-screen-fade .screen {
 /* iPhone/iPad: force highly readable Russian typography */
 @supports (-webkit-touch-callout: none) {
     @media (max-width: 64rem) {
+        #start-menu .main-title .title-word {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Arial, sans-serif !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.02em !important;
+        }
+
         html[lang="ru"] :is(#start-menu, #level-select, #tutorial-menu, .game-screen) :is(
             h1, h2, h3, h4, p, button, label, input, textarea,
             .btn-text, .hint-btn, .progress-text, .stat-label, .stat-value,
