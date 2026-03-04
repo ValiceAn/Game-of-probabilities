@@ -615,7 +615,7 @@
 
 .lab-container {
     width: min(100%, var(--l5-max-content));
-    height: clamp(220px, 34vw, 430px);
+    height: clamp(205px, 31vw, 390px);
     box-sizing: border-box;
 }
 
@@ -639,13 +639,10 @@
 }
 
 .meow {
-    margin: clamp(0.2rem, 0.7vw, 0.55rem) auto 0;
+    margin: clamp(-0.5rem, -0.7vw, -0.15rem) auto 0;
     width: min(100%, var(--l5-max-content));
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    grid-template-areas:
-        "stats tasks"
-        "chart controls";
     gap: clamp(0.55rem, 1.35vw, 1rem);
     align-items: start;
     padding-inline: var(--l5-pad);
@@ -653,16 +650,25 @@
 }
 
 .meow1 {
-    display: contents;
+    min-width: 0;
+    display: grid;
+    gap: clamp(0.55rem, 1.35vw, 1rem);
+    align-content: start;
+}
+
+.side-panel {
+    min-width: 0;
+    display: grid;
+    gap: clamp(0.55rem, 1.35vw, 1rem);
+    align-content: start;
 }
 
 .stats-container {
-    grid-area: stats;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(0.5rem, 1.3vw, 0.95rem);
     width: 100%;
-    margin: 0 auto 0.75rem;
+    margin: 0;
 }
 
 .stat {
@@ -673,10 +679,9 @@
 }
 
 .chart-container {
-    grid-area: chart;
-    width: 94%;
+    width: 100%;
     max-width: 100%;
-    margin: 0.6rem auto 0;
+    margin: 0;
     display: grid;
     grid-template-columns: 60fr 30fr 10fr;
     column-gap: 0;
@@ -703,20 +708,19 @@
 }
 
 .controls {
-    grid-area: controls;
     justify-content: flex-start;
-    justify-self: start;
+    justify-self: stretch;
     align-self: start;
     flex-wrap: wrap;
     gap: clamp(0.625rem, 1.8vw, 1.25rem);
-    margin: clamp(0.18rem, 0.45vw, 0.35rem) 0 0;
-    width: 94%;
-    max-width: 94%;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
 }
 
 .control-btn {
-    padding: clamp(0.225rem, 0.9vw, 0.9375rem) clamp(0.875rem, 1.8vw, 1.5625rem);
-    font-size: clamp(0.3rem, 0.8vw, 1.1rem);
+    padding: clamp(0.45rem, 0.75vw, 0.72rem) clamp(0.85rem, 1.35vw, 1.2rem);
+    font-size: clamp(0.88rem, 0.95vw, 0.98rem);
     justify-content: center;
     max-width: 100%;
     box-sizing: border-box;
@@ -728,14 +732,13 @@
 }
 
 .big-btn {
-    padding: clamp(0.45rem, 1.4vw, 0.25rem) clamp(1rem, 1.3vw, 2.2rem);
-    font-size: clamp(0.9rem, 0.2vw, 0.2rem);
+    padding: clamp(0.5rem, 0.95vw, 0.78rem) clamp(0.95rem, 1.7vw, 1.45rem);
+    font-size: clamp(0.92rem, 1vw, 1.02rem);
 }
 
 .tasks-container {
-    grid-area: tasks;
-    width: 94%;
-    max-width: 94%;
+    width: 100%;
+    max-width: 100%;
     margin: 0;
     min-width: 0;
     align-self: start;
@@ -773,15 +776,11 @@
 @media (max-width: 1100px) {
     .meow {
         grid-template-columns: 1fr;
-        grid-template-areas:
-            "stats"
-            "chart"
-            "tasks"
-            "controls";
     }
 
-    .tasks-container {
-        margin-top: 0.25rem;
+    .meow1,
+    .side-panel {
+        gap: 0.75rem;
     }
 
     .tasks-container,
@@ -792,7 +791,7 @@
 
     .controls {
         justify-content: center;
-        margin-top: 0.75rem;
+        margin-top: 0;
     }
 
     .cat-helper {
