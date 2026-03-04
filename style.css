@@ -1585,18 +1585,19 @@ html.skip-screen-fade .screen {
     .menu-content {
         width: min(100%, 42rem);
         display: grid;
-        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-        align-items: center;
-        gap: clamp(0.35rem, 1.6vw, 0.7rem);
+        grid-template-columns: minmax(0, 1fr);
+        justify-items: center;
+        align-items: start;
+        gap: clamp(0.6rem, 2vw, 1rem);
     }
 
     .menu-buttons {
-        grid-column: 1 / -1;
+        grid-column: 1;
         grid-row: 2;
         justify-self: center;
         align-self: start;
         transform: none;
-        margin: clamp(0.8rem, 2.2vw, 1.2rem) auto 0;
+        margin: clamp(0.45rem, 1.6vw, 0.9rem) auto 0;
         width: clamp(16.5rem, 84vw, 21rem) !important;
         min-width: 0 !important;
         max-width: 21rem !important;
@@ -1631,10 +1632,12 @@ html.skip-screen-fade .screen {
     }
 
     .cat-hero {
-        justify-self: end;
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
         align-self: center;
-        transform: translateX(clamp(0.1rem, 1vw, 0.4rem));
-        width: clamp(9rem, 36vw, 13rem);
+        transform: none;
+        width: clamp(11rem, 36vw, 13rem);
     }
 
     #level-select {
@@ -1772,7 +1775,7 @@ html.skip-screen-fade .screen {
         grid-row: 2;
         justify-self: center;
         align-self: start;
-        margin-top: clamp(0.65rem, 2.2vw, 1rem);
+        margin-top: clamp(1.15rem, 2.2vw, 1rem);
         width: clamp(15.2rem, 86vw, 20rem) !important;
         min-width: 0 !important;
         max-width: 20rem !important;
