@@ -1648,7 +1648,7 @@ html.preload-active body>*:not(#global-preloader) {
 
 @media (max-width: 36rem) {
     .lang-switch-btn {
-        top: 10px;
+        top: 109px;
         right: 10px;
         padding: 8px 12px;
         font-size: 0.9rem;

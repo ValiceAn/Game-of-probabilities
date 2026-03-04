@@ -79,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Инициализация
     showTask(currentTask);
     updateProbabilityDisplay();
+    nextTaskBtn.classList.remove('hidden');
+    nextTaskBtn.disabled = true;
     
     // Обработчики событий
     scanBtn.addEventListener('click', scanPlanet);
@@ -88,10 +90,13 @@ document.addEventListener('DOMContentLoaded', function() {
     lavaProb.addEventListener('input', updateProbabilityDisplay);
     
     nextTaskBtn.addEventListener('click', function() {
+        if (nextTaskBtn.disabled) {
+            return;
+        }
+
         currentTask++;
         if (currentTask < totalTasks) {
             showTask(currentTask);
-            nextTaskBtn.classList.add('hidden');
         } else {
             completeLevel();
         }
@@ -118,11 +123,13 @@ if (window.opener) {
                 
                 if (isCorrect) {
                     this.classList.add('correct');
-                    completedTasks++;
+                    if (completedTasks <= currentTask) {
+                        completedTasks = currentTask + 1;
+                    }
                     
                     // Показать кнопку следующего задания
                     if (currentTask < totalTasks - 1) {
-                        nextTaskBtn.classList.remove('hidden');
+                        nextTaskBtn.disabled = false;
                     } else {
                         completeLevel();
                     }
@@ -155,6 +162,9 @@ hintBtns.forEach(btn => {
             task.classList.toggle('active', i === index);
             task.classList.toggle('hidden', i !== index);
         });
+
+        // Кнопка видима всегда, но активна только после выполнения текущего задания.
+        nextTaskBtn.disabled = !(index < totalTasks - 1 && completedTasks > index);
     }
     
     function updateProbabilityDisplay() {
@@ -180,12 +190,12 @@ hintBtns.forEach(btn => {
     
     function scanPlanet() {
         // Проверяем, что сумма вероятностей равна 100%
-        const green = parseInt(greenProb.value);
-        const ice = parseInt(iceProb.value);
-        const lava = parseInt(lavaProb.value);
+        const green = Number.parseInt(greenProb.value, 10) || 0;
+        const ice = Number.parseInt(iceProb.value, 10) || 0;
+        const lava = Number.parseInt(lavaProb.value, 10) || 0;
         const total = green + ice + lava;
         
-        if (total !== 100) {
+        if (total <= 0) {
             catSpeech.textContent = t(
                 'level4.sumLong',
                 'Сумма вероятностей должна быть ровно 100%! Настрой сканер правильно.'
@@ -210,7 +220,7 @@ hintBtns.forEach(btn => {
             scanningAnimation.classList.add('hidden');
             
             // Генерируем случайную планету
-            const planetType = generatePlanet(green, ice, lava);
+            const planetType = generatePlanet(green, ice, lava, total);
             const planet = planets[planetType];
             
             // Обновляем статистику
@@ -249,8 +259,9 @@ hintBtns.forEach(btn => {
         }, 2000);
     }
     
-    function generatePlanet(greenProb, iceProb, lavaProb) {
-        const random = Math.random() * 100;
+    function generatePlanet(greenProb, iceProb, lavaProb, totalProb = greenProb + iceProb + lavaProb) {
+        const normalizedTotal = totalProb > 0 ? totalProb : 1;
+        const random = Math.random() * normalizedTotal;
         
         if (random < greenProb) {
             return 'green';
@@ -315,6 +326,7 @@ hintBtns.forEach(btn => {
             'level4.complete',
             'Поздравляю! Ты завершил уровень "Космический Генератор Планет"! Теперь ты знаешь, как работает вероятность!'
         );
+        nextTaskBtn.disabled = true;
     }
     
     function checkAchievements() {
@@ -367,11 +379,13 @@ hintBtns.forEach(btn => {
                 'level4.settingsOk',
                 'Отлично! Теперь лавовые планеты будут встречаться чаще ледяных!'
             );
-            completedTasks++;
+            if (completedTasks <= currentTask) {
+                completedTasks = currentTask + 1;
+            }
             
             // Показать кнопку следующего задания
             if (currentTask < totalTasks - 1) {
-                nextTaskBtn.classList.remove('hidden');
+                nextTaskBtn.disabled = false;
             } else {
                 completeLevel();
             }

@@ -274,25 +274,27 @@
 }
 
 .challenge-container p {
-    margin-bottom: -5px;
+    margin: 0;
     line-height: 1.5;
 }
 
 .challenge-options {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 12px;
     width: 100%;
+    align-items: start;
+    grid-auto-rows: min-content;
 }
 
 .challenge-btn {
     background: rgba(76, 201, 240, 0.2);
     border: 2px solid #4cc9f0;
     border-radius: 30px;
-    padding: 8px 15px;
+    padding: 6px 12px;
     font-family: 'Comic Neue', cursive;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: white;
     cursor: pointer;
     transition: all 0.3s;
@@ -300,9 +302,25 @@
     width: 100%;
     max-width: 100%;
     text-align: center;
-    line-height: 1.2;
+    line-height: 1.15;
     white-space: normal;
     overflow-wrap: anywhere;
+    align-self: start;
+}
+
+.challenge-options .challenge-btn:nth-child(3) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 230px);
+}
+
+.challenge-container .challenge-explanation {
+    margin: 28px 0 0;
+    overflow-wrap: anywhere;
+}
+
+.challenge-container .challenge-explanation.hidden {
+    display: none;
 }
 
 .challenge-btn:hover {
@@ -326,7 +344,7 @@
     display: flex;
     justify-content: center;
     gap: 77px;
-    margin: 86px auto;
+    margin: clamp(28px, 4vh, 56px) auto clamp(10px, 1.8vh, 24px);
     position: relative;
     z-index: 10;
     left: 0px;
@@ -606,14 +624,15 @@
 /* Desktop position tuning to match reference */
 @media (min-width: 901px) {
     .game-area {
-        max-width: 1200px;
+        max-width: 1460px;
         grid-template-columns: minmax(14rem, 1fr) minmax(17rem, 1fr) minmax(14rem, 1fr);
         grid-template-areas:
-            "stats coin cat"
+            "stats coin     cat"
             "stats question cat";
-        gap: 20px clamp(16px, 2.5vw, 40px);
+        gap: 0px clamp(0.2px, 0.2vw, 1.2px);
         align-items: start;
         justify-items: center;
+        margin-top: clamp(125px, 140vh, 106px);
     }
 
     .coin-container,
@@ -634,12 +653,13 @@
     .stats-panel {
         margin: 0;
         align-self: center;
+        transform: translateY(-110px);
     }
 
     .cat-helper {
         margin: 0;
         align-self: center;
-        transform: none;
+        transform: translateY(-110px);
     }
 
     .cat-helper .speech-bubble {
@@ -657,5 +677,9 @@
         margin: 0;
         align-self: start;
         justify-self: center;
+    }
+
+    .level-controls {
+        margin-top: clamp(36px, 5vh, 72px);
     }
 }

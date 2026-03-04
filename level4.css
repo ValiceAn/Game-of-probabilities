@@ -460,6 +460,18 @@
     box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
 }
 
+.control-btn:disabled {
+    opacity: 0.58;
+    cursor: not-allowed;
+    filter: saturate(0.75);
+}
+
+.control-btn:disabled:hover {
+    background: rgba(76, 201, 240, 0.2);
+    transform: none;
+    box-shadow: none;
+}
+
 .control-btn.big-btn {
     padding: 12px 24px;
     font-size: 1.1rem;

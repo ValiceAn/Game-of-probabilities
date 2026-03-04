@@ -47,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
         updateProgress();
         createBalls();
         generateCombinations();
+        nextTaskBtn.classList.remove('hidden');
+        nextTaskBtn.disabled = true;
         
         // Показать речь кота
         setTimeout(() => {
@@ -94,6 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
             task.classList.toggle('active', i === index);
             task.classList.toggle('hidden', i !== index);
         });
+
+        nextTaskBtn.disabled = !(index < totalTasks - 1 && completedTasks > index);
         
         // Сброс состояния для нового задания
         resetUrn();
@@ -195,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Для последнего задания не показываем кнопку "Следующее задание"
             if (currentTask < totalTasks - 1) {
-                nextTaskBtn.classList.remove('hidden');
+                nextTaskBtn.disabled = false;
             } else {
                 // Для последнего задания показываем завершение
                 completeLevel();
@@ -263,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 completedTasks = currentTask + 1;
                 updateProgress();
             }
-            nextTaskBtn.classList.remove('hidden');
+            nextTaskBtn.disabled = false;
         } else {
             catSpeech.textContent = t(
                 'level3.twoBlueFail',
@@ -347,7 +351,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 completedTasks = currentTask + 1;
                 updateProgress();
             }
-            nextTaskBtn.classList.remove('hidden');
+            nextTaskBtn.disabled = false;
         } else {
             catSpeech.textContent = t('level3.afterRedRed', 'В этот раз второй шарик оказался красным. Попробуй еще раз!');
         }
@@ -390,7 +394,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'level3.complete',
             'Поздравляю! Ты освоил комбинаторику и зависимые события! Теперь ты понимаешь, как меняются вероятности.'
         );
-        nextTaskBtn.classList.add('hidden');
+        nextTaskBtn.disabled = true;
     }
     
     // Обработчики событий
@@ -401,10 +405,13 @@ document.addEventListener('DOMContentLoaded', function() {
     checkCombBtn.addEventListener('click', checkCombination);
     
     nextTaskBtn.addEventListener('click', function() {
+        if (nextTaskBtn.disabled) {
+            return;
+        }
+
         currentTask++;
         if (currentTask < totalTasks) {
             showTask(currentTask);
-            nextTaskBtn.classList.add('hidden');
         } else {
             completeLevel();
         }

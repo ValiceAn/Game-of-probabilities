@@ -162,14 +162,22 @@
 /* Кот-помощник (desktop like before) */
 .cat-helper {
     position: absolute;
-    left: 2.5rem;
-    top: 12.75rem;
-    width: min(25rem, 90vw);
+    left: clamp(0.75rem, 2.2vw, 2.5rem);
+    top: clamp(10.5rem, 23vh, 12.75rem);
+    width: clamp(10.5rem, 19vw, 17.5rem);
     z-index: 6;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .cat-image {
-    width: min(17.5rem, 45vw);
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 17.5rem;
+    min-width: 8.5rem;
     height: auto;
     filter: drop-shadow(0 0 0.625rem #4cc9f0);
     animation: float 6s ease-in-out infinite;
@@ -177,9 +185,11 @@
 
 .speech-bubble {
     position: absolute;
-    top: -11rem;
-    left: 0rem;
-    width: min(14.5rem, 80vw);
+    top: auto;
+    bottom: calc(100% + clamp(0.35rem, 0.9vw, 0.75rem));
+    left: 50%;
+    width: clamp(11rem, 24vw, 15.5rem);
+    max-width: min(90vw, 23rem);
     padding: 0.9375rem;
     background: rgba(10, 10, 30, 0.9);
     border: 0.125rem solid #ff9966;
@@ -189,7 +199,7 @@
     font-size: clamp(0.95rem, 2.1vw, 1.1rem);
     box-shadow: 0 0 1.25rem rgba(255, 153, 102, 0.5);
     opacity: 0;
-    transform: translateY(1.25rem);
+    transform: translate(-50%, 1.25rem);
     transition: all 0.5s;
     backdrop-filter: blur(5px);
 }
@@ -207,7 +217,7 @@
 
 .speech-bubble.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, 0);
 }
 
 /* Комбинации */
@@ -370,8 +380,24 @@
 
 .visual-comb {
     display: flex;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     flex-wrap: wrap;
     justify-content: center;
+    align-content: flex-start;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+#visual-comb {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
     gap: 0.75rem;
     margin-top: 1rem;
 }
@@ -415,6 +441,18 @@
     background: rgba(76, 201, 240, 0.4);
     transform: translateY(-0.1875rem);
     box-shadow: 0 0.3125rem 0.9375rem rgba(76, 201, 240, 0.3);
+}
+
+.control-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    filter: saturate(0.75);
+}
+
+.control-btn:disabled:hover {
+    background: rgba(76, 201, 240, 0.2);
+    transform: none;
+    box-shadow: none;
 }
 
 /* Прогресс */
@@ -489,27 +527,28 @@
     }
 
     .cat-helper {
-        left: 0.75rem;
-        top: 12.75rem;
-        width: min(20rem, 32vw);
+        left: clamp(0.5rem, 1.6vw, 1.25rem);
+        top: clamp(10.25rem, 22vh, 12rem);
+        width: clamp(10rem, 21vw, 15rem);
     }
 
     .cat-image {
-        width: min(15rem, 26vw);
+        width: 100%;
     }
 
     .speech-bubble {
-        top: -10.5rem;
-        left: min(0rem, 14vw);
-        width: min(12rem, 25vw);
-        font-size: clamp(0.70rem, 1.1vw, 1rem);
+        top: auto;
+        bottom: calc(100% + 0.55rem);
+        left: 50%;
+        width: clamp(10.25rem, 22vw, 13rem);
+        font-size: clamp(0.78rem, 1vw, 1rem);
     }
 }
 
 @media (max-width: 90rem) and (min-width: 75.0625rem) {
     .game-area {
         justify-content: flex-start;
-        padding-left: clamp(12rem, 21vw, 16rem);
+        padding-left: clamp(10rem, 81vw, 22rem);
     }
 
     .urn-container {
@@ -527,8 +566,8 @@
     }
 
     .cat-helper {
-        left: 1rem;
-        top: 11rem;
+        left: clamp(0.5rem, 2vw, 1rem);
+        top: clamp(9.6rem, 21vh, 11rem);
     }
 }
 
@@ -540,7 +579,7 @@
 
     .urn-container {
         flex-direction: column;
-        width: min(100%, 28rem);
+        width: min(100%, 30rem);
     }
 
     .urn,
@@ -572,6 +611,11 @@
         left: auto;
         width: 100%;
         margin: 0 0 0.75rem 0;
+        transform: translateY(1.25rem);
+    }
+
+    .speech-bubble.visible {
+        transform: translateY(0);
     }
 
     .speech-bubble::after {
@@ -580,6 +624,47 @@
 
     .combinations-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Slightly reduce panel sizes on desktop, keep cat image size unchanged */
+@media (min-width: 56.3125rem) {
+    .urn-container {
+        max-width: 32.1rem;
+    }
+
+    .urn {
+        width: 30.95rem;
+        min-height: 5.45rem;
+        padding: 0.68rem;
+    }
+
+    .drawn-balls {
+        min-width: 13.1rem;
+        min-height: 5.45rem;
+        padding: 0.58rem;
+    }
+
+    .speech-bubble {
+        width: clamp(12rem, 20vw, 15rem);
+        padding: 0.64rem;
+    }
+
+    .combinations {
+        max-width: 45.2rem;
+        padding: 0.7rem;
+    }
+
+    .combination {
+        padding: 0.36rem;
+    }
+
+    .tasks-container {
+        max-width: 61.6rem;
+    }
+
+    .task {
+        padding: 0.7rem;
     }
 }
 
