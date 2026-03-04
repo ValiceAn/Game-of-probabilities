@@ -1470,7 +1470,7 @@ html.skip-screen-fade .screen {
     position: relative;
     z-index: 10;
     width: min(93rem, 100%);
-    margin: 0 auto;
+    margin: 40px auto;
     padding: 0 clamp(0.75rem, 3vw, 2rem);
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(18rem, 32rem) minmax(18rem, 1fr);
