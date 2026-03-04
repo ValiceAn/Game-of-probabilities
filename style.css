@@ -1767,3 +1767,27 @@ html.skip-screen-fade .screen {
         text-shadow: none !important;
     }
 }
+
+/* iPhone/iPad: force highly readable Russian typography */
+@supports (-webkit-touch-callout: none) {
+    @media (max-width: 64rem) {
+        html[lang="ru"] :is(#start-menu, #level-select, #tutorial-menu, .game-screen) :is(
+            h1, h2, h3, h4, p, button, label, input, textarea,
+            .btn-text, .hint-btn, .progress-text, .stat-label, .stat-value,
+            .stats-placeholder, .speech-bubble, .section-content, .cosmic-tag,
+            .level-title, .subtitle span, .task h3, .task p, .level-info h3, .level-info p
+        ) {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif !important;
+            font-style: normal !important;
+            letter-spacing: normal !important;
+            line-height: 1.35 !important;
+        }
+
+        html[lang="ru"] :is(#start-menu, #level-select, #tutorial-menu, .game-screen) :is(
+            p, .btn-text, .hint-btn, .progress-text, .stat-label, .stat-value,
+            .stats-placeholder, .section-content, .cosmic-tag, .speech-bubble
+        ) {
+            text-shadow: none !important;
+        }
+    }
+}
