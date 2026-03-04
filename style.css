@@ -1875,6 +1875,24 @@ html.skip-screen-fade .screen {
 /* iPhone/iPad: force highly readable Russian typography */
 @supports (-webkit-touch-callout: none) {
     @media (max-width: 64rem) {
+        html,
+        body {
+            min-height: 100svh;
+            min-height: -webkit-fill-available;
+        }
+
+        body {
+            overscroll-behavior-y: none;
+        }
+
+        .screen,
+        .game-screen {
+            min-height: 100svh !important;
+            height: auto !important;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+        }
+
         #start-menu .main-title .title-word {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Arial, sans-serif !important;
             font-weight: 800 !important;
