@@ -634,64 +634,84 @@ body {
 /* Phone layout: keep cat above dice and widen cat speech bubble */
 @media (max-width: 47.9375rem) {
     .game-screen {
-        --dice-size: clamp(6.75rem, 25vw, 8.25rem);
-        --cat-size: clamp(7.6rem, 29vw, 9.6rem);
+        --dice-size: clamp(5.9rem, 20vw, 7.1rem);
+        --cat-size: clamp(7.1rem, 25vw, 8.9rem);
+        display: grid;
+        grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.04fr);
+        grid-template-areas:
+            "header header"
+            "dice cat"
+            "stats task"
+            "controls controls"
+            "progress progress";
+        column-gap: 0.42rem;
+        row-gap: 0.4rem;
+        align-items: start;
+    }
+
+    .level-header {
+        grid-area: header;
     }
 
     .game-area {
-        display: grid;
-        grid-template-columns: minmax(0, var(--dice-size)) minmax(0, var(--cat-size));
-        justify-content: center;
-        align-items: end;
-        gap: 0.75rem 1rem;
-        margin: 0.75rem auto 1rem;
+        display: contents;
     }
 
     .game-area > .dice-container {
-        order: 0;
-        grid-column: 1;
-        grid-row: 1;
+        grid-area: dice;
         justify-self: center;
         align-self: end;
+        width: var(--dice-size);
+        height: var(--dice-size);
+        margin: 30px;
     }
 
     .game-area > .cat-helper {
-        order: 0;
-        grid-column: 2;
-        grid-row: 1;
+        grid-area: cat;
         justify-self: center;
         align-self: end;
         width: var(--cat-size);
         max-width: var(--cat-size);
+        margin: 0;
     }
 
     .game-area > .stats-panel {
-        grid-column: 1 / -1;
-        grid-row: 2;
-        width: 100%;
-        max-width: 100%;
-        margin: 0.25rem auto 0;
-        padding: 0.85rem;
-        max-height: 22rem;
+        grid-area: stats;
+        width: 96%;
+        max-width: 96%;
+        justify-self: center;
+        margin: 0;
+        padding: 0.62rem;
+        max-height: none;
+        overflow: visible;
+        font-size: clamp(0.74rem, 2.2vw, 0.86rem);
     }
 
     .speech-bubble {
-        width: min(68vw, 17rem);
-        max-width: 17rem;
-        margin-bottom: 0.85rem;
-        padding: 0.8rem 0.9rem;
-        font-size: clamp(0.72rem, 2.7vw, 0.95rem);
+        width: min(46vw, 12.25rem);
+        max-width: 12.25rem;
+        margin-bottom: 0.65rem;
+        padding: 0.62rem 0.72rem;
+        font-size: clamp(0.72rem, 2.2vw, 0.9rem);
         line-height: 1.35;
         overflow-wrap: anywhere;
     }
 
     .tasks-container {
-        padding-inline: clamp(0.75rem, 3.8vw, 1rem);
+        grid-area: task;
+        width: 96%;
+        max-width: 96%;
+        justify-self: center;
+        margin: 0;
+        padding: 0.05rem 0;
     }
 
     .task {
-        padding: 0.95rem;
-        margin-bottom: 0.95rem;
+        padding: 0.64rem;
+        margin: 0;
+        border-radius: 0.72rem;
+        max-height: none;
+        overflow: visible;
     }
 
     .task.active {
@@ -699,50 +719,61 @@ body {
     }
 
     .task h3 {
-        font-size: clamp(0.95rem, 4.6vw, 1.2rem);
+        font-size: clamp(0.84rem, 2.35vw, 0.98rem);
+        margin-bottom: 0.45rem;
     }
 
     .task p {
-        font-size: clamp(0.9rem, 3.8vw, 1.02rem);
-        margin-bottom: 1rem;
+        font-size: clamp(0.82rem, 2.15vw, 0.92rem);
+        margin-bottom: 0.52rem;
+        line-height: 1.28;
     }
 
     .options {
-        gap: 0.55rem;
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+        margin-bottom: 0.6rem;
     }
 
     .option-btn {
-        min-height: 3rem;
-        padding: 0.62rem 0.85rem;
-        font-size: clamp(0.94rem, 3.8vw, 1.05rem);
+        min-height: 1.88rem;
+        padding: 0.36rem 0.54rem;
+        font-size: clamp(0.76rem, 1.95vw, 0.86rem);
+        line-height: 1.15;
+        border-radius: 1.15rem;
     }
 
     .level-controls {
+        grid-area: controls;
         flex-direction: column;
         align-items: stretch;
-        gap: 0.55rem;
-        margin: 0.55rem auto 0.25rem;
+        gap: 0.45rem;
+        margin: 0.5rem auto 0.25rem;
         padding-inline: clamp(0.75rem, 3.8vw, 1rem);
     }
 
     .control-btn {
         width: 100%;
-        min-height: 3.1rem;
-        padding: 0.72rem 0.9rem;
-        font-size: clamp(0.9rem, 3.7vw, 1.02rem);
+        min-height: 2.9rem;
+        padding: 0.62rem 0.82rem;
+        font-size: clamp(0.9rem, 3vw, 1rem);
     }
 
     .control-btn.big-btn {
-        padding: 0.8rem 0.95rem;
-        font-size: clamp(0.98rem, 4vw, 1.1rem);
+        padding: 0.7rem 0.85rem;
+        font-size: clamp(0.95rem, 3.2vw, 1.06rem);
+    }
+
+    .progress-container {
+        grid-area: progress;
     }
 
     .stats-panel h3 {
-        font-size: clamp(1rem, 4.2vw, 1.2rem);
+        font-size: clamp(0.82rem, 2.35vw, 0.94rem);
     }
 
     .stat-item {
-        font-size: clamp(0.86rem, 3.3vw, 0.97rem);
+        font-size: clamp(0.74rem, 2.05vw, 0.84rem);
     }
 }
 @media (min-width: 48rem) {
