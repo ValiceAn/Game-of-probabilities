@@ -30,6 +30,7 @@ body {
 }
 
 @supports (overflow: clip) {
+
     html,
     body,
     .screen,
@@ -647,7 +648,7 @@ html.skip-screen-fade .screen {
         0 0 15px #fd7708,
         0 0 30px #fd7708,
         0 0 45px #fd7708;
-    transform: translateX(20px);
+    transform: translateX(0);
     animation: text-glitch-cat 8s infinite alternate-reverse;
 }
 
@@ -670,7 +671,7 @@ html.skip-screen-fade .screen {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 35px auto 25px;
+    margin: 13px auto 25px;
     position: relative;
     z-index: 10;
 }
@@ -743,7 +744,7 @@ html.skip-screen-fade .screen {
 }
 
 .menu-btn .btn-ico {
-    font-size: 1.8rem;
+    font-size: 1.1rem;
     transition: all 0.3s;
 }
 
@@ -1520,6 +1521,35 @@ html.skip-screen-fade .screen {
     min-width: 0;
 }
 
+@media (min-width: 64.01rem) {
+    .menu-buttons {
+        width: clamp(22rem, 27vw, 26rem);
+        gap: 1.2rem;
+    }
+
+    .menu-btn {
+        min-height: 5.5rem;
+        padding: 0.9rem 1.65rem;
+        font-size: 1.55rem;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .menu-btn .btn-text {
+        white-space: nowrap;
+    }
+
+    .menu-btn .btn-ico {
+        font-size: 2.4rem
+    }
+
+    .start-btn {
+        min-height: 6rem;
+        padding: 1.05rem 1.75rem;
+        font-size: 1.72rem;
+    }
+}
+
 @media (max-width: 64rem) {
     .screen {
         width: 100%;
@@ -1553,17 +1583,23 @@ html.skip-screen-fade .screen {
     }
 
     .menu-content {
-        display: flex;
-        flex-direction: column;
+        width: min(100%, 42rem);
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
         align-items: center;
-        gap: 1.25rem;
+        gap: clamp(0.35rem, 1.6vw, 0.7rem);
     }
 
     .menu-buttons {
+        justify-self: start;
         align-self: center;
         transform: none;
-        transform: translateX(clamp(0.4rem, 2vw, 0.9rem));
-        width: min(30rem, 100%);
+        transform: translateX(clamp(-0.45rem, -1.8vw, -0.15rem));
+        margin: 0;
+        width: clamp(12.8rem, 56vw, 15.2rem) !important;
+        min-width: 12.8rem !important;
+        max-width: 15.2rem !important;
+        gap: clamp(1.1rem, 0.5vw, 0.7rem);
     }
 
     .menu-btn,
@@ -1571,10 +1607,32 @@ html.skip-screen-fade .screen {
         transform: none;
     }
 
+    .menu-btn {
+        width: 100%;
+        min-width: 0;
+        min-height: 3rem;
+        padding: 0.58rem 0.72rem;
+        font-size: clamp(0.84rem, 2.1vw, 0.94rem);
+        gap: 0.4rem;
+        justify-content: flex-start;
+    }
+
+    .menu-btn .btn-text {
+        white-space: normal;
+        overflow-wrap: anywhere;
+        max-width: 100%;
+        line-height: 1.15;
+    }
+
+    .menu-btn .btn-ico {
+        flex: 0 0 auto;
+    }
+
     .cat-hero {
+        justify-self: end;
         align-self: center;
-        transform: translateX(clamp(-0.9rem, -2.4vw, -0.4rem));
-        width: min(18rem, 65vw);
+        transform: translateX(clamp(0.1rem, 1vw, 0.4rem));
+        width: clamp(9rem, 36vw, 13rem);
     }
 
     #level-select {
@@ -1701,14 +1759,22 @@ html.skip-screen-fade .screen {
     }
 
     .menu-btn {
-        padding: 0.8rem 1rem;
-        font-size: clamp(1rem, 4vw, 1.2rem);
-        gap: 0.6rem;
+        min-height: 2.75rem;
+        padding: 0.52rem 0.62rem;
+        font-size: clamp(0.5rem, 3vw, 0.9rem);
+        gap: 0.36rem;
+    }
+
+    .menu-buttons {
+        width: clamp(0.1rem, 12vw, 3.1rem) !important;
+        min-width: 9.4rem !important;
+        max-width: 13.4rem !important;
+        transform: translateX(clamp(-6rem, -59.4vw, -0.24rem));
     }
 
     .start-btn {
-        font-size: clamp(1rem, 4.4vw, 1.3rem);
-        padding: 0.9rem 1rem;
+        font-size: clamp(0.7rem, 0.1vw, 0.1rem);
+        padding: 0.1rem 1rem;
     }
 
     .big-planet {
@@ -1793,22 +1859,18 @@ html.skip-screen-fade .screen {
             letter-spacing: 0.02em !important;
         }
 
-        html[lang="ru"] :is(#start-menu, #level-select, #tutorial-menu, .game-screen) :is(
-            h1, h2, h3, h4, p, button, label, input, textarea,
+        html[lang="ru"] :is(#start-menu, #level-select, #tutorial-menu, .game-screen) :is(h1, h2, h3, h4, p, button, label, input, textarea,
             .btn-text, .hint-btn, .progress-text, .stat-label, .stat-value,
             .stats-placeholder, .speech-bubble, .section-content, .cosmic-tag,
-            .level-title, .subtitle span, .task h3, .task p, .level-info h3, .level-info p
-        ) {
+            .level-title, .subtitle span, .task h3, .task p, .level-info h3, .level-info p) {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif !important;
             font-style: normal !important;
             letter-spacing: normal !important;
             line-height: 1.35 !important;
         }
 
-        html[lang="ru"] :is(#start-menu, #level-select, #tutorial-menu, .game-screen) :is(
-            p, .btn-text, .hint-btn, .progress-text, .stat-label, .stat-value,
-            .stats-placeholder, .section-content, .cosmic-tag, .speech-bubble
-        ) {
+        html[lang="ru"] :is(#start-menu, #level-select, #tutorial-menu, .game-screen) :is(p, .btn-text, .hint-btn, .progress-text, .stat-label, .stat-value,
+            .stats-placeholder, .section-content, .cosmic-tag, .speech-bubble) {
             text-shadow: none !important;
         }
 
