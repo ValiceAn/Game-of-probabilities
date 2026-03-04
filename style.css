@@ -1877,10 +1877,10 @@ html.skip-screen-fade .screen {
     @media (max-width: 64rem) {
         html,
         body {
-            height: 100%;
             min-height: 100svh;
             min-height: -webkit-fill-available;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         body {
