@@ -64,6 +64,7 @@ html.preload-active body>*:not(#global-preloader) {
 
 #global-preloader.hidden {
     opacity: 0;
+    pointer-events: none;
 }
 
 .loader-shell {
@@ -1875,28 +1876,6 @@ html.skip-screen-fade .screen {
 /* iPhone/iPad: force highly readable Russian typography */
 @supports (-webkit-touch-callout: none) {
     @media (max-width: 64rem) {
-        html,
-        body {
-            min-height: 100svh;
-            min-height: -webkit-fill-available;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-
-        body {
-            overscroll-behavior-y: none;
-        }
-
-        .screen,
-        .game-screen {
-            min-height: 100svh !important;
-            height: 100svh !important;
-            overflow-y: auto;
-            overflow-x: hidden;
-            overscroll-behavior-y: contain;
-            -webkit-overflow-scrolling: touch;
-        }
-
         #start-menu .main-title .title-word {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Arial, sans-serif !important;
             font-weight: 800 !important;
