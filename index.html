@@ -5,7 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Космический Кот: Гравитационные Гонки</title>
-    <script>document.documentElement.classList.add('preload-active');</script>
+    <script>
+        (function () {
+            const root = document.documentElement;
+            root.classList.add('preload-active');
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('completed')) {
+                root.classList.add('skip-screen-fade');
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Comic+Neue:wght@700&display=swap"
         rel="stylesheet">

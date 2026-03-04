@@ -131,6 +131,21 @@ html.preload-active body>*:not(#global-preloader) {
     scrollbar-gutter: stable;
 }
 
+html.skip-screen-fade .screen {
+    transition: none !important;
+}
+
+.screen.hidden {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+}
+
+.screen.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
 .hidden {
     opacity: 0;
     pointer-events: none;

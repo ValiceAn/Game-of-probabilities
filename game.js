@@ -1,5 +1,6 @@
 // Инициализация игры при загрузке
 const MAP_CAT_LEVEL_KEY = 'mapCatLevel';
+const ACTIVE_SCREEN_KEY = 'activeScreen';
 const FIXED_CAT_POSITIONS = {
     1: { left: 84.8, top: 148.813 },
     2: { left: 341.2, top: 70.18 },
@@ -10,6 +11,32 @@ const FIXED_CAT_POSITIONS = {
 const t = (key, fallback, params = {}) => (
     window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
 );
+
+const SCREEN_IDS = ['start-menu', 'level-select', 'tutorial-menu'];
+function setActiveScreen(activeId) {
+    const safeActiveId = SCREEN_IDS.includes(activeId) ? activeId : 'start-menu';
+    SCREEN_IDS.forEach((screenId) => {
+        const el = document.getElementById(screenId);
+        if (!el) return;
+        const isActive = screenId === safeActiveId;
+        el.classList.toggle('visible', isActive);
+        el.classList.toggle('hidden', !isActive);
+    });
+    try {
+        sessionStorage.setItem(ACTIVE_SCREEN_KEY, safeActiveId);
+    } catch (e) {
+        // Ignore storage errors and keep UI functional.
+    }
+}
+
+function getRememberedScreen() {
+    try {
+        const stored = sessionStorage.getItem(ACTIVE_SCREEN_KEY);
+        return SCREEN_IDS.includes(stored) ? stored : null;
+    } catch (e) {
+        return null;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Проверяем сохраненный прогресс
@@ -25,10 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Обработка кнопки "Начать игру"
     document.getElementById('start-btn').addEventListener('click', function() {
-        document.getElementById('start-menu').classList.remove('visible');
-        document.getElementById('start-menu').classList.add('hidden');
-        document.getElementById('level-select').classList.remove('hidden');
-        document.getElementById('level-select').classList.add('visible');
+        setActiveScreen('level-select');
         
         // Анимация кота-проводника
         animateCatToLevel(getPreferredMapCatLevel());
@@ -36,10 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Обработка кнопки "В главное меню"
     document.getElementById('back-to-menu').addEventListener('click', function() {
-        document.getElementById('level-select').classList.remove('visible');
-        document.getElementById('level-select').classList.add('hidden');
-        document.getElementById('start-menu').classList.remove('hidden');
-        document.getElementById('start-menu').classList.add('visible');
+        setActiveScreen('start-menu');
     });
 
     // Обработка выбора уровня
@@ -73,11 +94,16 @@ const justCompleted = params.get('completed');
 if (justCompleted) {
     unlockLevel(parseInt(justCompleted));
     // Показываем карту уровней вместо главного меню
-    document.getElementById('start-menu').classList.add('hidden');
-    document.getElementById('start-menu').classList.remove('visible');
-    document.getElementById('level-select').classList.remove('hidden');
-    document.getElementById('level-select').classList.add('visible');
+    setActiveScreen('level-select');
+} else {
+    // Restore the last active screen after refresh/navigation.
+    setActiveScreen(getRememberedScreen() || 'start-menu');
 }
+
+    // Re-enable normal transitions after initial route state is applied.
+    requestAnimationFrame(() => {
+        document.documentElement.classList.remove('skip-screen-fade');
+    });
 
     // Синхронизируем путь карты с фактическими позициями планет.
     const syncMapLayout = () => {
@@ -255,18 +281,12 @@ document.querySelector('.level-planet[data-level="1"]')?.classList.remove('locke
 
 // Обработка кнопки "Обучение"
 document.getElementById('tutorial-btn').addEventListener('click', function() {
-    document.getElementById('start-menu').classList.remove('visible');
-    document.getElementById('start-menu').classList.add('hidden');
-    document.getElementById('tutorial-menu').classList.remove('hidden');
-    document.getElementById('tutorial-menu').classList.add('visible');
+    setActiveScreen('tutorial-menu');
 });
 
 // И добавьте обработчик для кнопки возврата:
 document.getElementById('back-to-menu-from-tutorial').addEventListener('click', function() {
-    document.getElementById('tutorial-menu').classList.remove('visible');
-    document.getElementById('tutorial-menu').classList.add('hidden');
-    document.getElementById('start-menu').classList.remove('hidden');
-    document.getElementById('start-menu').classList.add('visible');
+    setActiveScreen('start-menu');
 });
 
 function updateLevelPath() {
