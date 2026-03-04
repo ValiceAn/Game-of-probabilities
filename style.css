@@ -653,7 +653,7 @@ html.skip-screen-fade .screen {
 }
 
 .title-highlight {
-    width: 400px;
+    width: 340px;
     height: 10px;
     background: linear-gradient(90deg,
             transparent,
@@ -1648,8 +1648,16 @@ html.skip-screen-fade .screen {
     }
 
     .level-title {
-        font-size: clamp(1.4rem, 6vw, 2.1rem);
+        font-size: clamp(0.4rem, 5vw, 2.1rem);
         margin-bottom: 0.75rem;
+    }
+
+    .level-info,
+    .level-planet:hover .level-info {
+        display: none !important;
+        opacity: 0 !important;
+        transform: none !important;
+        pointer-events: none !important;
     }
 
     .galaxy-map {
@@ -1706,7 +1714,7 @@ html.skip-screen-fade .screen {
     .map-btn {
         position: static;
         width: min(100%, 22rem);
-        margin: 0.75rem auto 0;
+        margin: -3.25rem auto 0;
         justify-content: center;
     }
 

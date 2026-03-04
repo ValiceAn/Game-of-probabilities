@@ -8,6 +8,13 @@ const FIXED_CAT_POSITIONS = {
     4: { left: 872, top: 7.847 },
     5: { left: 1078.8, top: 255.197 }
 };
+const MOBILE_FIXED_CAT_POSITIONS = {
+    1: { left: 35.45, top: -27.385 },
+    2: { left: 220.667, top: 52.049 },
+    3: { left: 62.9, top: 162.432 },
+    4: { left: 213.817, top: 274.799 },
+    5: { left: 42.3167, top: 377.982 }
+};
 const t = (key, fallback, params = {}) => (
     window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
 );
@@ -151,13 +158,17 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
         const maxTop = Math.max(0, mapRect.height - catHeight);
 
         const isDesktop = window.matchMedia('(min-width: 64.01rem)').matches;
-        const fixedPosition = isDesktop ? FIXED_CAT_POSITIONS[level] : null;
+        const isMobile = window.matchMedia('(max-width: 64rem)').matches;
+        const fixedPosition = isDesktop
+            ? FIXED_CAT_POSITIONS[level]
+            : (isMobile ? MOBILE_FIXED_CAT_POSITIONS[level] : null);
         const finalLeft = fixedPosition ? fixedPosition.left : desiredLeft;
         const finalTop = fixedPosition ? fixedPosition.top : desiredTop;
+        const minTop = fixedPosition && isMobile ? -catHeight : 0;
 
         cat.style.transition = shouldAnimate ? 'left 0.6s ease, top 0.6s ease' : 'none';
         cat.style.left = `${clamp(finalLeft, 0, maxLeft)}px`;
-        cat.style.top = `${clamp(finalTop, 0, maxTop)}px`;
+        cat.style.top = `${clamp(finalTop, minTop, maxTop)}px`;
         cat.dataset.level = String(level);
 
         if (!shouldAnimate) {
