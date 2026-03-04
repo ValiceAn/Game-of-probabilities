@@ -464,6 +464,54 @@
             window.location.reload();
         });
         document.body.appendChild(btn);
+        lockLangButtonPosition(btn);
+    }
+
+    function lockLangButtonPosition(btn) {
+        if (!btn) return;
+
+        const mobileQuery = window.matchMedia('(max-width: 64rem)');
+        const props = ['position', 'top', 'right', 'left', 'bottom', 'transform', 'transition', 'z-index'];
+
+        const apply = () => {
+            if (!mobileQuery.matches) {
+                props.forEach((prop) => btn.style.removeProperty(prop));
+                return;
+            }
+
+            const rootStyles = window.getComputedStyle(document.documentElement);
+            const safeTop = parseFloat(rootStyles.getPropertyValue('--safe-top')) || 0;
+            const safeRight = parseFloat(rootStyles.getPropertyValue('--safe-right')) || 0;
+            const topPx = Math.round(10 + safeTop);
+            const rightPx = Math.round(10 + safeRight);
+
+            btn.style.setProperty('position', 'fixed', 'important');
+            btn.style.setProperty('top', `${topPx}px`, 'important');
+            btn.style.setProperty('right', `${rightPx}px`, 'important');
+            btn.style.setProperty('left', 'auto', 'important');
+            btn.style.setProperty('bottom', 'auto', 'important');
+            btn.style.setProperty('transform', 'none', 'important');
+            btn.style.setProperty('transition', 'none', 'important');
+            btn.style.setProperty('z-index', '7000', 'important');
+        };
+
+        let rafId = 0;
+        const schedule = () => {
+            if (rafId) return;
+            rafId = requestAnimationFrame(() => {
+                rafId = 0;
+                apply();
+            });
+        };
+
+        apply();
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule, { passive: true });
+        window.addEventListener('orientationchange', schedule, { passive: true });
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', schedule, { passive: true });
+            window.visualViewport.addEventListener('scroll', schedule, { passive: true });
+        }
     }
 
     function init() {
