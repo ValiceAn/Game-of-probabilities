@@ -631,6 +631,120 @@ body {
 }
 
 /* Планшеты (48rem - 63.9375rem / 768px - 1023px) */
+/* Phone layout: keep cat above dice and widen cat speech bubble */
+@media (max-width: 47.9375rem) {
+    .game-screen {
+        --dice-size: clamp(6.75rem, 25vw, 8.25rem);
+        --cat-size: clamp(7.6rem, 29vw, 9.6rem);
+    }
+
+    .game-area {
+        display: grid;
+        grid-template-columns: minmax(0, var(--dice-size)) minmax(0, var(--cat-size));
+        justify-content: center;
+        align-items: end;
+        gap: 0.75rem 1rem;
+        margin: 0.75rem auto 1rem;
+    }
+
+    .game-area > .dice-container {
+        order: 0;
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+        align-self: end;
+    }
+
+    .game-area > .cat-helper {
+        order: 0;
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: center;
+        align-self: end;
+        width: var(--cat-size);
+        max-width: var(--cat-size);
+    }
+
+    .game-area > .stats-panel {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        max-width: 100%;
+        margin: 0.25rem auto 0;
+        padding: 0.85rem;
+        max-height: 22rem;
+    }
+
+    .speech-bubble {
+        width: min(68vw, 17rem);
+        max-width: 17rem;
+        margin-bottom: 0.85rem;
+        padding: 0.8rem 0.9rem;
+        font-size: clamp(0.72rem, 2.7vw, 0.95rem);
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+
+    .tasks-container {
+        padding-inline: clamp(0.75rem, 3.8vw, 1rem);
+    }
+
+    .task {
+        padding: 0.95rem;
+        margin-bottom: 0.95rem;
+    }
+
+    .task.active {
+        margin-top: 0;
+    }
+
+    .task h3 {
+        font-size: clamp(0.95rem, 4.6vw, 1.2rem);
+    }
+
+    .task p {
+        font-size: clamp(0.9rem, 3.8vw, 1.02rem);
+        margin-bottom: 1rem;
+    }
+
+    .options {
+        gap: 0.55rem;
+    }
+
+    .option-btn {
+        min-height: 3rem;
+        padding: 0.62rem 0.85rem;
+        font-size: clamp(0.94rem, 3.8vw, 1.05rem);
+    }
+
+    .level-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.55rem;
+        margin: 0.55rem auto 0.25rem;
+        padding-inline: clamp(0.75rem, 3.8vw, 1rem);
+    }
+
+    .control-btn {
+        width: 100%;
+        min-height: 3.1rem;
+        padding: 0.72rem 0.9rem;
+        font-size: clamp(0.9rem, 3.7vw, 1.02rem);
+    }
+
+    .control-btn.big-btn {
+        padding: 0.8rem 0.95rem;
+        font-size: clamp(0.98rem, 4vw, 1.1rem);
+    }
+
+    .stats-panel h3 {
+        font-size: clamp(1rem, 4.2vw, 1.2rem);
+    }
+
+    .stat-item {
+        font-size: clamp(0.86rem, 3.3vw, 0.97rem);
+    }
+}
 @media (min-width: 48rem) {
     .game-screen { --dice-size: clamp(10.25rem, 18vw, 11.5rem); }
 
@@ -760,3 +874,4 @@ body {
         max-width: 48rem;
     }
 }
+
