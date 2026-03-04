@@ -418,13 +418,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     backToMapBtn.addEventListener('click', function() {
-// Используем window.opener если открыто из окна, или переходим на index.html с параметром
-if (window.opener) {
-    window.opener.completeLevel(3);
-    window.close();
-} else {
-    window.location.href = 'index.html?completed=3';
-}
+        const mapUrl = new URL('index.html?completed=3', window.location.href).toString();
+        try {
+            if (window.opener && !window.opener.closed && typeof window.opener.completeLevel === 'function') {
+                window.opener.completeLevel(3);
+                window.close();
+                return;
+            }
+        } catch (e) {
+            // Fallback to direct navigation when opener is cross-origin or unavailable.
+        }
+        window.location.href = mapUrl;
     });
     
     // Инициализация уровня
