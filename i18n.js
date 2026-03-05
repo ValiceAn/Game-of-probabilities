@@ -391,6 +391,8 @@
         'level2.progress': { heads: 0, goal: 7 },
         'level3.progress': { done: 0, total: 3 }
     };
+    const STATIC_DEFAULTS = {};
+    const RU_PARAM_TEMPLATES = {};
 
     function getPage() {
         return (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
@@ -414,20 +416,129 @@
         return format(source && source[key] ? source[key] : fallback, params);
     }
 
-    function applyStatic() {
-        if (currentLang !== 'en') {
-            document.documentElement.lang = 'ru';
-            return;
-        }
+    function replaceFirstLiteral(source, search, replacement) {
+        const haystack = String(source);
+        const needle = String(search);
+        const index = haystack.indexOf(needle);
+        if (index < 0) return haystack;
+        return `${haystack.slice(0, index)}${replacement}${haystack.slice(index + needle.length)}`;
+    }
 
-        const list = STATIC[getPage()] || [];
-        list.forEach((item) => {
+    function buildParamTemplate(text, params) {
+        let template = String(text);
+        Object.keys(params).forEach((paramKey) => {
+            template = replaceFirstLiteral(template, params[paramKey], `{${paramKey}}`);
+        });
+        return template;
+    }
+
+    function extractParamsFromValue(key, rawValue) {
+        const defaults = STATIC_PARAMS[key];
+        if (!defaults) return {};
+
+        const numbers = String(rawValue).match(/-?\d+(?:[.,]\d+)?/g) || [];
+        const resolved = { ...defaults };
+        Object.keys(defaults).forEach((paramKey, index) => {
+            const token = numbers[index];
+            if (token == null) return;
+            const parsed = Number(token.replace(',', '.'));
+            if (!Number.isNaN(parsed)) {
+                resolved[paramKey] = parsed;
+            }
+        });
+        return resolved;
+    }
+
+    function captureIdValues(el) {
+        const values = {};
+        el.querySelectorAll('[id]').forEach((node) => {
+            values[node.id] = node.textContent;
+        });
+        return values;
+    }
+
+    function restoreIdValues(el, values) {
+        Object.keys(values).forEach((id) => {
+            const node = document.getElementById(id);
+            if (node && el.contains(node)) {
+                node.textContent = values[id];
+            }
+        });
+    }
+
+    function captureStaticDefaults() {
+        const page = getPage();
+        const list = STATIC[page] || [];
+        const defaults = [];
+
+        list.forEach((item, index) => {
             const [type, selector, a, b] = item;
 
             if (type === 'all') {
-                document.querySelectorAll(selector).forEach((el) => {
-                    const value = EN[a] ? format(EN[a], STATIC_PARAMS[a] || {}) : el.textContent;
-                    el.textContent = value;
+                const nodes = Array.from(document.querySelectorAll(selector));
+                defaults[index] = { type, values: nodes.map((node) => node.textContent) };
+                return;
+            }
+
+            const el = document.querySelector(selector);
+            if (!el) {
+                defaults[index] = { type, value: null };
+                return;
+            }
+
+            let value;
+            if (type === 'text') {
+                value = el.textContent;
+            } else if (type === 'html') {
+                value = el.innerHTML;
+            } else if (type === 'attr') {
+                value = el.getAttribute(a) || '';
+            } else {
+                value = null;
+            }
+
+            defaults[index] = { type, value };
+
+            if ((type === 'text' || type === 'html') && STATIC_PARAMS[a] && typeof value === 'string') {
+                RU_PARAM_TEMPLATES[a] = buildParamTemplate(value, STATIC_PARAMS[a]);
+            }
+            if (type === 'attr' && STATIC_PARAMS[b] && typeof value === 'string') {
+                RU_PARAM_TEMPLATES[b] = buildParamTemplate(value, STATIC_PARAMS[b]);
+            }
+        });
+
+        STATIC_DEFAULTS[page] = defaults;
+    }
+
+    function getLocalizedValue(key, fallback, params = {}) {
+        if (currentLang === 'en') {
+            return EN[key] ? format(EN[key], params) : fallback;
+        }
+
+        if (RU_PARAM_TEMPLATES[key]) {
+            return format(RU_PARAM_TEMPLATES[key], params);
+        }
+
+        return fallback;
+    }
+
+    function applyStatic() {
+        const page = getPage();
+        const list = STATIC[page] || [];
+        const defaults = STATIC_DEFAULTS[page] || [];
+
+        list.forEach((item, index) => {
+            const [type, selector, a, b] = item;
+            const defaultEntry = defaults[index];
+
+            if (type === 'all') {
+                const nodes = Array.from(document.querySelectorAll(selector));
+                nodes.forEach((el, nodeIndex) => {
+                    const params = extractParamsFromValue(a, el.textContent);
+                    const fallback = defaultEntry && Array.isArray(defaultEntry.values)
+                        ? (defaultEntry.values[nodeIndex] ?? el.textContent)
+                        : el.textContent;
+                    el.textContent = getLocalizedValue(a, fallback, params);
                 });
                 return;
             }
@@ -436,18 +547,33 @@
             if (!el) return;
 
             if (type === 'text') {
-                const value = EN[a] ? format(EN[a], STATIC_PARAMS[a] || {}) : el.textContent;
+                const params = extractParamsFromValue(a, el.textContent);
+                const fallback = defaultEntry && typeof defaultEntry.value === 'string'
+                    ? defaultEntry.value
+                    : el.textContent;
+                const value = getLocalizedValue(a, fallback, params);
                 el.textContent = value;
             } else if (type === 'html') {
-                const value = EN[a] ? format(EN[a], STATIC_PARAMS[a] || {}) : el.innerHTML;
+                const params = extractParamsFromValue(a, el.innerHTML);
+                const fallback = defaultEntry && typeof defaultEntry.value === 'string'
+                    ? defaultEntry.value
+                    : el.innerHTML;
+                const idValues = captureIdValues(el);
+                const value = getLocalizedValue(a, fallback, params);
                 el.innerHTML = value;
+                restoreIdValues(el, idValues);
             } else if (type === 'attr') {
-                const value = EN[b] ? format(EN[b], STATIC_PARAMS[b] || {}) : (el.getAttribute(a) || '');
+                const currentAttr = el.getAttribute(a) || '';
+                const params = extractParamsFromValue(b, currentAttr);
+                const fallback = defaultEntry && typeof defaultEntry.value === 'string'
+                    ? defaultEntry.value
+                    : currentAttr;
+                const value = getLocalizedValue(b, fallback, params);
                 el.setAttribute(a, value);
             }
         });
 
-        document.documentElement.lang = 'en';
+        document.documentElement.lang = currentLang === 'en' ? 'en' : 'ru';
     }
 
     function addToggle() {
@@ -461,7 +587,11 @@
         btn.addEventListener('click', () => {
             currentLang = currentLang === 'ru' ? 'en' : 'ru';
             localStorage.setItem(STORAGE_KEY, currentLang);
-            window.location.reload();
+            applyStatic();
+            btn.textContent = currentLang === 'ru' ? 'English' : 'Русский';
+            window.dispatchEvent(new CustomEvent('i18n:language-changed', {
+                detail: { lang: currentLang }
+            }));
         });
         document.body.appendChild(btn);
         placeToggle(btn);
@@ -532,6 +662,7 @@
     }
 
     function init() {
+        captureStaticDefaults();
         applyStatic();
         addToggle();
     }
