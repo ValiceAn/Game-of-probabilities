@@ -150,6 +150,63 @@ html.preload-active body>*:not(#global-preloader) {
     margin: 0.75rem auto 1rem;
 }
 
+.level-controls .lang-switch-btn.lang-slot-controls.lang-page-level1 {
+    flex: 0 0 auto;
+    width: fit-content;
+    padding: 10px 296px;
+    margin: 0.35rem auto 0;
+    align-self: center;
+    order: 99;
+}
+
+@media (max-width: 47.9375rem) {
+    .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level1 {
+        width: min(100%, 22rem);
+        padding: 8px 12px;
+        box-sizing: border-box;
+    }
+}
+
+@media (min-width: 48rem) {
+    #level1 .level-controls {
+        display: grid;
+        grid-template-columns: repeat(2, max-content);
+        justify-content: center;
+        align-items: center;
+        column-gap: 0.9375rem;
+        row-gap: 0.625rem;
+    }
+
+    #level1 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level1 {
+        grid-column: 1 / -1;
+        justify-self: center;
+        margin-top: 0.15rem;
+    }
+}
+
+@media (min-width: 64rem) {
+    .game-screen:not(#level1) .level-controls {
+        flex-wrap: wrap;
+        row-gap: 0.625rem;
+    }
+
+    .game-screen:not(#level1) .level-controls::after {
+        content: '';
+        flex-basis: 100%;
+        order: 98;
+    }
+
+    .game-screen:not(#level1) .level-controls .lang-switch-btn.lang-slot-controls {
+        flex: 0 0 auto;
+        width: fit-content;
+        max-width: calc(100% - 1.5rem);
+        margin: 0;
+        padding: 10px 206px;
+        align-self: center;
+        order: 99;
+    }
+}
+
 @media (min-width: 64.01rem) {
     #level-select>.map-btn {
         bottom: 96px;
@@ -159,7 +216,7 @@ html.preload-active body>*:not(#global-preloader) {
         position: absolute;
         right: 30px;
         bottom: 30px;
-        width: clamp(11rem, 16vw, 14rem);
+        width: clamp(13rem, 38vw, 14.3rem);
         margin: 0;
         z-index: 11;
     }

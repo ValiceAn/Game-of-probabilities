@@ -34,6 +34,16 @@
     margin-bottom: 60px;
 }
 
+@media (min-width: 48rem) {
+    .level-header h1 {
+        font-size: 3rem;
+    }
+
+    .level-header .subtitle {
+        font-size: 1.7rem;
+    }
+}
+
 .game-area {
     display: grid;
     grid-template-columns: minmax(17rem, 24rem) minmax(22rem, 32rem);
@@ -785,6 +795,7 @@
     .coin-container {
         margin: 0;
         align-self: end;
+        transform: translateY(-36px);
     }
 
     .stats-panel {
