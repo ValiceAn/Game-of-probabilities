@@ -1,13 +1,6 @@
 // Инициализация игры при загрузке
 const MAP_CAT_LEVEL_KEY = 'mapCatLevel';
 const ACTIVE_SCREEN_KEY = 'activeScreen';
-const FIXED_CAT_POSITIONS = {
-    1: { left: 84.8, top: 148.813 },
-    2: { left: 341.2, top: 70.18 },
-    3: { left: 599.6, top: 197.997 },
-    4: { left: 872, top: 7.847 },
-    5: { left: 1078.8, top: 255.197 }
-};
 const MOBILE_FIXED_CAT_POSITIONS = {
     1: { left: 35.45, top: -27.385 },
     2: { left: 220.667, top: 52.049 },
@@ -172,23 +165,30 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
         const maxLeft = Math.max(0, mapRect.width - catWidth);
         const maxTop = Math.max(0, mapRect.height - catHeight);
 
-        const isDesktop = window.matchMedia('(min-width: 64.01rem)').matches;
         const isMobile = window.matchMedia('(max-width: 64rem)').matches;
-        const fixedPosition = isDesktop
-            ? FIXED_CAT_POSITIONS[level]
-            : (isMobile ? MOBILE_FIXED_CAT_POSITIONS[level] : null);
+        const mobileFixedPosition = isMobile ? MOBILE_FIXED_CAT_POSITIONS[level] : null;
+        const desktopFixedPosition = !isMobile
+            ? ({
+                1: { left: 164.8, top: 60.813 },
+                2: { left: 476.8, top: -9.553 },
+                3: { left: 790.4, top: 116.397 },
+                4: { left: 1104, top: -80 },
+                5: { left: 1339.2, top: 175.663 }
+            }[level] || null)
+            : null;
+        const fixedPosition = desktopFixedPosition || mobileFixedPosition;
         const finalLeft = fixedPosition ? fixedPosition.left : desiredLeft;
         const finalTop = fixedPosition ? fixedPosition.top : desiredTop;
-        const minTop = fixedPosition && isMobile ? -catHeight : 0;
+        const minTop = fixedPosition ? -catHeight : 0;
 
-        cat.style.transition = shouldAnimate ? 'left 0.6s ease, top 0.6s ease' : 'none';
+        cat.style.transition = shouldAnimate ? 'left 0.6s, top 0.6s' : 'none';
         cat.style.left = `${clamp(finalLeft, 0, maxLeft)}px`;
         cat.style.top = `${clamp(finalTop, minTop, maxTop)}px`;
         cat.dataset.level = String(level);
 
         if (!shouldAnimate) {
             requestAnimationFrame(() => {
-                cat.style.transition = 'left 0.6s ease, top 0.6s ease';
+                cat.style.transition = 'left 0.6s, top 0.6s';
             });
         }
     };

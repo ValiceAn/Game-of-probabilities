@@ -150,6 +150,21 @@ html.preload-active body>*:not(#global-preloader) {
     margin: 0.75rem auto 1rem;
 }
 
+@media (min-width: 64.01rem) {
+    #level-select>.map-btn {
+        bottom: 96px;
+    }
+
+    #level-select>.map-btn+.lang-switch-btn.lang-slot-inline {
+        position: absolute;
+        right: 30px;
+        bottom: 30px;
+        width: clamp(11rem, 16vw, 14rem);
+        margin: 0;
+        z-index: 11;
+    }
+}
+
 .screen {
     width: 100%;
     min-height: 100vh;
@@ -979,7 +994,7 @@ html.skip-screen-fade .screen {
 }
 
 .galaxy-map {
-    width: min(100%, 82rem);
+    width: min(100%, 152rem);
     height: clamp(28rem, 66vh, 52rem);
     min-height: 28rem;
     max-height: 80vh;
@@ -1114,9 +1129,21 @@ html.skip-screen-fade .screen {
     left: 0;
     z-index: 9;
     filter: drop-shadow(0 0 10px #4cc9f0);
-    animation: float 6s ease-in-out infinite;
+    animation: map-cat-float 6s ease-in-out infinite;
     pointer-events: none;
     will-change: left, top;
+}
+
+@keyframes map-cat-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
 }
 
 .map-btn {
