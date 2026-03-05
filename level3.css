@@ -31,7 +31,7 @@
 
 .level-header h1 {
     font-family: 'Bruno Ace SC', cursive;
-    font-size: clamp(1.8rem, 6vw, 3.5rem);
+    font-size: clamp(1.9rem, 5.2vw, 2.2rem);
     color: #72d4f9;
     text-shadow: 0 0 0.9375rem #4cc9f0;
     margin-bottom: 0.625rem;
@@ -316,7 +316,7 @@
 
 .probability-display {
     font-family: 'Bruno Ace SC', sans-serif;
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    font-size: clamp(0.6rem, 3.4vw, 1.7rem);
     color: #ff9966;
     margin: 1rem 0;
     text-align: center;
@@ -324,7 +324,7 @@
 
 .probability-display span {
     color: #4cc9f0;
-    font-size: clamp(1.2rem, 3.4vw, 1.3rem);
+    font-size: clamp(0.2rem, 3.3vw, 1.3rem);
 }
 
 .draw-btn,
@@ -746,7 +746,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0.2rem;
+        gap: 1.2rem;
     }
 
     #level3 .cat-image {
@@ -838,7 +838,7 @@
     }
 
     #level3 .task p {
-        font-size: clamp(0.74rem, 2.05vw, 0.86rem);
+        font-size: clamp(0.92rem, 4.05vw, 0.86rem);
         line-height: 1.2;
         margin-bottom: 0.4rem;
     }

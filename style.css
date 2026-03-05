@@ -111,7 +111,7 @@ html.preload-active body>*:not(#global-preloader) {
     color: #ffffff;
     font-family: 'Comic Neue', sans-serif;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.78rem;
     line-height: 1;
     padding: 10px 16px;
     cursor: pointer;
@@ -150,13 +150,28 @@ html.preload-active body>*:not(#global-preloader) {
     margin: 0.75rem auto 1rem;
 }
 
+.lang-switch-btn.lang-page-index {
+    font-size: 1rem;
+}
+
 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level1 {
     flex: 0 0 auto;
     width: fit-content;
     padding: 10px 296px;
+    font-size: 1rem;
     margin: 0.35rem auto 0;
     align-self: center;
     order: 99;
+}
+
+.level-controls .lang-switch-btn.lang-slot-controls.lang-page-level2 {
+    font-size: 1rem;
+}
+
+.lang-switch-btn.lang-page-level3,
+.lang-switch-btn.lang-page-level4,
+.lang-switch-btn.lang-page-level5 {
+    font-size: 0.88rem !important;
 }
 
 @media (max-width: 47.9375rem) {
@@ -204,6 +219,10 @@ html.preload-active body>*:not(#global-preloader) {
         padding: 10px 206px;
         align-self: center;
         order: 99;
+    }
+
+    #level2 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level2 {
+        padding: 10px 206px;
     }
 }
 
@@ -1993,6 +2012,33 @@ html[lang="ru"] .game-screen :is(h1, h2, h3, h4, p, span, button, label, input, 
     font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
     font-style: normal !important;
     letter-spacing: normal !important;
+}
+
+/* Keep Russian level titles as large as English ones */
+html[lang="ru"] #level1 .level-header h1 {
+    font-size: clamp(1.125rem, 8vw, 3.5rem) !important;
+}
+
+html[lang="ru"] #level2 .level-header h1 {
+    font-size: 2rem !important;
+}
+
+@media (min-width: 48rem) {
+    html[lang="ru"] #level2 .level-header h1 {
+        font-size: 3rem !important;
+    }
+}
+
+html[lang="ru"] #level3 .level-header h1 {
+    font-size: clamp(1.9rem, 5.2vw, 2.2rem) !important;
+}
+
+html[lang="ru"] #level4 .level-header h1 {
+    font-size: clamp(2.2rem, 4.2vw, 3.1rem) !important;
+}
+
+html[lang="ru"] #level5 .level-header h1 {
+    font-size: clamp(2rem, 5.8vw, 3.6rem) !important;
 }
 
 /* Mobile readability override for Russian text */

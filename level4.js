@@ -52,36 +52,66 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     
     // Планеты и их свойства
-    const planets = {
-        green: {
-            name: t('level4.planetGreenName', 'Зелёная планета'),
-            emoji: t('level4.planetGreenEmoji', 'Зелёная'),
-            color: "#28a745",
-            desc: t('level4.planetGreenDesc', 'Идеальна для базы! Есть вода и растения.'),
-            sound: new Audio('sounds/green_planet.mp3')
-        },
-        ice: {
-            name: t('level4.planetIceName', 'Ледяная планета'),
-            emoji: t('level4.planetIceEmoji', 'Ледяная'),
-            color: "#17a2b8",
-            desc: t('level4.planetIceDesc', 'Холодно, но есть полезные ископаемые.'),
-            sound: new Audio('sounds/ice_planet.mp3')
-        },
-        lava: {
-            name: t('level4.planetLavaName', 'Лавовая планета'),
-            emoji: t('level4.planetLavaEmoji', 'Лавовая'),
-            color: "#dc3545",
-            desc: t('level4.planetLavaDesc', 'Опасно, но можно собрать редкие кристаллы!'),
-            sound: new Audio('sounds/lava_planet.mp3')
+        // Planets dictionary (rebuild on language change)
+    let planets = {};
+
+    function createPlanetsDictionary() {
+        return {
+            green: {
+                name: t('level4.planetGreenName', 'Зелёная планета'),
+                emoji: t('level4.planetGreenEmoji', 'Зелёная'),
+                color: '#28a745',
+                desc: t('level4.planetGreenDesc', 'Идеальна для базы! Есть вода и растения.'),
+                sound: new Audio('sounds/green_planet.mp3')
+            },
+            ice: {
+                name: t('level4.planetIceName', 'Ледяная планета'),
+                emoji: t('level4.planetIceEmoji', 'Ледяная'),
+                color: '#17a2b8',
+                desc: t('level4.planetIceDesc', 'Холодно, но есть полезные ископаемые.'),
+                sound: new Audio('sounds/ice_planet.mp3')
+            },
+            lava: {
+                name: t('level4.planetLavaName', 'Лавовая планета'),
+                emoji: t('level4.planetLavaEmoji', 'Лавовая'),
+                color: '#dc3545',
+                desc: t('level4.planetLavaDesc', 'Опасно, но можно собрать редкие кристаллы!'),
+                sound: new Audio('sounds/lava_planet.mp3')
+            }
+        };
+    }
+
+    function refreshDynamicTranslations() {
+        planets = createPlanetsDictionary();
+        updateProbabilityDisplay();
+
+        const lastPlanetType = scanResults.lastPlanets[0];
+        if (lastPlanetType && planets[lastPlanetType] && !planetPreview.classList.contains('hidden')) {
+            const planet = planets[lastPlanetType];
+            planetPreview.innerHTML = `
+                <div class="planet-emoji">${planet.emoji}</div>
+                <div class="planet-info">
+                    <h3>${planet.name}</h3>
+                    <p>${planet.desc}</p>
+                </div>
+            `;
+            planetPreview.style.backgroundColor = planet.color;
+            updateCatSpeech(lastPlanetType);
+        } else if (scanResults.total === 0) {
+            catSpeech.textContent = t(
+                'level4.catIntro',
+                'Привет, исследователь! Настрой вероятности и сканируй планеты.'
+            );
         }
-    };
+    }
     
     // Инициализация
     showTask(currentTask);
     updateProbabilityDisplay();
     nextTaskBtn.classList.remove('hidden');
     nextTaskBtn.disabled = true;
-    
+    planets = createPlanetsDictionary();
+    window.addEventListener('i18n:language-changed', refreshDynamicTranslations);
     // Обработчики событий
     scanBtn.addEventListener('click', scanPlanet);
     

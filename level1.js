@@ -274,4 +274,22 @@ function showTask(index) {
             }
         });
     }
+
+    function refreshDynamicTexts() {
+        updateProgress();
+
+        if (stats.totalRolls > 0) {
+            renderStats();
+        }
+
+        hintBtns.forEach(btn => {
+            const hint = btn.previousElementSibling;
+            if (!hint) return;
+            btn.textContent = hint.classList.contains('hidden')
+                ? t('common.showHint', 'Показать подсказку')
+                : t('common.hideHint', 'Скрыть подсказку');
+        });
+    }
+
+    window.addEventListener('i18n:language-changed', refreshDynamicTexts);
 });

@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const tailsCountEl = document.getElementById('tails-count');
     const progressFill = document.getElementById('progress-fill');
     const progressText = document.getElementById('progress-text');
+    const taskProgressFill = document.getElementById('task-progress-fill');
+    const taskProgressText = document.getElementById('task-progress-text');
     const challengeContainer = document.getElementById('challenge-container');
     const riskModal = document.getElementById('risk-modal');
     const takeRiskBtn = document.getElementById('take-risk');
@@ -31,11 +33,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let gameState = 'flipping'; // 'flipping', 'risk-choice', 'monty-hall', 'completed'
     let selectedDoor = null;
     let prizeDoor = null;
+    const completedChallengeIds = new Set();
+    const totalChallengeTasks = 3;
 
     // Инициализация игры
     function initGame() {
         updateStats();
-        showRandomChallenge(); // Показываем первый вопрос сразу при загрузке
+        updateTaskProgress();
+        showRandomChallenge();
     }
 
     // Показать речь кота
@@ -160,6 +165,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Проверка специальных событий
+
+    function updateTaskProgress() {
+        if (!taskProgressFill || !taskProgressText) return;
+
+        const done = completedChallengeIds.size;
+        const percent = Math.min(100, (done / totalChallengeTasks) * 100);
+        taskProgressFill.style.width = `${percent}%`;
+        taskProgressText.textContent = window.I18N?.lang === 'en'
+            ? t('level2.taskProgress', '{done}/{total} tasks completed', { done, total: totalChallengeTasks })
+            : `${done}/${totalChallengeTasks} \u0437\u0430\u0434\u0430\u0447 \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u043e`;
+    }
+
     function checkSpecialEvents() {
         // После 5 бросков предлагаем выбор риска
         if (totalFlips === 5 && gameState === 'flipping') {
@@ -184,6 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function showRandomChallenge() {
         const challenges = [
             {
+                id: 'ch1',
                 question: t('level2.ch1.q', 'Какова вероятность, что следующий бросок будет орлом?'),
                 options: [
                     t('level2.ch1.o1', '50%'),
@@ -194,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 explanation: t('level2.ch1.ex', 'Каждый бросок монетки независим, вероятность орла всегда 50%!')
             },
             {
+                id: 'ch2',
                 question: t('level2.ch2.q', 'Если было 5 орлов подряд, что вероятнее на 6-й бросок?'),
                 options: [
                     t('level2.ch2.o1', 'Орёл'),
@@ -204,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 explanation: t('level2.ch2.ex', 'Монетка не помнит предыдущие броски - это называется независимость событий!')
             },
             {
+                id: 'ch3',
                 question: t('level2.ch3.q', 'Какова вероятность двух орлов подряд?'),
                 options: [
                     t('level2.ch3.o1', '25%'),
@@ -235,7 +255,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (isCorrect) {
                     this.classList.add('correct');
-                    updateCatSpeech(t('level2.correctPrefix', 'Правильно! ') + challenge.explanation);
+                    updateCatSpeech(t('level2.correctPrefix', '\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e! ') + challenge.explanation);
+                    completedChallengeIds.add(challenge.id);
+                    updateTaskProgress();
                 } else {
                     this.classList.add('incorrect');
                     updateCatSpeech(t('level2.incorrectPrefix', 'Не совсем! ') + challenge.explanation);
@@ -409,6 +431,8 @@ document.addEventListener('DOMContentLoaded', function() {
             '{heads} heads out of {goal}',
             { heads: headsCount, goal: headsGoal }
         );
+        updateTaskProgress();
+
 
         if (challengeContainer && challengeContainer.children.length > 0) {
             showRandomChallenge();

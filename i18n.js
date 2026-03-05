@@ -110,6 +110,7 @@
         'level2.tails': 'Tails:',
         'level2.goal': 'Goal:',
         'level2.progress': '{heads} heads out of {goal}',
+        'level2.taskProgress': '{done}/{total} tasks completed',
         'level2.catIntro': 'Hi! Flip the coin and collect heads. You need 7 out of 10 flips!',
         'level2.flip': 'Flip Coin',
         'level2.riskTitle': 'Risk Choice!',

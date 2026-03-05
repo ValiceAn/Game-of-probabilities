@@ -350,6 +350,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Обработчики событий
+
+    function refreshDynamicTranslations() {
+        updateStats();
+
+        if (starsData.total === 0) {
+            catSpeech.textContent = t(
+                'level5.catIntro',
+                'Привет! Этот ускоритель создаёт звёзды с разной вероятностью.'
+            );
+        } else if (starsData.total === 20) {
+            catSpeech.textContent = t(
+                'level5.msg20',
+                'Отлично! Ты создал 20 звёзд. Чёрных дыр: {black}. Отклонения — это нормально.',
+                { black: starsData.black }
+            );
+        } else if (starsData.total === 100) {
+            catSpeech.textContent = t(
+                'level5.msg100',
+                'Супер! После 100 звёзд: {red}% красных, {blue}% голубых, {black}% чёрных дыр.',
+                {
+                    red: Math.round((starsData.red / 100) * 100),
+                    blue: Math.round((starsData.blue / 100) * 100),
+                    black: Math.round((starsData.black / 100) * 100)
+                }
+            );
+        } else if (starsData.total >= 150) {
+            catSpeech.textContent = t(
+                'level5.complete',
+                'Ты доказал: даже в квантовом хаосе есть порядок!'
+            );
+        }
+    }
     generateBtn.addEventListener('click', generateStars);
     resetBtn.addEventListener('click', resetLab);
     backToMapBtn.addEventListener('click', () => {
@@ -366,6 +398,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = mapUrl;
     });
     checkHypothesisBtn.addEventListener('click', checkHypothesis);
+    window.addEventListener('i18n:language-changed', refreshDynamicTranslations);
     
     // Инициализация уровня
     init();
