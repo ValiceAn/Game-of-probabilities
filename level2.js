@@ -402,5 +402,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Инициализируем игру при загрузке
+
+    window.addEventListener('i18n:language-changed', function() {
+        progressText.textContent = t(
+            'level2.progress',
+            '{heads} heads out of {goal}',
+            { heads: headsCount, goal: headsGoal }
+        );
+
+        if (challengeContainer && challengeContainer.children.length > 0) {
+            showRandomChallenge();
+        }
+
+        if (gameState === 'completed') {
+            catSpeech.textContent = t(
+                'level2.complete',
+                'Congratulations! You completed "Coin Barrier"! Now you know more about probability!'
+            );
+        } else if (gameState === 'risk-choice') {
+            catSpeech.textContent = t('level2.stopOffer', 'Stop! I have an offer...');
+        } else if (totalFlips === 0) {
+            catSpeech.textContent = t(
+                'level2.catIntro',
+                'Hi! Flip the coin and collect heads. You need 7 out of 10 flips!'
+            );
+        }
+    });
     initGame();
 });
