@@ -1747,7 +1747,7 @@ html.skip-screen-fade .screen {
     .map-btn {
         position: static;
         width: min(100%, 22.5rem);
-        margin: -5.25rem auto 0;
+        margin: -4.25rem auto 0;
         justify-content: center;
         padding: 9px 18px;
         font-size: 0.9rem;
