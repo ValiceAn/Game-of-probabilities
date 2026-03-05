@@ -5,11 +5,6 @@
     padding: 0;
 }
 
-:root {
-    --safe-top: env(safe-area-inset-top, 0px);
-    --safe-right: env(safe-area-inset-right, 0px);
-}
-
 html,
 body {
     width: 100%;
@@ -108,10 +103,8 @@ html.preload-active body>*:not(#global-preloader) {
 }
 
 .lang-switch-btn {
-    position: fixed;
-    top: 16px;
-    right: 16px;
-    z-index: 5000;
+    position: static;
+    z-index: 1;
     border: 2px solid #4cc9f0;
     border-radius: 999px;
     background: rgba(5, 8, 40, 0.9);
@@ -124,6 +117,8 @@ html.preload-active body>*:not(#global-preloader) {
     cursor: pointer;
     box-shadow: 0 0 14px rgba(76, 201, 240, 0.45);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    align-self: center;
+    margin-top: 10px;
 }
 
 .lang-switch-btn:hover {
@@ -133,6 +128,26 @@ html.preload-active body>*:not(#global-preloader) {
 
 .lang-switch-btn:active {
     transform: translateY(0);
+}
+
+.lang-switch-btn.lang-slot-menu {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.lang-switch-btn.lang-slot-inline,
+.lang-switch-btn.lang-slot-controls {
+    width: min(100%, 22rem);
+}
+
+.lang-switch-btn.lang-slot-controls {
+    margin-top: 0;
+}
+
+.lang-switch-btn.lang-slot-inline {
+    display: flex;
+    justify-content: center;
+    margin: 0.75rem auto 1rem;
 }
 
 .screen {
@@ -1528,9 +1543,21 @@ html.skip-screen-fade .screen {
 }
 
 @media (min-width: 64.01rem) {
-    .menu-buttons {
+    #start-menu .menu-content {
+        margin: 0 auto;
+        align-items: center;
+    }
+
+    #start-menu .menu-buttons {
         width: clamp(22rem, 27vw, 26rem);
         gap: 1.2rem;
+        margin-top: 2.4rem;
+        align-self: center;
+    }
+
+    #start-menu .cat-hero {
+        align-self: center;
+        top: -60px;
     }
 
     .menu-btn {
@@ -1761,15 +1788,21 @@ html.skip-screen-fade .screen {
     }
 }
 
+/* Desktop hard override: raise start-menu buttons and cat */
+@media (min-width: 1025px) {
+    #start-menu .menu-buttons {
+        margin-top: -3.6rem !important;
+    }
+
+    #start-menu .cat-hero {
+        top: -60px !important;
+    }
+}
+
 @media (max-width: 36rem) {
     .lang-switch-btn {
-        position: fixed;
-        top: calc(env(safe-area-inset-top) + 98px);
-        right: 21px;
         padding: 8px 12px;
         font-size: 0.9rem;
-        z-index: 6000;
-        transform: translateZ(0);
     }
 
     .title-word {
@@ -1913,21 +1946,19 @@ html.skip-screen-fade .screen {
     }
 }
 
-/* Keep language button pinned on phones */
+/* Language button follows normal page flow on phones */
 @media (max-width: 64rem) {
     .lang-switch-btn {
-        position: fixed !important;
-        top: calc(env(safe-area-inset-top) + 10px) !important;
-        right: calc(env(safe-area-inset-right) + 10px) !important;
+        position: static !important;
         left: auto !important;
+        right: auto !important;
+        top: auto !important;
         bottom: auto !important;
-        z-index: 7000 !important;
-        transform: translate3d(0, 0, 0) !important;
-        will-change: auto;
+        transform: none !important;
     }
 
     .lang-switch-btn:hover,
     .lang-switch-btn:active {
-        transform: translate3d(0, 0, 0) !important;
+        transform: none !important;
     }
 }

@@ -464,54 +464,71 @@
             window.location.reload();
         });
         document.body.appendChild(btn);
-        lockLangButtonPosition(btn);
+        placeToggle(btn);
+        watchTogglePlacement(btn);
     }
 
-    function lockLangButtonPosition(btn) {
+    function applyToggleSlotClass(btn, slot) {
+        btn.classList.remove('lang-slot-menu', 'lang-slot-inline', 'lang-slot-controls');
+        btn.classList.add(`lang-slot-${slot}`);
+    }
+
+    function moveToggle(btn, target, slot) {
+        if (!btn || !target) return false;
+        applyToggleSlotClass(btn, slot);
+
+        if (target.tagName === 'BUTTON') {
+            if (btn.parentElement !== target.parentElement || btn.previousElementSibling !== target) {
+                target.insertAdjacentElement('afterend', btn);
+            }
+            return true;
+        }
+
+        if (btn.parentElement !== target) {
+            target.appendChild(btn);
+        }
+        return true;
+    }
+
+    function placeToggle(btn) {
         if (!btn) return;
 
-        const mobileQuery = window.matchMedia('(max-width: 64rem)');
-        const props = ['position', 'top', 'right', 'left', 'bottom', 'transform', 'transition', 'z-index'];
+        const page = getPage();
+        if (page === 'index.html') {
+            const body = document.body;
+            const isLevelSelect = body.classList.contains('active-level-select')
+                || document.getElementById('level-select')?.classList.contains('visible');
+            const isTutorial = body.classList.contains('active-tutorial-menu')
+                || document.getElementById('tutorial-menu')?.classList.contains('visible');
 
-        const apply = () => {
-            if (!mobileQuery.matches) {
-                props.forEach((prop) => btn.style.removeProperty(prop));
-                return;
-            }
+            if (isLevelSelect && moveToggle(btn, document.getElementById('back-to-menu'), 'inline')) return;
+            if (isTutorial && moveToggle(btn, document.getElementById('back-to-menu-from-tutorial'), 'inline')) return;
+            if (moveToggle(btn, document.querySelector('#start-menu .menu-buttons'), 'menu')) return;
+        } else if (moveToggle(btn, document.querySelector('.level-controls'), 'controls')) {
+            return;
+        }
 
-            const rootStyles = window.getComputedStyle(document.documentElement);
-            const safeTop = parseFloat(rootStyles.getPropertyValue('--safe-top')) || 0;
-            const safeRight = parseFloat(rootStyles.getPropertyValue('--safe-right')) || 0;
-            const topPx = Math.round(10 + safeTop);
-            const rightPx = Math.round(10 + safeRight);
+        applyToggleSlotClass(btn, 'inline');
+        if (btn.parentElement !== document.body) {
+            document.body.appendChild(btn);
+        }
+    }
 
-            btn.style.setProperty('position', 'fixed', 'important');
-            btn.style.setProperty('top', `${topPx}px`, 'important');
-            btn.style.setProperty('right', `${rightPx}px`, 'important');
-            btn.style.setProperty('left', 'auto', 'important');
-            btn.style.setProperty('bottom', 'auto', 'important');
-            btn.style.setProperty('transform', 'none', 'important');
-            btn.style.setProperty('transition', 'none', 'important');
-            btn.style.setProperty('z-index', '7000', 'important');
-        };
+    function watchTogglePlacement(btn) {
+        if (getPage() !== 'index.html' || !document.body) return;
 
         let rafId = 0;
-        const schedule = () => {
+        const schedulePlacement = () => {
             if (rafId) return;
             rafId = requestAnimationFrame(() => {
                 rafId = 0;
-                apply();
+                placeToggle(btn);
             });
         };
 
-        apply();
-        window.addEventListener('scroll', schedule, { passive: true });
-        window.addEventListener('resize', schedule, { passive: true });
-        window.addEventListener('orientationchange', schedule, { passive: true });
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', schedule, { passive: true });
-            window.visualViewport.addEventListener('scroll', schedule, { passive: true });
-        }
+        const observer = new MutationObserver(schedulePlacement);
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        schedulePlacement();
     }
 
     function init() {
