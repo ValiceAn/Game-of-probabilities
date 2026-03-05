@@ -1,7 +1,34 @@
 ﻿document.addEventListener('DOMContentLoaded', function() {
-    const t = (key, fallback, params = {}) => (
-        window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
-    );
+    const formatTemplate = (template, params = {}) =>
+        String(template).replace(/\{(\w+)\}/g, (_, key) =>
+            Object.prototype.hasOwnProperty.call(params, key) ? String(params[key]) : `{${key}}`
+        );
+
+    const RU_DYNAMIC = {
+        'level3.type2blue': '2 синих',
+        'level3.type2red': '2 красных',
+        'level3.typeMixed': '1 синий + 1 красный',
+        'level3.ways': '{count} способов',
+        'level3.enterNumber': 'Пожалуйста, введите число!',
+        'level3.correct': 'Правильно! Действительно, существует {count} способов вытянуть 1 синий и 1 красный шарик.',
+        'level3.incorrect': 'Неверно. Попробуй еще раз! Подсказка: умножь количество синих шариков на количество красных.',
+        'level3.twoBlueWin': 'Ура! Ты вытянул два синих шарика подряд! Теперь ты видишь, как вычисляется вероятность такого события.',
+        'level3.twoBlueFail': 'Не получилось два синих подряд. Попробуй еще раз! Помни, вероятность этого события {prob}.',
+        'level3.noRedLeft': 'Красных шариков больше нет! Нажми "Начать заново".',
+        'level3.drawSecond': 'Вытянуть второй шарик',
+        'level3.afterRedBlue': 'Ты вытянул синий шарик после красного!',
+        'level3.afterRedRed': 'В этот раз второй шарик оказался красным. Попробуй еще раз!',
+        'level3.drawAfterRed': 'Вытянуть после красного',
+        'level3.progress': '{done}/{total} задач выполнено',
+        'level3.complete': 'Поздравляю! Ты освоил комбинаторику и зависимые события! Теперь ты понимаешь, как меняются вероятности.'
+    };
+
+    const t = (key, fallback, params = {}) => {
+        if (window.I18N?.lang === 'ru' && RU_DYNAMIC[key]) {
+            return formatTemplate(RU_DYNAMIC[key], params);
+        }
+        return window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback;
+    };
     // Р­Р»РµРјРµРЅС‚С‹ РёРЅС‚РµСЂС„РµР№СЃР°
     const urn = document.getElementById('urn');
     const drawnBallsContainer = document.querySelector('.drawn-balls .balls-container');
@@ -120,7 +147,7 @@
     // РћР±РЅРѕРІР»РµРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё
     function updateProbabilityDisplay(taskNum) {
         if (taskNum === 1) {
-            prob1Display.textContent = `28.6% (4/7 Г— 3/6)`;
+            prob1Display.textContent = `28.6% (4/7 × 3/6)`;
         } else if (taskNum === 2) {
             // Р’РµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РІС‹С‚СЏРЅСѓС‚СЊ СЃРёРЅРёР№ РїРѕСЃР»Рµ РєСЂР°СЃРЅРѕРіРѕ
             prob2Display.textContent = `66.7% (4/6)`;

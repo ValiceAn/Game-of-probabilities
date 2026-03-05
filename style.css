@@ -1988,6 +1988,13 @@ html.skip-screen-fade .screen {
     }
 }
 
+/* Global readability override for Russian text */
+html[lang="ru"] .game-screen :is(h1, h2, h3, h4, p, span, button, label, input, textarea, .btn-text, .hint-btn, .progress-text, .comb-count, .probability-display) {
+    font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
+    font-style: normal !important;
+    letter-spacing: normal !important;
+}
+
 /* Mobile readability override for Russian text */
 @media (max-width: 48rem) {
     html[lang="ru"] .game-screen :is(h1, h2, h3, h4, p, span, button, label, input, textarea, .btn-text, .hint-btn, .progress-text) {
