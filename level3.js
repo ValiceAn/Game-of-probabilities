@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
+﻿document.addEventListener('DOMContentLoaded', function() {
     const t = (key, fallback, params = {}) => (
         window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
     );
-    // Элементы интерфейса
+    // Р­Р»РµРјРµРЅС‚С‹ РёРЅС‚РµСЂС„РµР№СЃР°
     const urn = document.getElementById('urn');
     const drawnBallsContainer = document.querySelector('.drawn-balls .balls-container');
     const catSpeech = document.getElementById('cat-speech');
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const combinationsGrid = document.querySelector('.combinations-grid');
     const visualComb = document.getElementById('visual-comb');
     
-    // Кнопки заданий
+    // РљРЅРѕРїРєРё Р·Р°РґР°РЅРёР№
     const drawTwoBtn = document.getElementById('draw-two');
     const reset1Btn = document.getElementById('reset1');
     const drawAfterRedBtn = document.getElementById('draw-after-red');
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const combinationInput = document.getElementById('combination-input');
     const reset3Btn = document.getElementById('reset3');
     
-    // Вероятности
+    // Р’РµСЂРѕСЏС‚РЅРѕСЃС‚Рё
     const prob1Display = document.getElementById('prob1');
     const prob2Display = document.getElementById('prob2');
     const prob3Display = document.getElementById('prob3');
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let completedTasks = 0;
     const totalTasks = tasks.length;
     
-    // Исходные данные
+    // РСЃС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ
     const initialBalls = {
         blue: 4,
         red: 3
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let balls = JSON.parse(JSON.stringify(initialBalls));
     let drawnBalls = [];
     
-    // Инициализация
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
     function init() {
         showTask(currentTask);
         updateProgress();
@@ -50,19 +50,19 @@ document.addEventListener('DOMContentLoaded', function() {
         nextTaskBtn.classList.remove('hidden');
         nextTaskBtn.disabled = true;
         
-        // Показать речь кота
+        // РџРѕРєР°Р·Р°С‚СЊ СЂРµС‡СЊ РєРѕС‚Р°
         setTimeout(() => {
             catSpeech.classList.add('visible');
         }, 1000);
     }
     
-    // Создание шариков в урне
+    // РЎРѕР·РґР°РЅРёРµ С€Р°СЂРёРєРѕРІ РІ СѓСЂРЅРµ
     function createBalls() {
         urn.innerHTML = '';
         drawnBalls = [];
         updateDrawnBalls();
         
-        // Создаем синие шарики
+        // РЎРѕР·РґР°РµРј СЃРёРЅРёРµ С€Р°СЂРёРєРё
         for (let i = 0; i < balls.blue; i++) {
             const ball = document.createElement('div');
             ball.className = 'ball blue';
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
             urn.appendChild(ball);
         }
         
-        // Создаем красные шарики
+        // РЎРѕР·РґР°РµРј РєСЂР°СЃРЅС‹Рµ С€Р°СЂРёРєРё
         for (let i = 0; i < balls.red; i++) {
             const ball = document.createElement('div');
             ball.className = 'ball red';
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Обновление отображения вытянутых шариков
+    // РћР±РЅРѕРІР»РµРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РІС‹С‚СЏРЅСѓС‚С‹С… С€Р°СЂРёРєРѕРІ
     function updateDrawnBalls() {
         drawnBallsContainer.innerHTML = '';
         drawnBalls.forEach(ball => {
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Показать задание
+    // РџРѕРєР°Р·Р°С‚СЊ Р·Р°РґР°РЅРёРµ
     function showTask(index) {
         tasks.forEach((task, i) => {
             task.classList.toggle('active', i === index);
@@ -99,46 +99,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
         nextTaskBtn.disabled = !(index < totalTasks - 1 && completedTasks > index);
         
-        // Сброс состояния для нового задания
+        // РЎР±СЂРѕСЃ СЃРѕСЃС‚РѕСЏРЅРёСЏ РґР»СЏ РЅРѕРІРѕРіРѕ Р·Р°РґР°РЅРёСЏ
         resetUrn();
         
-        // Обновление интерфейса в зависимости от задания
+        // РћР±РЅРѕРІР»РµРЅРёРµ РёРЅС‚РµСЂС„РµР№СЃР° РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ Р·Р°РґР°РЅРёСЏ
         if (index === 0) {
-            // Задание 1: вытянуть 2 синих
+            // Р—Р°РґР°РЅРёРµ 1: РІС‹С‚СЏРЅСѓС‚СЊ 2 СЃРёРЅРёС…
             updateProbabilityDisplay(1);
         } else if (index === 1) {
-            // Задание 2: после красного
+            // Р—Р°РґР°РЅРёРµ 2: РїРѕСЃР»Рµ РєСЂР°СЃРЅРѕРіРѕ
             updateProbabilityDisplay(2);
         } else if (index === 2) {
-            // Задание 3: комбинации
+            // Р—Р°РґР°РЅРёРµ 3: РєРѕРјР±РёРЅР°С†РёРё
             combinationInput.value = '';
             updateProbabilityDisplay(3);
             visualComb.innerHTML = '';
         }
     }
     
-    // Обновление отображения вероятности
+    // РћР±РЅРѕРІР»РµРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё
     function updateProbabilityDisplay(taskNum) {
         if (taskNum === 1) {
-            prob1Display.textContent = `28.6% (4/7 × 3/6)`;
+            prob1Display.textContent = `28.6% (4/7 Г— 3/6)`;
         } else if (taskNum === 2) {
-            // Вероятность вытянуть синий после красного
+            // Р’РµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РІС‹С‚СЏРЅСѓС‚СЊ СЃРёРЅРёР№ РїРѕСЃР»Рµ РєСЂР°СЃРЅРѕРіРѕ
             prob2Display.textContent = `66.7% (4/6)`;
         } else if (taskNum === 3) {
-            // Количество комбинаций 1 синий + 1 красный
+            // РљРѕР»РёС‡РµСЃС‚РІРѕ РєРѕРјР±РёРЅР°С†РёР№ 1 СЃРёРЅРёР№ + 1 РєСЂР°СЃРЅС‹Р№
             const combinations = initialBalls.blue * initialBalls.red;
             prob3Display.textContent = combinations;
         }
     }
     
-    // Генерация всех возможных комбинаций
+    // Р“РµРЅРµСЂР°С†РёСЏ РІСЃРµС… РІРѕР·РјРѕР¶РЅС‹С… РєРѕРјР±РёРЅР°С†РёР№
     function generateCombinations() {
         combinationsGrid.innerHTML = '';
         
         const types = [
-            {name: t('level3.type2blue', '2 синих'), color1: 'blue', color2: 'blue', count: (balls.blue * (balls.blue - 1)) / 2},
-            {name: t('level3.type2red', '2 красных'), color1: 'red', color2: 'red', count: (balls.red * (balls.red - 1)) / 2},
-            {name: t('level3.typeMixed', '1 синий + 1 красный'), color1: 'blue', color2: 'red', count: balls.blue * balls.red}
+            {name: t('level3.type2blue', '2 СЃРёРЅРёС…'), color1: 'blue', color2: 'blue', count: (balls.blue * (balls.blue - 1)) / 2},
+            {name: t('level3.type2red', '2 РєСЂР°СЃРЅС‹С…'), color1: 'red', color2: 'red', count: (balls.red * (balls.red - 1)) / 2},
+            {name: t('level3.typeMixed', '1 СЃРёРЅРёР№ + 1 РєСЂР°СЃРЅС‹Р№'), color1: 'blue', color2: 'red', count: balls.blue * balls.red}
         ];
         
         types.forEach(type => {
@@ -147,17 +147,17 @@ document.addEventListener('DOMContentLoaded', function() {
             comb.innerHTML = `
                 <div class="ball ${type.color1}">${type.color1 === "blue" ? "B" : "R"}</div>
                 <div class="ball ${type.color2}">${type.color2 === "blue" ? "B" : "R"}</div>
-                <div class="comb-count">${t('level3.ways', '{count} способов', { count: type.count })}</div>
+                <div class="comb-count">${t('level3.ways', '{count} \u0441\u043f\u043e\u0441\u043e\u0431\u043e\u0432', { count: type.count })}</div>
             `;
             combinationsGrid.appendChild(comb);
         });
     }
     
-    // Показать все комбинации для задания 3
+    // РџРѕРєР°Р·Р°С‚СЊ РІСЃРµ РєРѕРјР±РёРЅР°С†РёРё РґР»СЏ Р·Р°РґР°РЅРёСЏ 3
     function showAllCombinations() {
         visualComb.innerHTML = '';
         
-        // Создаем все возможные пары 1 синий + 1 красный
+        // РЎРѕР·РґР°РµРј РІСЃРµ РІРѕР·РјРѕР¶РЅС‹Рµ РїР°СЂС‹ 1 СЃРёРЅРёР№ + 1 РєСЂР°СЃРЅС‹Р№
         for (let b = 1; b <= initialBalls.blue; b++) {
             for (let r = 1; r <= initialBalls.red; r++) {
                 const pair = document.createElement('div');
@@ -171,97 +171,97 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Проверка введенного количества комбинаций
+    // РџСЂРѕРІРµСЂРєР° РІРІРµРґРµРЅРЅРѕРіРѕ РєРѕР»РёС‡РµСЃС‚РІР° РєРѕРјР±РёРЅР°С†РёР№
     function checkCombination() {
         const userAnswer = parseInt(combinationInput.value);
         const correctAnswer = initialBalls.blue * initialBalls.red;
         
         if (isNaN(userAnswer)) {
-            catSpeech.textContent = t('level3.enterNumber', 'Пожалуйста, введите число!');
+            catSpeech.textContent = t('level3.enterNumber', 'РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІРІРµРґРёС‚Рµ С‡РёСЃР»Рѕ!');
             return;
         }
         
         if (userAnswer === correctAnswer) {
             catSpeech.textContent = t(
                 'level3.correct',
-                'Правильно! Действительно, существует {count} способов вытянуть 1 синий и 1 красный шарик.',
+                'РџСЂР°РІРёР»СЊРЅРѕ! Р”РµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ, СЃСѓС‰РµСЃС‚РІСѓРµС‚ {count} СЃРїРѕСЃРѕР±РѕРІ РІС‹С‚СЏРЅСѓС‚СЊ 1 СЃРёРЅРёР№ Рё 1 РєСЂР°СЃРЅС‹Р№ С€Р°СЂРёРє.',
                 { count: correctAnswer }
             );
             
-            // Показываем все комбинации
+            // РџРѕРєР°Р·С‹РІР°РµРј РІСЃРµ РєРѕРјР±РёРЅР°С†РёРё
             showAllCombinations();
             
-            // Обновляем прогресс только если задание еще не было выполнено
+            // РћР±РЅРѕРІР»СЏРµРј РїСЂРѕРіСЂРµСЃСЃ С‚РѕР»СЊРєРѕ РµСЃР»Рё Р·Р°РґР°РЅРёРµ РµС‰Рµ РЅРµ Р±С‹Р»Рѕ РІС‹РїРѕР»РЅРµРЅРѕ
             if (completedTasks <= currentTask) {
                 completedTasks = currentTask + 1;
                 updateProgress();
             }
             
-            // Для последнего задания не показываем кнопку "Следующее задание"
+            // Р”Р»СЏ РїРѕСЃР»РµРґРЅРµРіРѕ Р·Р°РґР°РЅРёСЏ РЅРµ РїРѕРєР°Р·С‹РІР°РµРј РєРЅРѕРїРєСѓ "РЎР»РµРґСѓСЋС‰РµРµ Р·Р°РґР°РЅРёРµ"
             if (currentTask < totalTasks - 1) {
                 nextTaskBtn.disabled = false;
             } else {
-                // Для последнего задания показываем завершение
+                // Р”Р»СЏ РїРѕСЃР»РµРґРЅРµРіРѕ Р·Р°РґР°РЅРёСЏ РїРѕРєР°Р·С‹РІР°РµРј Р·Р°РІРµСЂС€РµРЅРёРµ
                 completeLevel();
             }
         } else {
             catSpeech.textContent = t(
                 'level3.incorrect',
-                'Неверно. Попробуй еще раз! Подсказка: умножь количество синих шариков на количество красных.'
+                'РќРµРІРµСЂРЅРѕ. РџРѕРїСЂРѕР±СѓР№ РµС‰Рµ СЂР°Р·! РџРѕРґСЃРєР°Р·РєР°: СѓРјРЅРѕР¶СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРёРЅРёС… С€Р°СЂРёРєРѕРІ РЅР° РєРѕР»РёС‡РµСЃС‚РІРѕ РєСЂР°СЃРЅС‹С….'
             );
         }
     }
     
-    // Вытягивание шариков (для задания 1)
+    // Р’С‹С‚СЏРіРёРІР°РЅРёРµ С€Р°СЂРёРєРѕРІ (РґР»СЏ Р·Р°РґР°РЅРёСЏ 1)
     function drawTwoBalls() {
         if (drawnBalls.length >= 2) return;
         
-        // Анимация вытягивания
+        // РђРЅРёРјР°С†РёСЏ РІС‹С‚СЏРіРёРІР°РЅРёСЏ
         const allBalls = [...urn.querySelectorAll('.ball')];
         const randomIndex = Math.floor(Math.random() * allBalls.length);
         const ball = allBalls[randomIndex];
         
-        // Определяем цвет шарика
+        // РћРїСЂРµРґРµР»СЏРµРј С†РІРµС‚ С€Р°СЂРёРєР°
         const isBlue = ball.classList.contains('blue');
         const ballId = ball.textContent;
         
-        // Добавляем в вытянутые
+        // Р”РѕР±Р°РІР»СЏРµРј РІ РІС‹С‚СЏРЅСѓС‚С‹Рµ
         drawnBalls.push({
             id: ballId,
             color: isBlue ? 'blue' : 'red'
         });
         
-        // Удаляем из урны
+        // РЈРґР°Р»СЏРµРј РёР· СѓСЂРЅС‹
         ball.classList.add('drawn');
         setTimeout(() => {
             urn.removeChild(ball);
             updateDrawnBalls();
             
-            // Обновляем счетчики
+            // РћР±РЅРѕРІР»СЏРµРј СЃС‡РµС‚С‡РёРєРё
             if (isBlue) {
                 balls.blue--;
             } else {
                 balls.red--;
             }
             
-            // Если вытянули 2 шарика, проверяем результат
+            // Р•СЃР»Рё РІС‹С‚СЏРЅСѓР»Рё 2 С€Р°СЂРёРєР°, РїСЂРѕРІРµСЂСЏРµРј СЂРµР·СѓР»СЊС‚Р°С‚
             if (drawnBalls.length === 2) {
                 checkTwoBlueResult();
             } else {
-                // Можно вытягивать второй шарик
+                // РњРѕР¶РЅРѕ РІС‹С‚СЏРіРёРІР°С‚СЊ РІС‚РѕСЂРѕР№ С€Р°СЂРёРє
                 updateProbabilityDisplay(1);
             }
         }, 500);
     }
     
-    // Проверка результата для задания 1
+    // РџСЂРѕРІРµСЂРєР° СЂРµР·СѓР»СЊС‚Р°С‚Р° РґР»СЏ Р·Р°РґР°РЅРёСЏ 1
     function checkTwoBlueResult() {
         const bothBlue = drawnBalls.every(ball => ball.color === 'blue');
         
         if (bothBlue) {
             catSpeech.textContent = t(
                 'level3.twoBlueWin',
-                'Ура! Ты вытянул два синих шарика подряд! Теперь ты видишь, как вычисляется вероятность такого события.'
+                'РЈСЂР°! РўС‹ РІС‹С‚СЏРЅСѓР» РґРІР° СЃРёРЅРёС… С€Р°СЂРёРєР° РїРѕРґСЂСЏРґ! РўРµРїРµСЂСЊ С‚С‹ РІРёРґРёС€СЊ, РєР°Рє РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ С‚Р°РєРѕРіРѕ СЃРѕР±С‹С‚РёСЏ.'
             );
             if (completedTasks <= currentTask) {
                 completedTasks = currentTask + 1;
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             catSpeech.textContent = t(
                 'level3.twoBlueFail',
-                'Не получилось два синих подряд. Попробуй еще раз! Помни, вероятность этого события {prob}.',
+                'РќРµ РїРѕР»СѓС‡РёР»РѕСЃСЊ РґРІР° СЃРёРЅРёС… РїРѕРґСЂСЏРґ. РџРѕРїСЂРѕР±СѓР№ РµС‰Рµ СЂР°Р·! РџРѕРјРЅРё, РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ СЌС‚РѕРіРѕ СЃРѕР±С‹С‚РёСЏ {prob}.',
                 { prob: prob1Display.textContent.split(' (')[0] }
             );
         }
@@ -279,14 +279,14 @@ document.addEventListener('DOMContentLoaded', function() {
         updateProbabilityDisplay(1);
     }
     
-    // Вытягивание после красного (для задания 2)
+    // Р’С‹С‚СЏРіРёРІР°РЅРёРµ РїРѕСЃР»Рµ РєСЂР°СЃРЅРѕРіРѕ (РґР»СЏ Р·Р°РґР°РЅРёСЏ 2)
     function drawAfterRed() {
         if (drawnBalls.length >= 1) return;
         
-        // Сначала вытягиваем красный
+        // РЎРЅР°С‡Р°Р»Р° РІС‹С‚СЏРіРёРІР°РµРј РєСЂР°СЃРЅС‹Р№
         const redBalls = [...urn.querySelectorAll('.ball.red')];
         if (redBalls.length === 0) {
-            catSpeech.textContent = t('level3.noRedLeft', 'Красных шариков больше нет! Нажми "Начать заново".');
+            catSpeech.textContent = t('level3.noRedLeft', 'РљСЂР°СЃРЅС‹С… С€Р°СЂРёРєРѕРІ Р±РѕР»СЊС€Рµ РЅРµС‚! РќР°Р¶РјРё "РќР°С‡Р°С‚СЊ Р·Р°РЅРѕРІРѕ".');
             return;
         }
         
@@ -305,16 +305,16 @@ document.addEventListener('DOMContentLoaded', function() {
             updateDrawnBalls();
             balls.red--;
             
-            // Обновляем вероятность
+            // РћР±РЅРѕРІР»СЏРµРј РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ
             updateProbabilityDisplay(2);
             
-            // Теперь можно вытянуть второй шарик
-            drawAfterRedBtn.textContent = t('level3.drawSecond', 'Вытянуть второй шарик');
+            // РўРµРїРµСЂСЊ РјРѕР¶РЅРѕ РІС‹С‚СЏРЅСѓС‚СЊ РІС‚РѕСЂРѕР№ С€Р°СЂРёРє
+            drawAfterRedBtn.textContent = t('level3.drawSecond', 'Р’С‹С‚СЏРЅСѓС‚СЊ РІС‚РѕСЂРѕР№ С€Р°СЂРёРє');
             drawAfterRedBtn.onclick = drawSecondBallAfterRed;
         }, 500);
     }
     
-    // Вытягивание второго шарика после красного
+    // Р’С‹С‚СЏРіРёРІР°РЅРёРµ РІС‚РѕСЂРѕРіРѕ С€Р°СЂРёРєР° РїРѕСЃР»Рµ РєСЂР°СЃРЅРѕРіРѕ
     function drawSecondBallAfterRed() {
         const allBalls = [...urn.querySelectorAll('.ball')];
         const randomIndex = Math.floor(Math.random() * allBalls.length);
@@ -338,66 +338,66 @@ document.addEventListener('DOMContentLoaded', function() {
                 balls.red--;
             }
             
-            // Проверяем результат
+            // РџСЂРѕРІРµСЂСЏРµРј СЂРµР·СѓР»СЊС‚Р°С‚
             checkAfterRedResult(isBlue);
         }, 500);
     }
     
-    // Проверка результата для задания 2
+    // РџСЂРѕРІРµСЂРєР° СЂРµР·СѓР»СЊС‚Р°С‚Р° РґР»СЏ Р·Р°РґР°РЅРёСЏ 2
     function checkAfterRedResult(secondIsBlue) {
         if (secondIsBlue) {
-            catSpeech.textContent = t('level3.afterRedBlue', 'Ты вытянул синий шарик после красного!');
+            catSpeech.textContent = t('level3.afterRedBlue', 'РўС‹ РІС‹С‚СЏРЅСѓР» СЃРёРЅРёР№ С€Р°СЂРёРє РїРѕСЃР»Рµ РєСЂР°СЃРЅРѕРіРѕ!');
             if (completedTasks <= currentTask) {
                 completedTasks = currentTask + 1;
                 updateProgress();
             }
             nextTaskBtn.disabled = false;
         } else {
-            catSpeech.textContent = t('level3.afterRedRed', 'В этот раз второй шарик оказался красным. Попробуй еще раз!');
+            catSpeech.textContent = t('level3.afterRedRed', 'Р’ СЌС‚РѕС‚ СЂР°Р· РІС‚РѕСЂРѕР№ С€Р°СЂРёРє РѕРєР°Р·Р°Р»СЃСЏ РєСЂР°СЃРЅС‹Рј. РџРѕРїСЂРѕР±СѓР№ РµС‰Рµ СЂР°Р·!');
         }
         
         updateProbabilityDisplay(2);
     }
     
-    // Сброс урны
+    // РЎР±СЂРѕСЃ СѓСЂРЅС‹
     function resetUrn() {
         balls = JSON.parse(JSON.stringify(initialBalls));
         drawnBalls = [];
         createBalls();
         
-        // Сброс кнопки для задания 2
-        drawAfterRedBtn.textContent = t('level3.drawAfterRed', 'Вытянуть после красного');
+        // РЎР±СЂРѕСЃ РєРЅРѕРїРєРё РґР»СЏ Р·Р°РґР°РЅРёСЏ 2
+        drawAfterRedBtn.textContent = t('level3.drawAfterRed', 'Р’С‹С‚СЏРЅСѓС‚СЊ РїРѕСЃР»Рµ РєСЂР°СЃРЅРѕРіРѕ');
         drawAfterRedBtn.onclick = drawAfterRed;
     }
     
-    // Обновление прогресса
+    // РћР±РЅРѕРІР»РµРЅРёРµ РїСЂРѕРіСЂРµСЃСЃР°
     function updateProgress() {
         const percent = (completedTasks / totalTasks) * 100;
         progressFill.style.width = `${percent}%`;
         progressText.textContent = t(
             'level3.progress',
-            '{done}/{total} задач выполнено',
+            '{done}/{total} Р·Р°РґР°С‡ РІС‹РїРѕР»РЅРµРЅРѕ',
             { done: completedTasks, total: totalTasks }
         );
         
-        // Добавляем анимацию при обновлении прогресса
+        // Р”РѕР±Р°РІР»СЏРµРј Р°РЅРёРјР°С†РёСЋ РїСЂРё РѕР±РЅРѕРІР»РµРЅРёРё РїСЂРѕРіСЂРµСЃСЃР°
         progressFill.style.transition = 'width 0.5s ease-in-out';
     }
     
-    // Завершение уровня
+    // Р—Р°РІРµСЂС€РµРЅРёРµ СѓСЂРѕРІРЅСЏ
     function completeLevel() {
-        // Убедимся, что прогресс показывает 100%
+        // РЈР±РµРґРёРјСЃСЏ, С‡С‚Рѕ РїСЂРѕРіСЂРµСЃСЃ РїРѕРєР°Р·С‹РІР°РµС‚ 100%
         completedTasks = totalTasks;
         updateProgress();
         
         catSpeech.textContent = t(
             'level3.complete',
-            'Поздравляю! Ты освоил комбинаторику и зависимые события! Теперь ты понимаешь, как меняются вероятности.'
+            'РџРѕР·РґСЂР°РІР»СЏСЋ! РўС‹ РѕСЃРІРѕРёР» РєРѕРјР±РёРЅР°С‚РѕСЂРёРєСѓ Рё Р·Р°РІРёСЃРёРјС‹Рµ СЃРѕР±С‹С‚РёСЏ! РўРµРїРµСЂСЊ С‚С‹ РїРѕРЅРёРјР°РµС€СЊ, РєР°Рє РјРµРЅСЏСЋС‚СЃСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё.'
         );
         nextTaskBtn.disabled = true;
     }
     
-    // Обработчики событий
+    // РћР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёР№
     drawTwoBtn.addEventListener('click', drawTwoBalls);
     reset1Btn.addEventListener('click', resetUrn);
     reset2Btn.addEventListener('click', resetUrn);
@@ -430,7 +430,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         window.location.href = mapUrl;
     });
+
+    window.addEventListener('i18n:language-changed', function() {
+        generateCombinations();
+        updateProgress();
+    });
     
-    // Инициализация уровня
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СѓСЂРѕРІРЅСЏ
     init();
 });
