@@ -792,6 +792,13 @@
         font-weight: 700;
     }
 
+    html[lang="ru"] #level4 .probability-total,
+    html[lang="ru"] #level4 .total-scans {
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+        font-weight: 600;
+        letter-spacing: 0;
+    }
+
     /* iPhone (Safari) + Russian: use a Cyrillic-friendly system font
        only for cat speech and scanning label. */
     @supports (-webkit-touch-callout: none) {
