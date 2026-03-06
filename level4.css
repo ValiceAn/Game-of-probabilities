@@ -795,17 +795,16 @@
     /* iPhone (Safari) + Russian: use a Cyrillic-friendly system font
        only for cat speech and scanning label. */
     @supports (-webkit-touch-callout: none) {
-        html[lang="ru"] #level4 .speech-bubble,
-        html[lang="ru"] #level4 .scan-text {
-            font-family: -apple-system, "SF Pro Text", "Segoe UI", Arial, sans-serif;
-            letter-spacing: 0;
-        }
-
         html[lang="ru"] #level4 .speech-bubble {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+            letter-spacing: 0;
             font-weight: 600;
+            line-height: 1.35;
         }
 
         html[lang="ru"] #level4 .scan-text {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+            letter-spacing: 0;
             font-weight: 700;
         }
     }
