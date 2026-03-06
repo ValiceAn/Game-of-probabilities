@@ -786,7 +786,7 @@
 
     .control-btn {
         min-height: 44px;
-        padding: 10px 16px;
+        padding: 10px 90px;
         font-size: 0.96rem;
         justify-content: center;
     }
@@ -800,6 +800,13 @@
 
     #back-to-map.control-btn {
         min-width: 11rem;
+    }
+
+    html[lang="en"] #level2 #back-to-map.control-btn {
+        width: clamp(12.5rem, 74vw, 21rem);
+        min-height: 45px;
+        padding: 2px 2px;
+        font-size: 1.04rem;
     }
 
     .challenge-btn {
