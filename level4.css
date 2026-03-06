@@ -791,6 +791,24 @@
     html[lang="ru"] #level4 .control-btn {
         font-weight: 700;
     }
+
+    /* iPhone (Safari) + Russian: use a Cyrillic-friendly system font
+       only for cat speech and scanning label. */
+    @supports (-webkit-touch-callout: none) {
+        html[lang="ru"] #level4 .speech-bubble,
+        html[lang="ru"] #level4 .scan-text {
+            font-family: -apple-system, "SF Pro Text", "Segoe UI", Arial, sans-serif;
+            letter-spacing: 0;
+        }
+
+        html[lang="ru"] #level4 .speech-bubble {
+            font-weight: 600;
+        }
+
+        html[lang="ru"] #level4 .scan-text {
+            font-weight: 700;
+        }
+    }
 }
 
 /* Кот-помощник */
