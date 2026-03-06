@@ -675,7 +675,17 @@
     }
 
     .scanner-screen {
-        height: clamp(200px, 42vw, 245px);
+        height: clamp(175px, 36vw, 215px);
+    }
+
+    .scanner-panel {
+        width: 92%;
+        margin-inline: auto;
+    }
+
+    .scanner-display {
+        width: 100%;
+        padding: 12px;
     }
 
     .stat-bar {
@@ -689,6 +699,32 @@
 
     .stats-and-tasks {
         gap: 16px;
+    }
+
+    .mobile-prob-stats-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 10px;
+        width: 100%;
+        align-items: start;
+    }
+
+    .mobile-prob-stats-row .probability-controls,
+    .mobile-prob-stats-row .stats-panel {
+        margin-top: 0;
+        padding: 10px;
+        min-width: 0;
+    }
+
+    .mobile-prob-stats-row .probability-controls h3,
+    .mobile-prob-stats-row .stats-panel h3 {
+        font-size: 0.92rem;
+    }
+
+    .mobile-prob-stats-row .probability-slider label,
+    .mobile-prob-stats-row .stat-label,
+    .mobile-prob-stats-row .total-scans {
+        font-size: 0.82rem;
     }
 
     .level-controls {
@@ -771,7 +807,7 @@
         right: auto;
         transform: translateX(-50%);
         top: 135px;
-        width: 214px;
+        width: 176px;
         z-index: 20;
     }
 
@@ -812,8 +848,8 @@
         left: 70%;
         right: auto;
         transform: translateX(-50%);
-        top: 185px;
-        width: 182px;
+        top: 207px;
+        width: 156px;
     }
 
     .speech-bubble {

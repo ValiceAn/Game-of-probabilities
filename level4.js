@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const iceValue = document.getElementById('ice-value');
     const lavaValue = document.getElementById('lava-value');
     const totalValue = document.getElementById('total-value');
+    const probabilityControls = document.querySelector('.probability-controls');
+    const statsPanel = document.querySelector('.stats-panel');
+    const scannerControls = document.querySelector('.scanner-controls');
+    const statsAndTasks = document.querySelector('.stats-and-tasks');
     
     // Достижения
     const achievementsPanel = document.getElementById('achievements');
@@ -111,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     nextTaskBtn.classList.remove('hidden');
     nextTaskBtn.disabled = true;
     planets = createPlanetsDictionary();
+    setupMobileProbStatsRow();
     window.addEventListener('i18n:language-changed', refreshDynamicTranslations);
     // Обработчики событий
     scanBtn.addEventListener('click', scanPlanet);
@@ -430,5 +435,62 @@ hintBtns.forEach(btn => {
                 'Попробуй ещё раз! Сделай значение для лавовой планеты больше, чем для ледяной.'
             );
         }
+    }
+
+    function setupMobileProbStatsRow() {
+        if (!probabilityControls || !statsPanel || !scannerControls || !statsAndTasks) {
+            return;
+        }
+
+        const mobileRow = document.createElement('div');
+        mobileRow.className = 'mobile-prob-stats-row';
+        const phoneQuery = window.matchMedia('(max-width: 700px)');
+
+        const probabilityOriginalParent = probabilityControls.parentElement;
+        const probabilityOriginalNext = probabilityControls.nextElementSibling;
+        const statsOriginalParent = statsPanel.parentElement;
+        const statsOriginalNext = statsPanel.nextElementSibling;
+
+        const restoreToDesktop = () => {
+            if (probabilityControls.parentElement !== probabilityOriginalParent) {
+                if (probabilityOriginalNext && probabilityOriginalNext.parentElement === probabilityOriginalParent) {
+                    probabilityOriginalParent.insertBefore(probabilityControls, probabilityOriginalNext);
+                } else {
+                    probabilityOriginalParent.appendChild(probabilityControls);
+                }
+            }
+
+            if (statsPanel.parentElement !== statsOriginalParent) {
+                if (statsOriginalNext && statsOriginalNext.parentElement === statsOriginalParent) {
+                    statsOriginalParent.insertBefore(statsPanel, statsOriginalNext);
+                } else {
+                    statsOriginalParent.appendChild(statsPanel);
+                }
+            }
+
+            if (mobileRow.parentElement) {
+                mobileRow.remove();
+            }
+        };
+
+        const applyMobileLayout = () => {
+            if (statsAndTasks.contains(statsPanel)) {
+                statsAndTasks.insertBefore(mobileRow, statsAndTasks.firstChild);
+            }
+
+            mobileRow.appendChild(probabilityControls);
+            mobileRow.appendChild(statsPanel);
+        };
+
+        const syncLayout = () => {
+            if (phoneQuery.matches) {
+                applyMobileLayout();
+            } else {
+                restoreToDesktop();
+            }
+        };
+
+        syncLayout();
+        window.addEventListener('resize', syncLayout);
     }
 });
