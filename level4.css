@@ -235,7 +235,7 @@
     color: #fec72d;
     text-align: center;
     margin-top: 10px;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .stats-and-tasks {
@@ -752,6 +752,16 @@
         font-size: 0.82rem;
     }
 
+    html[lang="en"] #level4 .mobile-prob-stats-row .total-scans,
+    html[lang="en"] #level4 .total-scans {
+        font-size: 0.9rem;
+    }
+
+    html[lang="en"] #level4 .mobile-prob-stats-row .probability-total,
+    html[lang="en"] #level4 .probability-total {
+        font-size: 0.75rem;
+    }
+
     .level-controls {
         flex-wrap: wrap;
         margin: 12px auto 8px;
@@ -986,7 +996,7 @@
     }
 
     .planet-preview .planet-emoji {
-        font-size: clamp(1.4rem, 13.4vw, 4rem);
+        font-size: clamp(0.2rem, 8.4vw, 4rem);
     }
 
     .planet-preview .planet-info {
