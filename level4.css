@@ -761,6 +761,36 @@
         width: 100%;
         justify-content: center;
     }
+
+    html[lang="ru"] #level4 .level-header h1,
+    html[lang="ru"] #level4 .level-header .subtitle,
+    html[lang="ru"] #level4 .scan-text,
+    html[lang="ru"] #level4 .speech-bubble,
+    html[lang="ru"] #level4 .probability-controls h3,
+    html[lang="ru"] #level4 .stats-panel h3,
+    html[lang="ru"] #level4 .probability-slider label,
+    html[lang="ru"] #level4 .stat-label,
+    html[lang="ru"] #level4 .stat-count,
+    html[lang="ru"] #level4 .total-scans,
+    html[lang="ru"] #level4 .probability-total,
+    html[lang="ru"] #level4 .task h3,
+    html[lang="ru"] #level4 .task p,
+    html[lang="ru"] #level4 .option-btn,
+    html[lang="ru"] #level4 .hint-btn,
+    html[lang="ru"] #level4 .control-btn,
+    html[lang="ru"] #level4 .btn-text,
+    html[lang="ru"] #level4 .planet-preview .planet-info {
+        font-family: 'Comic Neue', cursive;
+        letter-spacing: 0;
+    }
+
+    html[lang="ru"] #level4 .level-header h1,
+    html[lang="ru"] #level4 .task h3,
+    html[lang="ru"] #level4 .stats-panel h3,
+    html[lang="ru"] #level4 .probability-controls h3,
+    html[lang="ru"] #level4 .control-btn {
+        font-weight: 700;
+    }
 }
 
 /* Кот-помощник */
