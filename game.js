@@ -156,8 +156,8 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
         const desiredLeft = planetCenterX - (catWidth / 2);
         const desiredTop = planetCenterY - (catHeight * 0.78) + (planetRadius * 0.42);
         const mobileLeft = planetCenterX - (catWidth / 2);
-        const mobileLevelOffset = level === 1 ? -(catHeight * 0.14) : 0;
-        const mobileTop = (planetRect.top - mapRect.top) - (catHeight * 0.88) + mobileLevelOffset;
+        const mobileTop = (planetRect.top - mapRect.top) - (catHeight * 0.88);
+        const mobileLevel1FixedPosition = level === 1 ? { left: 35.45, top: -28 } : null;
         const maxLeft = Math.max(0, mapRect.width - catWidth);
         const maxTop = Math.max(0, mapRect.height - catHeight);
 
@@ -174,11 +174,13 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
         const fixedPosition = desktopFixedPosition;
         const finalLeft = fixedPosition
             ? fixedPosition.left
-            : (isMobile ? mobileLeft : desiredLeft);
+            : (isMobile ? (mobileLevel1FixedPosition ? mobileLevel1FixedPosition.left : mobileLeft) : desiredLeft);
         const finalTop = fixedPosition
             ? fixedPosition.top
-            : (isMobile ? mobileTop : desiredTop);
-        const minTop = fixedPosition ? -catHeight : (isMobile ? (-catHeight * 0.2) : 0);
+            : (isMobile ? (mobileLevel1FixedPosition ? mobileLevel1FixedPosition.top : mobileTop) : desiredTop);
+        const minTop = fixedPosition
+            ? -catHeight
+            : (isMobile ? (level === 1 ? -catHeight : (-catHeight * 0.2)) : 0);
 
         cat.style.transition = shouldAnimate ? 'left 0.6s, top 0.6s' : 'none';
         cat.style.left = `${clamp(finalLeft, 0, maxLeft)}px`;
