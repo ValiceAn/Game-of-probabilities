@@ -778,6 +778,12 @@ html.skip-screen-fade .screen {
     opacity: 0.7;
 }
 
+@media (min-width: 48rem) {
+    #level-select .title-highlight {
+        width: 400px;
+    }
+}
+
 /* Подзаголовок */
 .subtitle {
     display: flex;
