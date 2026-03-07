@@ -58,6 +58,7 @@
     let currentTask = 0;
     let completedTasks = 0;
     const totalTasks = tasks.length;
+    const finalTaskIndex = totalTasks - 1;
     
     // РСЃС…РѕРґРЅС‹Рµ РґР°РЅРЅС‹Рµ
     const initialBalls = {
@@ -72,6 +73,7 @@
     function init() {
         showTask(currentTask);
         updateProgress();
+        updateFinalTaskResetVisibility();
         createBalls();
         generateCombinations();
         nextTaskBtn.classList.remove('hidden');
@@ -125,6 +127,7 @@
         });
 
         nextTaskBtn.disabled = !(index < totalTasks - 1 && completedTasks > index);
+        updateFinalTaskResetVisibility();
         
         // РЎР±СЂРѕСЃ СЃРѕСЃС‚РѕСЏРЅРёСЏ РґР»СЏ РЅРѕРІРѕРіРѕ Р·Р°РґР°РЅРёСЏ
         resetUrn();
@@ -142,6 +145,13 @@
             updateProbabilityDisplay(3);
             visualComb.innerHTML = '';
         }
+    }
+
+    function updateFinalTaskResetVisibility() {
+        if (!reset3Btn) return;
+        const isLevelCompleted = completedTasks >= totalTasks;
+        const onFinalTask = currentTask === finalTaskIndex;
+        reset3Btn.hidden = isLevelCompleted && onFinalTask;
     }
     
     // РћР±РЅРѕРІР»РµРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё
@@ -422,6 +432,7 @@
             'РџРѕР·РґСЂР°РІР»СЏСЋ! РўС‹ РѕСЃРІРѕРёР» РєРѕРјР±РёРЅР°С‚РѕСЂРёРєСѓ Рё Р·Р°РІРёСЃРёРјС‹Рµ СЃРѕР±С‹С‚РёСЏ! РўРµРїРµСЂСЊ С‚С‹ РїРѕРЅРёРјР°РµС€СЊ, РєР°Рє РјРµРЅСЏСЋС‚СЃСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё.'
         );
         nextTaskBtn.disabled = true;
+        updateFinalTaskResetVisibility();
     }
     
     // РћР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёР№

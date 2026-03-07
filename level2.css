@@ -353,7 +353,7 @@
 .level-controls {
     display: flex;
     justify-content: center;
-    gap: 77px;
+    gap: 19px;
     margin: clamp(28px, 4vh, 56px) auto clamp(10px, 1.8vh, 24px);
     position: relative;
     z-index: 10;
@@ -784,29 +784,29 @@
         font-size: 0.95rem;
     }
 
+    @supports (-webkit-touch-callout: none) {
+        html[lang="ru"] #level2 .task-progress-text {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif !important;
+            font-weight: 600;
+            letter-spacing: 0;
+        }
+    }
+
     .control-btn {
-        min-height: 44px;
-        padding: 10px 90px;
-        font-size: 0.96rem;
+        min-height: 10px;
+        padding: 8px 90px;
+        font-size: 0.86rem;
         justify-content: center;
     }
 
-    .control-btn.big-btn {
-        width: clamp(12.5rem, 74vw, 21rem);
+    #level2 #flip-coin.control-btn.big-btn,
+    #level2 #next-task.control-btn,
+    #level2 #back-to-map.control-btn {
+        width: clamp(2.5rem, 74vw, 21rem);
+        min-width: 0;
         min-height: 45px;
-        padding: 2px 2px;
-        font-size: 1.04rem;
-    }
-
-    #back-to-map.control-btn {
-        min-width: 11rem;
-    }
-
-    html[lang="en"] #level2 #back-to-map.control-btn {
-        width: clamp(12.5rem, 74vw, 21rem);
-        min-height: 45px;
-        padding: 2px 2px;
-        font-size: 1.04rem;
+        padding: 1px 1px;
+        font-size: 0.89rem;
     }
 
     .challenge-btn {
@@ -882,5 +882,44 @@
 
     .level-task-progress {
         margin-bottom: 1.35rem;
+    }
+}
+
+/* Desktop: match Level 1 "Next Task" button sizing for Level 2 action buttons */
+@media (min-width: 64.01rem) {
+
+    #level2 #flip-coin.control-btn.big-btn,
+    #level2 #next-task.control-btn {
+        width: clamp(13.9rem, 12vw, 5.8rem);
+        min-width: 0px;
+        min-height: 3.2rem;
+        padding: 0.8rem 0.55rem;
+        border: 0.125rem solid #4cc9f0;
+        border-radius: 3.125rem;
+        background: rgba(76, 201, 240, 0.2);
+        font-family: 'Bruno Ace SC', sans-serif;
+        font-size: clamp(0.825rem, 1.1vw, 1.23rem);
+        line-height: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.625rem;
+        white-space: normal;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    #level2 #next-task.control-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+        filter: saturate(0.7);
+        box-shadow: none;
+    }
+
+    #level2 #next-task.control-btn:disabled:hover,
+    #level2 #next-task.control-btn:disabled:active {
+        transform: none;
+        background: rgba(76, 201, 240, 0.2);
+        box-shadow: none;
     }
 }

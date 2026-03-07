@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentTask = 0;
     let completedTasks = 0;
     const totalTasks = tasks.length;
+    const desktopQuery = window.matchMedia('(min-width: 64.01rem)');
     
     // Статистика
     const stats = {
@@ -27,6 +28,26 @@ document.addEventListener('DOMContentLoaded', function() {
         odd: 0,
         greaterThan3: 0
     };
+
+    function isCurrentTaskSolved() {
+        const task = tasks[currentTask];
+        return Boolean(task && task.querySelector('.option-btn.correct'));
+    }
+
+    function updateNextTaskButtonState() {
+        const solved = isCurrentTaskSolved();
+        const hasNextTask = currentTask < totalTasks - 1;
+        const canGoNext = solved && hasNextTask;
+
+        if (desktopQuery.matches) {
+            nextTaskBtn.classList.remove('hidden');
+            nextTaskBtn.disabled = !canGoNext;
+            return;
+        }
+
+        nextTaskBtn.disabled = !canGoNext;
+        nextTaskBtn.classList.toggle('hidden', !canGoNext);
+    }
     
     // Показать первое задание
     showTask(currentTask);
@@ -65,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
         currentTask++;
         if (currentTask < totalTasks) {
             showTask(currentTask);
-            nextTaskBtn.classList.add('hidden');
         } else {
             // Все задания выполнены
             completeLevel();
@@ -108,7 +128,7 @@ optionBtns.forEach(btn => {
             
             // Показать кнопку следующего задания
             if (currentTask < totalTasks - 1) {
-                nextTaskBtn.classList.remove('hidden');
+                updateNextTaskButtonState();
             } else {
                 completeLevel();
             }
@@ -122,6 +142,7 @@ optionBtns.forEach(btn => {
                 'level1.tryAgain',
                 'Попробуй ещё раз! Вспомни, сколько всего граней у кубика.'
             );
+            updateNextTaskButtonState();
         }
     });
 });
@@ -158,7 +179,7 @@ function showTask(index) {
     });
     
     // Скрыть кнопку следующего задания
-    nextTaskBtn.classList.add('hidden');
+    updateNextTaskButtonState();
 }
     
     function rotateDiceToValue(value) {
@@ -277,6 +298,7 @@ function showTask(index) {
 
     function refreshDynamicTexts() {
         updateProgress();
+        updateNextTaskButtonState();
 
         if (stats.totalRolls > 0) {
             renderStats();
@@ -292,4 +314,9 @@ function showTask(index) {
     }
 
     window.addEventListener('i18n:language-changed', refreshDynamicTexts);
+    if (typeof desktopQuery.addEventListener === 'function') {
+        desktopQuery.addEventListener('change', updateNextTaskButtonState);
+    } else if (typeof desktopQuery.addListener === 'function') {
+        desktopQuery.addListener(updateNextTaskButtonState);
+    }
 });

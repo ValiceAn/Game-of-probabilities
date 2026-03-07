@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Элементы интерфейса
     const coin = document.getElementById('coin');
     const flipBtn = document.getElementById('flip-coin');
+    const nextTaskBtn = document.getElementById('next-task');
     const backToMapBtn = document.getElementById('back-to-map');
     const catSpeech = document.getElementById('cat-speech');
     const totalFlipsEl = document.getElementById('total-flips');
@@ -33,13 +34,44 @@ document.addEventListener('DOMContentLoaded', function() {
     let gameState = 'flipping'; // 'flipping', 'risk-choice', 'monty-hall', 'completed'
     let selectedDoor = null;
     let prizeDoor = null;
+    let currentChallengeId = null;
+    let currentChallengeAnswered = false;
+    let currentSelectedOptionIndex = null;
+    let currentSelectedWasCorrect = false;
+    const shownChallengeIds = new Set();
     const completedChallengeIds = new Set();
     const totalChallengeTasks = 3;
+
+    function hideNextTaskButton() {
+        if (!nextTaskBtn) return;
+        nextTaskBtn.hidden = true;
+        nextTaskBtn.disabled = true;
+    }
+
+    function showNextTaskButton() {
+        if (!nextTaskBtn) return;
+        nextTaskBtn.hidden = false;
+        nextTaskBtn.disabled = false;
+    }
+
+    function lockNextTaskButton() {
+        if (!nextTaskBtn) return;
+        nextTaskBtn.hidden = false;
+        nextTaskBtn.disabled = true;
+    }
+
+    function resetCurrentChallengeState() {
+        currentChallengeAnswered = false;
+        currentSelectedOptionIndex = null;
+        currentSelectedWasCorrect = false;
+    }
 
     // Инициализация игры
     function initGame() {
         updateStats();
         updateTaskProgress();
+        shownChallengeIds.clear();
+        hideNextTaskButton();
         showRandomChallenge();
     }
 
@@ -50,6 +82,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Бросок монетки
     flipBtn.addEventListener('click', flipCoin);
+    if (nextTaskBtn) {
+        nextTaskBtn.addEventListener('click', function() {
+            showRandomChallenge();
+        });
+    }
 
     // Назад на карту
     backToMapBtn.addEventListener('click', function() {
@@ -191,93 +228,162 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1000);
         }
         
-        // После каждого броска добавляем обучающий вопрос
-        if (totalFlips > 0 && totalFlips < flipsGoal && headsCount < headsGoal) {
-            setTimeout(showRandomChallenge, 1500);
-        }
+        // Вопросы меняются только вручную через кнопку "Следующая задача".
     }
 
-    // Показать случайный обучающий вопрос
-    function showRandomChallenge() {
-        const challenges = [
+    function getChallengePool() {
+        return [
             {
                 id: 'ch1',
-                question: t('level2.ch1.q', 'Какова вероятность, что следующий бросок будет орлом?'),
+                question: t('level2.ch1.q', 'What is the probability that the next flip is heads?'),
                 options: [
                     t('level2.ch1.o1', '50%'),
                     t('level2.ch1.o2', '70%'),
-                    t('level2.ch1.o3', 'Зависит от предыдущих бросков')
+                    t('level2.ch1.o3', 'Depends on previous flips')
                 ],
                 correct: 0,
-                explanation: t('level2.ch1.ex', 'Каждый бросок монетки независим, вероятность орла всегда 50%!')
+                explanation: t('level2.ch1.ex', 'Each coin flip is independent, so the probability of heads is always 50%!')
             },
             {
                 id: 'ch2',
-                question: t('level2.ch2.q', 'Если было 5 орлов подряд, что вероятнее на 6-й бросок?'),
+                question: t('level2.ch2.q', 'If there were 5 heads in a row, what is more likely on the 6th flip?'),
                 options: [
-                    t('level2.ch2.o1', 'Орёл'),
-                    t('level2.ch2.o2', 'Решка'),
-                    t('level2.ch2.o3', 'Одинаково')
+                    t('level2.ch2.o1', 'Heads'),
+                    t('level2.ch2.o2', 'Tails'),
+                    t('level2.ch2.o3', 'Equal')
                 ],
                 correct: 2,
-                explanation: t('level2.ch2.ex', 'Монетка не помнит предыдущие броски - это называется независимость событий!')
+                explanation: t('level2.ch2.ex', 'The coin does not remember previous flips - this is event independence!')
             },
             {
                 id: 'ch3',
-                question: t('level2.ch3.q', 'Какова вероятность двух орлов подряд?'),
+                question: t('level2.ch3.q', 'What is the probability of two heads in a row?'),
                 options: [
                     t('level2.ch3.o1', '25%'),
                     t('level2.ch3.o2', '50%'),
                     t('level2.ch3.o3', '75%')
                 ],
                 correct: 0,
-                explanation: t('level2.ch3.ex', 'Вероятность каждого орла 50%, а двух подряд - 50% × 50% = 25%!')
+                explanation: t('level2.ch3.ex', 'Each heads is 50%, so two in a row is 50% × 50% = 25%!')
             }
         ];
-        
-        const challenge = challenges[Math.floor(Math.random() * challenges.length)];
-        
+    }
+
+    function renderChallenge(challenge, restoreCurrentState = false) {
+        if (!challenge) return;
+        currentChallengeId = challenge.id;
+        if (!restoreCurrentState || !currentChallengeAnswered) {
+            hideNextTaskButton();
+        }
+
         challengeContainer.innerHTML = `
-            <h3>${t('level2.challengeTitle', 'Вопрос на размышление')}</h3>
+            <h3>${t('level2.challengeTitle', 'Think About It')}</h3>
             <p>${challenge.question}</p>
             <div class="challenge-options">
                 ${challenge.options.map((option, i) => `
-                    <button class="challenge-btn" data-correct="${i === challenge.correct}">${option}</button>
+                    <button class="challenge-btn" data-index="${i}" data-correct="${i === challenge.correct}">${option}</button>
                 `).join('')}
             </div>
             <p class="challenge-explanation hidden">${challenge.explanation}</p>
         `;
-        
-        // Обработчики для кнопок ответов
-        document.querySelectorAll('.challenge-btn').forEach(btn => {
+
+        const answerButtons = challengeContainer.querySelectorAll('.challenge-btn');
+
+        if (
+            restoreCurrentState &&
+            currentChallengeAnswered &&
+            Number.isInteger(currentSelectedOptionIndex)
+        ) {
+            const selectedBtn = challengeContainer.querySelector(
+                `.challenge-btn[data-index="${currentSelectedOptionIndex}"]`
+            );
+            if (selectedBtn) {
+                selectedBtn.classList.add(currentSelectedWasCorrect ? 'correct' : 'incorrect');
+            }
+
+            const explanationEl = challengeContainer.querySelector('.challenge-explanation');
+            if (explanationEl) explanationEl.classList.remove('hidden');
+
+            answerButtons.forEach((answerBtn) => {
+                answerBtn.disabled = true;
+            });
+
+            const hasMoreChallenges = getChallengePool().some(
+                (item) => !shownChallengeIds.has(item.id)
+            );
+            if (hasMoreChallenges) {
+                showNextTaskButton();
+            } else {
+                lockNextTaskButton();
+            }
+        }
+
+        answerButtons.forEach((btn) => {
             btn.addEventListener('click', function() {
+                if (currentChallengeAnswered) return;
+
                 const isCorrect = this.getAttribute('data-correct') === 'true';
-                
+                currentChallengeAnswered = true;
+                currentSelectedOptionIndex = Number(this.getAttribute('data-index'));
+                currentSelectedWasCorrect = isCorrect;
+
                 if (isCorrect) {
                     this.classList.add('correct');
-                    updateCatSpeech(t('level2.correctPrefix', '\u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e! ') + challenge.explanation);
+                    updateCatSpeech(t('level2.correctPrefix', 'Correct! ') + challenge.explanation);
                     completedChallengeIds.add(challenge.id);
                     updateTaskProgress();
                 } else {
                     this.classList.add('incorrect');
-                    updateCatSpeech(t('level2.incorrectPrefix', 'Не совсем! ') + challenge.explanation);
+                    updateCatSpeech(t('level2.incorrectPrefix', 'Not quite! ') + challenge.explanation);
                 }
-                
-                // Показываем объяснение
-                document.querySelector('.challenge-explanation').classList.remove('hidden');
-                
-                // Делаем кнопки неактивными
-                document.querySelectorAll('.challenge-btn').forEach(b => {
-                    b.disabled = true;
+
+                const explanationEl = challengeContainer.querySelector('.challenge-explanation');
+                if (explanationEl) explanationEl.classList.remove('hidden');
+
+                challengeContainer.querySelectorAll('.challenge-btn').forEach((answerBtn) => {
+                    answerBtn.disabled = true;
                 });
+
+                const hasMoreChallenges = getChallengePool().some(
+                    (item) => !shownChallengeIds.has(item.id)
+                );
+                if (hasMoreChallenges) {
+                    showNextTaskButton();
+                } else {
+                    lockNextTaskButton();
+                }
             });
         });
+    }
+
+    function showChallengeById(challengeId, restoreCurrentState = false) {
+        const challenge = getChallengePool().find((item) => item.id === challengeId);
+        if (challenge) {
+            renderChallenge(challenge, restoreCurrentState);
+        } else {
+            showRandomChallenge();
+        }
+    }
+
+    // Показать случайный обучающий вопрос
+    function showRandomChallenge() {
+        const challenges = getChallengePool();
+        const unseen = challenges.filter((challenge) => !shownChallengeIds.has(challenge.id));
+        if (unseen.length === 0) {
+            lockNextTaskButton();
+            return;
+        }
+        const challenge = unseen[Math.floor(Math.random() * unseen.length)];
+        shownChallengeIds.add(challenge.id);
+        resetCurrentChallengeState();
+        renderChallenge(challenge);
     }
 
     // Начать игру с парадоксом Монти Холла
     function startMontyHallGame() {
         gameState = 'monty-hall';
         flipBtn.disabled = true;
+        hideNextTaskButton();
         
         // Случайно выбираем дверь с призом
         prizeDoor = Math.floor(Math.random() * 3) + 1;
@@ -407,14 +513,19 @@ document.addEventListener('DOMContentLoaded', function() {
         tailsCount = 0;
         riskTaken = false;
         gameState = 'flipping';
+        currentChallengeId = null;
+        resetCurrentChallengeState();
+        shownChallengeIds.clear();
         updateStats();
         updateCatSpeech(t('level2.reset', 'Давай попробуем ещё раз! Бросай монетку и собирай орлов.'));
+        hideNextTaskButton();
         showRandomChallenge(); // Показываем вопрос после сброса
     }
 
     // Завершение уровня
     function completeLevel() {
         gameState = 'completed';
+        hideNextTaskButton();
         updateCatSpeech(
             t(
                 'level2.complete',
@@ -435,7 +546,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
         if (challengeContainer && challengeContainer.children.length > 0) {
-            showRandomChallenge();
+            if (currentChallengeId) {
+                showChallengeById(currentChallengeId, true);
+            } else {
+                showRandomChallenge();
+            }
         }
 
         if (gameState === 'completed') {

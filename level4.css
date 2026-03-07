@@ -772,6 +772,13 @@
         justify-content: center;
     }
 
+    #level4 #next-task.control-btn,
+    #level4 #back-to-map.control-btn,
+    #level4 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level4 {
+        width: clamp(2.5rem, 74vw, 21rem);
+        margin-inline: auto;
+    }
+
     html[lang="ru"] #level4 .level-header h1,
     html[lang="ru"] #level4 .level-header .subtitle,
     html[lang="ru"] #level4 .scan-text,

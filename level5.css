@@ -859,6 +859,21 @@
     }
 }
 
+@media (max-width: 48rem) {
+    #level5 #generate-stars.control-btn.big-btn,
+    #level5 #reset-lab.control-btn,
+    #level5 #back-to-map.control-btn,
+    #level5 .controls.level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level5 {
+        width: clamp(2.5rem, 74vw, 21rem);
+        min-width: 0;
+        min-height: 45px;
+        padding: 1px 1px;
+        font-size: 0.89rem;
+        flex: 0 0 auto;
+        margin-inline: auto;
+    }
+}
+
 @media (max-width: 640px) {
     .lab-container {
         justify-content: flex-end;
@@ -892,6 +907,19 @@
     .control-btn,
     .big-btn {
         width: 100%;
+    }
+
+    #level5 #generate-stars.control-btn.big-btn,
+    #level5 #reset-lab.control-btn,
+    #level5 #back-to-map.control-btn,
+    #level5 .controls.level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level5 {
+        width: clamp(2.5rem, 74vw, 21rem);
+        min-width: 0;
+        min-height: 45px;
+        padding: 1px 1px;
+        font-size: 0.89rem;
+        flex: 0 0 auto;
+        margin-inline: auto;
     }
 
     .input-container {

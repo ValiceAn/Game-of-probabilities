@@ -110,7 +110,7 @@ html.preload-active body>*:not(#global-preloader) {
     background: rgba(5, 8, 40, 0.9);
     color: #ffffff;
     font-family: 'Comic Neue', sans-serif;
-    font-weight: 700;
+    font-weight: 550;
     font-size: 0.78rem;
     line-height: 1;
     padding: 10px 16px;
@@ -137,7 +137,7 @@ html.preload-active body>*:not(#global-preloader) {
 
 .lang-switch-btn.lang-slot-inline,
 .lang-switch-btn.lang-slot-controls {
-    width: min(100%, 22rem);
+    width: min(100%, 17.5rem);
 }
 
 .lang-switch-btn.lang-slot-controls {
@@ -147,25 +147,25 @@ html.preload-active body>*:not(#global-preloader) {
 .lang-switch-btn.lang-slot-inline {
     display: flex;
     justify-content: center;
-    margin: 0.75rem auto 1rem;
+    margin: 0.05rem auto 1rem;
 }
 
 .lang-switch-btn.lang-page-index {
-    font-size: 1rem;
+    font-size: 0.7rem;
 }
 
 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level1 {
     flex: 0 0 auto;
     width: fit-content;
     padding: 10px 296px;
-    font-size: 1rem;
+    font-size: 0.8rem;
     margin: 0.35rem auto 0;
     align-self: center;
     order: 99;
 }
 
 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level2 {
-    font-size: 1rem;
+    font-size: 0.8rem;
 }
 
 .lang-switch-btn.lang-page-level3,
@@ -1855,12 +1855,24 @@ html.skip-screen-fade .screen {
 
     .map-btn {
         position: static;
-        width: min(100%, 22.5rem);
+        width:  min(100%, 12.5rem);
         margin: -3.25rem auto 0;
         justify-content: center;
         padding: 9px 18px;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         gap: 8px;
+    }
+
+    #level-select > .map-btn + .lang-switch-btn.lang-slot-inline.lang-page-index {
+        width: min(100%, 12.5rem);
+    }
+
+    #level-select > .map-btn {
+        margin: -3.25rem 0 0 auto;
+    }
+
+    #level-select > .map-btn + .lang-switch-btn.lang-slot-inline.lang-page-index {
+        margin: 0.1rem 0 0.1rem auto;
     }
 
     .cosmic-title {
@@ -2122,5 +2134,46 @@ html[lang="ru"] #level5 .level-header h1 {
     .lang-switch-btn:hover,
     .lang-switch-btn:active {
         transform: none !important;
+    }
+}
+
+/* Desktop only: keep Back to Map small and fixed at lower-right on levels 1-5 */
+@media (min-width: 64.01rem) {
+    #level1 .level-controls > #back-to-map.control-btn,
+    #level2 .level-controls > #back-to-map.control-btn,
+    #level3 .level-controls > #back-to-map.control-btn,
+    #level4 .level-controls > #back-to-map.control-btn,
+    #level5 .level-controls > #back-to-map.control-btn,
+    #level1 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level1,
+    #level2 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level2,
+    #level3 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level3,
+    #level4 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level4,
+    #level5 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level5 {
+        position: fixed !important;
+        right: 1.1rem !important;
+        width: clamp(10.5rem, 15vw, 12.5rem) !important;
+        min-width: 0 !important;
+        min-height: 2.65rem !important;
+        padding: 0.45rem 0.8rem !important;
+        margin: 0 !important;
+        font-size: 0.88rem !important;
+        justify-content: center !important;
+        z-index: 140 !important;
+    }
+
+    #level1 .level-controls > #back-to-map.control-btn,
+    #level2 .level-controls > #back-to-map.control-btn,
+    #level3 .level-controls > #back-to-map.control-btn,
+    #level4 .level-controls > #back-to-map.control-btn,
+    #level5 .level-controls > #back-to-map.control-btn {
+        bottom: 1rem !important;
+    }
+
+    #level1 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level1,
+    #level2 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level2,
+    #level3 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level3,
+    #level4 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level4,
+    #level5 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level5 {
+        bottom: 4.15rem !important;
     }
 }

@@ -113,6 +113,7 @@
         'level2.taskProgress': '{done}/{total} tasks completed',
         'level2.catIntro': 'Hi! Flip the coin and collect heads. You need 7 out of 10 flips!',
         'level2.flip': 'Flip Coin',
+        'level2.next': 'Next Task',
         'level2.riskTitle': 'Risk Choice!',
         'level2.riskText1': 'You can take a risk! If the next flip is:',
         'level2.riskLi1': 'Heads: you get +3 points (instead of +1)',
@@ -306,6 +307,7 @@
         'level2.taskProgress': '{done}/{total} задач выполнено',
         'level2.catIntro': 'Привет! Бросай монетку и собирай орлов. Нужно 7 из 10 бросков!',
         'level2.flip': 'Бросить монетку',
+        'level2.next': 'Следующая задача',
         'level2.riskTitle': 'Выбор риска!',
         'level2.riskText1': 'Ты можешь рискнуть! Если следующий бросок будет:',
         'level2.riskLi1': 'Орёл: получишь +3 очка (вместо +1)',
@@ -486,7 +488,7 @@
         'level2.html': [
             ['text', 'title', 'level2.title'], ['text', '.level-header h1', 'level2.h1'], ['text', '.level-header .subtitle', 'level2.subtitle'],
             ['text', '.stats-panel h3', 'level2.stats'], ['text', '.stats-panel .stat-item:nth-child(2) > span:first-child', 'level2.total'], ['text', '.stats-panel .stat-item:nth-child(3) > span:first-child', 'level2.heads'], ['text', '.stats-panel .stat-item:nth-child(4) > span:first-child', 'level2.tails'], ['text', '.stats-panel .stat-item:nth-child(5) > span:first-child', 'level2.goal'], ['text', '#progress-text', 'level2.progress'],
-            ['text', '#cat-speech', 'level2.catIntro'], ['text', '#flip-coin .btn-text', 'level2.flip'], ['text', '#back-to-map .btn-text', 'common.backMap'],
+            ['text', '#cat-speech', 'level2.catIntro'], ['text', '#flip-coin .btn-text', 'level2.flip'], ['text', '#next-task .btn-text', 'level2.next'], ['text', '#back-to-map .btn-text', 'common.backMap'],
             ['text', '#risk-modal h3', 'level2.riskTitle'], ['text', '#risk-modal .modal-content > p:nth-of-type(1)', 'level2.riskText1'], ['text', '#risk-modal li:nth-child(1)', 'level2.riskLi1'], ['text', '#risk-modal li:nth-child(2)', 'level2.riskLi2'], ['text', '#risk-modal .modal-content > p:nth-of-type(2)', 'level2.riskText2'], ['text', '#take-risk', 'level2.riskBtn'], ['text', '#play-safe', 'level2.safeBtn'],
             ['text', '#monty-hall-modal h3', 'level2.montyTitle'], ['text', '#monty-hall-modal .modal-content > p', 'level2.montyIntro'], ['text', '#monty-continue', 'level2.continue']
         ],

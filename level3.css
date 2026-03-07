@@ -870,6 +870,13 @@
         font-size: clamp(0.9rem, 3vw, 1rem);
     }
 
+    #level3 #next-task.control-btn,
+    #level3 #back-to-map.control-btn,
+    #level3 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level3 {
+        width: clamp(2.5rem, 74vw, 21rem);
+        margin-inline: auto;
+    }
+
     #level3 .progress-container {
         grid-area: progress;
         width: calc(100% - 2 * var(--pad-inline));

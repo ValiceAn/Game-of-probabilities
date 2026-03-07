@@ -430,6 +430,20 @@ body {
     transform: translateY(-0.0625rem);
 }
 
+#next-task.control-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    filter: saturate(0.7);
+    box-shadow: none;
+}
+
+#next-task.control-btn:disabled:hover,
+#next-task.control-btn:disabled:active {
+    transform: none;
+    background: rgba(76, 201, 240, 0.2);
+    box-shadow: none;
+}
+
 .control-btn.big-btn {
     padding: 0.8rem 0.55rem;
     font-size: clamp(0.825rem, 1.1vw, 1.23rem);
@@ -819,6 +833,14 @@ body {
     .control-btn.big-btn {
         padding: 0.7rem 0.85rem;
         font-size: clamp(0.95rem, 3.2vw, 1.06rem);
+    }
+
+    #level1 #roll-dice.control-btn.big-btn,
+    #level1 #next-task.control-btn,
+    #level1 #back-to-map.control-btn,
+    #level1 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level1 {
+        width: clamp(2.5rem, 74vw, 21rem);
+        margin-inline: auto;
     }
 
     .progress-container {
