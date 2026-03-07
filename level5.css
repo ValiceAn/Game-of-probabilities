@@ -922,3 +922,38 @@
         padding: 0.55rem 0.65rem;
     }
 }
+
+@media (min-width: 1101px) {
+    #level5 .controls.level-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #level5 .controls.level-controls > #generate-stars,
+    #level5 .controls.level-controls > #reset-lab,
+    #level5 .controls.level-controls > #back-to-map {
+        flex: 1 1 0;
+        min-width: 0;
+        justify-content: center;
+    }
+
+    #level5 .controls.level-controls > #generate-stars {
+        font-size: 0.96rem;
+        padding: 0.5rem 0.95rem;
+    }
+
+    #level5 .controls.level-controls > #reset-lab,
+    #level5 .controls.level-controls > #back-to-map {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.85rem;
+    }
+
+    #level5 .controls.level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level5 {
+        order: 99;
+        margin: 8px auto 0;
+        align-self: center;
+    }
+}

@@ -1016,6 +1016,24 @@
     }
 }
 
-.planet-info {
-    font-size: 35px;
+@media (min-width: 701px) {
+    .planet-preview .planet-emoji {
+        font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+    }
+
+    .planet-preview .planet-info {
+        max-width: 56%;
+        font-size: clamp(0.9rem, 1.35vw, 1.15rem);
+        line-height: 1.2;
+    }
+
+    .planet-preview .planet-info h3 {
+        font-size: clamp(1.8rem, 3vw, 2.7rem);
+        margin: 0 0 4px;
+    }
+
+    .planet-preview .planet-info p {
+        font-size: clamp(0.95rem, 1.8vw, 1.45rem);
+        margin: 0;
+    }
 }

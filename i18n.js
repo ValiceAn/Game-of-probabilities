@@ -288,6 +288,72 @@
         'level5.complete': 'You proved it: even in quantum chaos there is order!'
     });
 
+    const RU = {
+        'common.backMain': 'Назад в главное меню',
+        'common.backMap': 'На карту',
+        'common.showHint': 'Показать подсказку',
+        'common.hideHint': 'Скрыть подсказку',
+
+        'level4.title': 'Космический Генератор Планет | Космический Кот',
+        'level4.h1': 'Космический Генератор Планет',
+        'level4.subtitle': 'Исследуй вероятность через сканирование планет!',
+        'level4.scanText': 'СКАНИРОВАНИЕ...',
+        'level4.scan': 'Сканировать',
+        'level4.probTitle': 'Настройки вероятности:',
+        'level4.greenLabel': 'Зелёная: <span id="green-value">60</span>%',
+        'level4.iceLabel': 'Ледяная: <span id="ice-value">30</span>%',
+        'level4.lavaLabel': 'Лавовая: <span id="lava-value">10</span>%',
+        'level4.totalLabel': 'Всего: <span id="total-value">100</span>%',
+        'level4.stats': 'Результаты сканирований:',
+        'level4.greenPlural': 'Зелёные:',
+        'level4.icePlural': 'Ледяные:',
+        'level4.lavaPlural': 'Лавовые:',
+        'level4.totalScans': 'Всего сканирований: <span id="total-scans">0</span>',
+        'level4.task1': 'Задание 1: Угадай вероятность',
+        'level4.q1': 'Как ты думаешь, какая планета будет встречаться чаще при текущих настройках?',
+        'level4.greenOne': 'Зелёная',
+        'level4.iceOne': 'Ледяная',
+        'level4.lavaOne': 'Лавовая',
+        'level4.task2': 'Задание 2: Предскажи результат',
+        'level4.q2': 'Если сделать 10 сканирований, сколько примерно будет зелёных планет?',
+        'level4.hint2': 'Подсказка: умножь количество сканирований (10) на вероятность зелёной планеты (60% или 0.6).',
+        'level4.task3': 'Задание 3: Создай свою систему',
+        'level4.q3': 'Попробуй сделать так, чтобы лавовые планеты встречались чаще ледяных!',
+        'level4.checkSettings': 'Проверить мои настройки',
+        'level4.hint3': 'Подсказка: сделай значение лавовой планеты больше, чем ледяной.',
+        'level4.next': 'Следующее задание',
+        'level4.achievements': 'Достижения:',
+        'level4.achLavaIcon': 'Лава',
+        'level4.achLavaText': 'Термоустойчивый сканер (3 лавовые подряд)',
+        'level4.achIceIcon': 'Лёд',
+        'level4.achIceText': 'Осторожно: обледенение! (5 ледяных подряд)',
+        'level4.catIntro': 'Привет, исследователь! Настрой вероятности и сканируй планеты.',
+        'level4.planetGreenName': 'Зелёная планета',
+        'level4.planetGreenEmoji': 'Зелёная',
+        'level4.planetGreenDesc': 'Идеальна для базы! Есть вода и растения.',
+        'level4.planetIceName': 'Ледяная планета',
+        'level4.planetIceEmoji': 'Ледяная',
+        'level4.planetIceDesc': 'Холодно, но есть полезные ископаемые.',
+        'level4.planetLavaName': 'Лавовая планета',
+        'level4.planetLavaEmoji': 'Лавовая',
+        'level4.planetLavaDesc': 'Опасно, но можно собрать редкие кристаллы!',
+        'level4.tryAgain': 'Попробуй ещё раз! Обрати внимание на вероятности.',
+        'level4.sumLong': 'Сумма вероятностей должна быть ровно 100%! Настрой сканер правильно.',
+        'level4.sumShort': 'Сумма вероятностей должна быть ровно 100%!',
+        'level4.scanPhrase1': 'Найдена {planet}! {desc}',
+        'level4.scanPhrase2': 'Результат сканирования: {planetName}!',
+        'level4.scanPhrase3': 'Ух ты! Это {planet}!',
+        'level4.good1': 'Правильно! Ты отлично разбираешься в вероятности!',
+        'level4.good2': 'Верно! Космический сканер гордится тобой!',
+        'level4.good3': 'Молодец! Ты решил задачу как настоящий учёный!',
+        'level4.good4': 'Отличная работа! Ты понял принцип вероятности!',
+        'level4.complete': 'Поздравляю! Ты завершил уровень "Космический Генератор Планет"! Теперь ты знаешь, как работает вероятность!',
+        'level4.achLava': 'Удивительно! 3 лавовые планеты подряд! Ты получил термоустойчивый сканер!',
+        'level4.achIce': 'Осторожно! 5 ледяных планет подряд! Корабль может замедлиться из-за обледенения!',
+        'level4.settingsOk': 'Отлично! Теперь лавовые планеты будут встречаться чаще ледяных!',
+        'level4.settingsRetry': 'Попробуй ещё раз! Сделай значение для лавовой планеты больше, чем для ледяной.'
+    };
+
     const STATIC = {
         'index.html': [
             ['text', 'title', 'index.title'],
@@ -413,7 +479,7 @@
     let currentLang = getLang();
 
     function t(key, fallback = key, params = {}) {
-        const source = currentLang === 'en' ? EN : null;
+        const source = currentLang === 'en' ? EN : RU;
         return format(source && source[key] ? source[key] : fallback, params);
     }
 
@@ -514,6 +580,10 @@
     function getLocalizedValue(key, fallback, params = {}) {
         if (currentLang === 'en') {
             return EN[key] ? format(EN[key], params) : fallback;
+        }
+
+        if (RU[key]) {
+            return format(RU[key], params);
         }
 
         if (RU_PARAM_TEMPLATES[key]) {
