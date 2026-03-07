@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1025">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Космический Генератор Планет | Космический Кот</title>
+    <title>РљРѕСЃРјРёС‡РµСЃРєРёР№ Р“РµРЅРµСЂР°С‚РѕСЂ РџР»Р°РЅРµС‚ | РљРѕСЃРјРёС‡РµСЃРєРёР№ РљРѕС‚</title>
     <script>document.documentElement.classList.add('preload-active');</script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="level4.css">
@@ -16,7 +16,7 @@
 </head>
 <body>
     <div id="level4" class="game-screen visible">
-        <!-- Космический фон -->
+        <!-- РљРѕСЃРјРёС‡РµСЃРєРёР№ С„РѕРЅ -->
         <div class="space-bg">
             <div class="planet big-planet"></div>
             <div class="planet small-planet"></div>
@@ -24,44 +24,44 @@
             <div class="cosmic-dust"></div>
         </div>
 
-        <!-- Заголовок уровня -->
+        <!-- Р—Р°РіРѕР»РѕРІРѕРє СѓСЂРѕРІРЅСЏ -->
         <div class="level-header">
-            <h1>Космический Генератор Планет</h1>
-            <div class="subtitle">Исследуй вероятность через сканирование планет!</div>
+            <h1>РљРѕСЃРјРёС‡РµСЃРєРёР№ Р“РµРЅРµСЂР°С‚РѕСЂ РџР»Р°РЅРµС‚</h1>
+            <div class="subtitle">РСЃСЃР»РµРґСѓР№ РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ С‡РµСЂРµР· СЃРєР°РЅРёСЂРѕРІР°РЅРёРµ РїР»Р°РЅРµС‚!</div>
         </div>
 
-        <!-- Основной контент уровня -->
+        <!-- РћСЃРЅРѕРІРЅРѕР№ РєРѕРЅС‚РµРЅС‚ СѓСЂРѕРІРЅСЏ -->
         <div class="planet-generator-container">
-            <!-- Панель сканера -->
+            <!-- РџР°РЅРµР»СЊ СЃРєР°РЅРµСЂР° -->
             <div class="scanner-panel">
                 <div class="scanner-display" id="scanner-display">
                     <div class="scanner-screen">
                         <div class="planet-preview hidden" id="planet-preview"></div>
                         <div class="scanning-animation" id="scanning-animation">
                             <div class="scan-line"></div>
-                            <div class="scan-text">СКАНИРОВАНИЕ...</div>
+                            <div class="scan-text">РЎРљРђРќРР РћР’РђРќРР•...</div>
                         </div>
                     </div>
                     <div class="scanner-controls">
                         <button id="scan-btn" class="control-btn big-btn">
-                            <span class="btn-text">Сканировать</span>
+                            <span class="btn-text">РЎРєР°РЅРёСЂРѕРІР°С‚СЊ</span>
                         </button>
                         <div class="probability-controls">
-                            <h3>Настройки вероятности:</h3>
+                            <h3>РќР°СЃС‚СЂРѕР№РєРё РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё:</h3>
                             <div class="probability-slider">
-                                <label for="green-prob">Зелёная: <span id="green-value">60</span>%</label>
+                                <label for="green-prob">Р—РµР»С‘РЅР°СЏ: <span id="green-value">60</span>%</label>
                                 <input type="range" id="green-prob" min="0" max="100" value="60" class="slider">
                             </div>
                             <div class="probability-slider">
-                                <label for="ice-prob">Ледяная: <span id="ice-value">30</span>%</label>
+                                <label for="ice-prob">Р›РµРґСЏРЅР°СЏ: <span id="ice-value">30</span>%</label>
                                 <input type="range" id="ice-prob" min="0" max="100" value="30" class="slider">
                             </div>
                             <div class="probability-slider">
-                                <label for="lava-prob">Лавовая: <span id="lava-value">10</span>%</label>
+                                <label for="lava-prob">Р›Р°РІРѕРІР°СЏ: <span id="lava-value">10</span>%</label>
                                 <input type="range" id="lava-prob" min="0" max="100" value="10" class="slider">
                             </div>
                             <div class="probability-total">
-                                Всего: <span id="total-value">100</span>%
+                                Р’СЃРµРіРѕ: <span id="total-value">100</span>%
                             </div>
                         </div>
                     </div>
@@ -69,28 +69,28 @@
                 
             </div>
             
-            <!-- Статистика и задания -->
+            <!-- РЎС‚Р°С‚РёСЃС‚РёРєР° Рё Р·Р°РґР°РЅРёСЏ -->
             <div class="stats-and-tasks">
-                <!-- Статистика сканирований -->
+                <!-- РЎС‚Р°С‚РёСЃС‚РёРєР° СЃРєР°РЅРёСЂРѕРІР°РЅРёР№ -->
                 <div class="stats-panel">
-                    <h3>Результаты сканирований:</h3>
+                    <h3>Р РµР·СѓР»СЊС‚Р°С‚С‹ СЃРєР°РЅРёСЂРѕРІР°РЅРёР№:</h3>
                     <div class="stats-bars">
                         <div class="stat-bar green-planet">
-                            <div class="stat-label">Зелёные:</div>
+                            <div class="stat-label">Р—РµР»С‘РЅС‹Рµ:</div>
                             <div class="stat-bar-container">
                                 <div class="stat-bar-fill" id="green-bar" style="width: 0%"></div>
                                 <div class="stat-count" id="green-count">0</div>
                             </div>
                         </div>
                         <div class="stat-bar ice-planet">
-                            <div class="stat-label">Ледяные:</div>
+                            <div class="stat-label">Р›РµРґСЏРЅС‹Рµ:</div>
                             <div class="stat-bar-container">
                                 <div class="stat-bar-fill" id="ice-bar" style="width: 0%"></div>
                                 <div class="stat-count" id="ice-count">0</div>
                             </div>
                         </div>
                         <div class="stat-bar lava-planet">
-                            <div class="stat-label">Лавовые:</div>
+                            <div class="stat-label">Р›Р°РІРѕРІС‹Рµ:</div>
                             <div class="stat-bar-container">
                                 <div class="stat-bar-fill" id="lava-bar" style="width: 0%"></div>
                                 <div class="stat-count" id="lava-count">0</div>
@@ -98,67 +98,69 @@
                         </div>
                     </div>
                     <div class="total-scans">
-                        Всего сканирований: <span id="total-scans">0</span>
+                        Р’СЃРµРіРѕ СЃРєР°РЅРёСЂРѕРІР°РЅРёР№: <span id="total-scans">0</span>
                     </div>
                 </div>
 
-                <!-- Задания -->
+                <!-- Р—Р°РґР°РЅРёСЏ -->
                 <div class="tasks-container">
                     <div class="task active" id="task1">
-                        <h3>Задание 1: Угадай вероятность</h3>
-                        <p>Как ты думаешь, какая планета будет встречаться чаще при текущих настройках?</p>
+                        <h3>Р—Р°РґР°РЅРёРµ 1: РЈРіР°РґР°Р№ РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ</h3>
+                        <p>РљР°Рє С‚С‹ РґСѓРјР°РµС€СЊ, РєР°РєР°СЏ РїР»Р°РЅРµС‚Р° Р±СѓРґРµС‚ РІСЃС‚СЂРµС‡Р°С‚СЊСЃСЏ С‡Р°С‰Рµ РїСЂРё С‚РµРєСѓС‰РёС… РЅР°СЃС‚СЂРѕР№РєР°С…?</p>
                         <div class="options">
-                            <button class="option-btn" data-correct="true">Зелёная</button>
-                            <button class="option-btn" data-correct="false">Ледяная</button>
-                            <button class="option-btn" data-correct="false">Лавовая</button>
+                            <button class="option-btn" data-correct="true">Р—РµР»С‘РЅР°СЏ</button>
+                            <button class="option-btn" data-correct="false">Р›РµРґСЏРЅР°СЏ</button>
+                            <button class="option-btn" data-correct="false">Р›Р°РІРѕРІР°СЏ</button>
                         </div>
                     </div>
 
                     <div class="task" id="task2">
-                        <h3>Задание 2: Предскажи результат</h3>
-                        <p>Если сделать 10 сканирований, сколько примерно будет зелёных планет?</p>
+                        <h3>Р—Р°РґР°РЅРёРµ 2: РџСЂРµРґСЃРєР°Р¶Рё СЂРµР·СѓР»СЊС‚Р°С‚</h3>
+                        <p>Р•СЃР»Рё СЃРґРµР»Р°С‚СЊ 10 СЃРєР°РЅРёСЂРѕРІР°РЅРёР№, СЃРєРѕР»СЊРєРѕ РїСЂРёРјРµСЂРЅРѕ Р±СѓРґРµС‚ Р·РµР»С‘РЅС‹С… РїР»Р°РЅРµС‚?</p>
                         <div class="options">
                             <button class="option-btn" data-correct="false">3-4</button>
                             <button class="option-btn" data-correct="true">5-7</button>
                             <button class="option-btn" data-correct="false">8-9</button>
                         </div>
                         <div class="hint hidden">
-                            Подсказка: Умножь количество сканирований (10) на вероятность зелёной планеты (60% или 0.6).
+                            РџРѕРґСЃРєР°Р·РєР°: РЈРјРЅРѕР¶СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРєР°РЅРёСЂРѕРІР°РЅРёР№ (10) РЅР° РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ Р·РµР»С‘РЅРѕР№ РїР»Р°РЅРµС‚С‹ (60% РёР»Рё 0.6).
                         </div>
-                        <button class="hint-btn">Показать подсказку</button>
+                        <button class="hint-btn">РџРѕРєР°Р·Р°С‚СЊ РїРѕРґСЃРєР°Р·РєСѓ</button>
                     </div>
 
                     <div class="task" id="task3">
-                        <h3>Задание 3: Создай свою систему</h3>
-                        <p>Попробуй сделать так, чтобы лавовые планеты встречались чаще ледяных!</p>
+                        <h3>Р—Р°РґР°РЅРёРµ 3: РЎРѕР·РґР°Р№ СЃРІРѕСЋ СЃРёСЃС‚РµРјСѓ</h3>
+                        <p>РџРѕРїСЂРѕР±СѓР№ СЃРґРµР»Р°С‚СЊ С‚Р°Рє, С‡С‚РѕР±С‹ Р»Р°РІРѕРІС‹Рµ РїР»Р°РЅРµС‚С‹ РІСЃС‚СЂРµС‡Р°Р»РёСЃСЊ С‡Р°С‰Рµ Р»РµРґСЏРЅС‹С…!</p>
                         <div class="options">
-                            <button class="option-btn" id="check-settings-btn">Проверить мои настройки</button>
+                            <button class="option-btn" id="check-settings-btn">РџСЂРѕРІРµСЂРёС‚СЊ РјРѕРё РЅР°СЃС‚СЂРѕР№РєРё</button>
                         </div>
                         <div class="hint hidden">
-                            Подсказка: Отрегулируй ползунки так, чтобы значение для лавовой планеты было больше, чем для ледяной.
+                            РџРѕРґСЃРєР°Р·РєР°: РћС‚СЂРµРіСѓР»РёСЂСѓР№ РїРѕР»Р·СѓРЅРєРё С‚Р°Рє, С‡С‚РѕР±С‹ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ Р»Р°РІРѕРІРѕР№ РїР»Р°РЅРµС‚С‹ Р±С‹Р»Рѕ Р±РѕР»СЊС€Рµ, С‡РµРј РґР»СЏ Р»РµРґСЏРЅРѕР№.
                         </div>
-                        <button class="hint-btn">Показать подсказку</button>
+                        <button class="hint-btn">РџРѕРєР°Р·Р°С‚СЊ РїРѕРґСЃРєР°Р·РєСѓ</button>
                     </div>
                 </div>
-                <!-- Кнопки управления -->
+                <!-- РљРЅРѕРїРєРё СѓРїСЂР°РІР»РµРЅРёСЏ -->
                 <div class="level-controls">
                     <button id="next-task" class="control-btn" disabled>
-                        <span class="btn-text">Следующее задание</span>
+                        <span class="btn-ico">&#x27A1;&#xFE0F;</span>
+                        <span class="btn-text">РЎР»РµРґСѓСЋС‰РµРµ Р·Р°РґР°РЅРёРµ</span>
                     </button>
                     <button id="back-to-map" class="control-btn">
-                        <span class="btn-text">На карту</span>
+                        <span class="btn-ico">&#x1F5FA;&#xFE0F;</span>
+                        <span class="btn-text">РќР° РєР°СЂС‚Сѓ</span>
                     </button>
                 </div>
-                    <!-- Бонусы и достижения -->
+                    <!-- Р‘РѕРЅСѓСЃС‹ Рё РґРѕСЃС‚РёР¶РµРЅРёСЏ -->
                     <div class="achievements-panel hidden" id="achievements">
-                        <h3>Достижения:</h3>
+                        <h3>Р”РѕСЃС‚РёР¶РµРЅРёСЏ:</h3>
                         <div class="achievement" id="lava-streak">
-                            <div class="achievement-icon">Лава</div>
-                            <div class="achievement-text">Термоустойчивый сканер (3 лавовые подряд)</div>
+                            <div class="achievement-icon">Р›Р°РІР°</div>
+                            <div class="achievement-text">РўРµСЂРјРѕСѓСЃС‚РѕР№С‡РёРІС‹Р№ СЃРєР°РЅРµСЂ (3 Р»Р°РІРѕРІС‹Рµ РїРѕРґСЂСЏРґ)</div>
                         </div>
                         <div class="achievement" id="ice-warning">
-                            <div class="achievement-icon">Лёд</div>
-                            <div class="achievement-text">Осторожно: обледенение! (5 ледяных подряд)</div>
+                            <div class="achievement-icon">Р›С‘Рґ</div>
+                            <div class="achievement-text">РћСЃС‚РѕСЂРѕР¶РЅРѕ: РѕР±Р»РµРґРµРЅРµРЅРёРµ! (5 Р»РµРґСЏРЅС‹С… РїРѕРґСЂСЏРґ)</div>
                         </div>
                     </div>
             </div>
@@ -166,11 +168,11 @@
 
 
     </div>
-    <!-- Кот-помощник -->
+    <!-- РљРѕС‚-РїРѕРјРѕС‰РЅРёРє -->
     <div class="cat-helper">
-        <img src="img/cat2.png" alt="Космический кот" class="cat-image">
+        <img src="img/cat2.png" alt="РљРѕСЃРјРёС‡РµСЃРєРёР№ РєРѕС‚" class="cat-image">
         <div class="speech-bubble visible" id="cat-speech">
-            Привет, исследователь! Настрой вероятности и сканируй планеты. Посмотрим, какие встречаются чаще!
+            РџСЂРёРІРµС‚, РёСЃСЃР»РµРґРѕРІР°С‚РµР»СЊ! РќР°СЃС‚СЂРѕР№ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё Рё СЃРєР°РЅРёСЂСѓР№ РїР»Р°РЅРµС‚С‹. РџРѕСЃРјРѕС‚СЂРёРј, РєР°РєРёРµ РІСЃС‚СЂРµС‡Р°СЋС‚СЃСЏ С‡Р°С‰Рµ!
         </div>
     </div>
     <script src="loader.js"></script>
@@ -178,3 +180,5 @@
     <script src="level4.js"></script>
 </body>
 </html>
+
+
