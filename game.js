@@ -1,13 +1,6 @@
 // Инициализация игры при загрузке
 const MAP_CAT_LEVEL_KEY = 'mapCatLevel';
 const ACTIVE_SCREEN_KEY = 'activeScreen';
-const MOBILE_FIXED_CAT_POSITIONS = {
-    1: { left: 35.45, top: -27.385 },
-    2: { left: 220.667, top: 52.049 },
-    3: { left: 62.9, top: 162.432 },
-    4: { left: 213.817, top: 274.799 },
-    5: { left: 42.3167, top: 377.982 }
-};
 const t = (key, fallback, params = {}) => (
     window.I18N?.t ? window.I18N.t(key, fallback, params) : fallback
 );
@@ -162,11 +155,12 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
 
         const desiredLeft = planetCenterX - (catWidth / 2);
         const desiredTop = planetCenterY - (catHeight * 0.78) + (planetRadius * 0.42);
+        const mobileLeft = planetCenterX - (catWidth / 2);
+        const mobileTop = (planetRect.top - mapRect.top) - (catHeight * 0.88);
         const maxLeft = Math.max(0, mapRect.width - catWidth);
         const maxTop = Math.max(0, mapRect.height - catHeight);
 
         const isMobile = window.matchMedia('(max-width: 64rem)').matches;
-        const mobileFixedPosition = isMobile ? MOBILE_FIXED_CAT_POSITIONS[level] : null;
         const desktopFixedPosition = !isMobile
             ? ({
                 1: { left: 164.8, top: 60.813 },
@@ -176,10 +170,14 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
                 5: { left: 1339.2, top: 175.663 }
             }[level] || null)
             : null;
-        const fixedPosition = desktopFixedPosition || mobileFixedPosition;
-        const finalLeft = fixedPosition ? fixedPosition.left : desiredLeft;
-        const finalTop = fixedPosition ? fixedPosition.top : desiredTop;
-        const minTop = fixedPosition ? -catHeight : 0;
+        const fixedPosition = desktopFixedPosition;
+        const finalLeft = fixedPosition
+            ? fixedPosition.left
+            : (isMobile ? mobileLeft : desiredLeft);
+        const finalTop = fixedPosition
+            ? fixedPosition.top
+            : (isMobile ? mobileTop : desiredTop);
+        const minTop = fixedPosition ? -catHeight : (isMobile ? (-catHeight * 0.2) : 0);
 
         cat.style.transition = shouldAnimate ? 'left 0.6s, top 0.6s' : 'none';
         cat.style.left = `${clamp(finalLeft, 0, maxLeft)}px`;
