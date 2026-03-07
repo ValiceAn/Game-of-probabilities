@@ -157,7 +157,7 @@ function animateCatToLevel(levelNum, shouldAnimate = true) {
         const desiredTop = planetCenterY - (catHeight * 0.78) + (planetRadius * 0.42);
         const mobileLeft = planetCenterX - (catWidth / 2);
         const mobileTop = (planetRect.top - mapRect.top) - (catHeight * 0.88);
-        const mobileLevel1FixedPosition = level === 1 ? { left: 35.45, top: -28 } : null;
+        const mobileLevel1FixedPosition = level === 1 ? { left: 35.45, top: -38 } : null;
         const maxLeft = Math.max(0, mapRect.width - catWidth);
         const maxTop = Math.max(0, mapRect.height - catHeight);
 
