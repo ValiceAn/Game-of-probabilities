@@ -364,7 +364,7 @@ body {
     background: rgba(255, 153, 102, 0.1);
     border-left: 0.1875rem solid #ff9966;
     border-radius: 0 0.3125rem 0.3125rem 0;
-    font-family: cursive;
+    font-family: 'Comic Neue';
     color: #ffcc99;
     font-size: clamp(0.53125rem, 3vw, 1rem);
     box-sizing: border-box;
@@ -374,7 +374,7 @@ body {
     background: transparent;
     border: none;
     color: #4cc9f0;
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Comic Neue';
     font-size: 0.9rem;
     cursor: pointer;
     text-decoration: underline;
