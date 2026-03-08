@@ -242,7 +242,7 @@ body {
     border: 0.125rem solid #ff9966;
     border-radius: 1.25rem;
     color: white;
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
     font-size: clamp(0.5625rem, 3vw, 1.1rem);
     box-shadow: 0 0 1.25rem rgba(255, 153, 102, 0.5);
     opacity: 0;
@@ -307,7 +307,7 @@ body {
 }
 
 .task p {
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
     font-size: clamp(0.59375rem, 3vw, 1.1rem);
     margin-bottom: 1.25rem;
     color: white;
@@ -327,7 +327,7 @@ body {
     border: 0.125rem solid #4cc9f0;
     border-radius: 1.875rem;
     padding: 0.625rem 0.9375rem;
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
     font-size: clamp(0.53125rem, 3vw, 1.1rem);
     color: white;
     cursor: pointer;
@@ -364,7 +364,7 @@ body {
     background: rgba(255, 153, 102, 0.1);
     border-left: 0.1875rem solid #ff9966;
     border-radius: 0 0.3125rem 0.3125rem 0;
-    font-family: 'Comic Neue';
+    font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
     color: #ffcc99;
     font-size: clamp(0.53125rem, 3vw, 1rem);
     box-sizing: border-box;
@@ -374,7 +374,7 @@ body {
     background: transparent;
     border: none;
     color: #4cc9f0;
-    font-family: 'Comic Neue';
+    font-family: 'Nunito', 'Segoe UI', 'Arial', sans-serif !important;
     font-size: 0.9rem;
     cursor: pointer;
     text-decoration: underline;
