@@ -1179,7 +1179,7 @@ html.skip-screen-fade .screen {
 }
 
 .level-info p {
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Bruno Ace SC', sans-serif;
     font-size: 0.9rem;
     color: #fff;
 }
@@ -1342,7 +1342,7 @@ html.skip-screen-fade .screen {
     color: white;
     padding: 5px 10px;
     border-radius: 15px;
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Bruno Ace SC', sans-serif;
     font-size: 0.9rem;
     white-space: nowrap;
     animation: unlock-pulse 1.5s infinite;
@@ -1360,7 +1360,7 @@ html.skip-screen-fade .screen {
     padding: 20px;
     border-radius: 15px;
     border: 2px solid #f72585;
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Bruno Ace SC', sans-serif;
     font-size: 1.2rem;
     max-width: 80%;
     text-align: center;
@@ -1484,7 +1484,7 @@ html.skip-screen-fade .screen {
 }
 
 .section-content {
-    font-family: 'Comic Neue', cursive;
+    font-family: 'Bruno Ace SC', sans-serif;
     font-size: 1.1rem;
     line-height: 1.6;
     color: #e0e0ff;
@@ -1499,7 +1499,7 @@ html.skip-screen-fade .screen {
 }
 
 .cosmic-formula {
-    font-family: 'Courier New', monospace;
+    font-family: 'Bruno Ace SC', sans-serif;
     background: rgba(76, 201, 240, 0.1);
     border: 1px dashed #4cc9f0;
     padding: 10px 15px;
