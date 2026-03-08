@@ -923,3 +923,61 @@
         box-shadow: none;
     }
 }
+
+/* Level 2 resized desktop: place language + map under action row, same size as action buttons */
+@media (min-width: 48rem) and (max-width: 64rem) {
+    #level2 .level-controls {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 13.9rem));
+        column-gap: 19px;
+        row-gap: 19px;
+        justify-content: center;
+        width: max-content;
+        max-width: calc(100% - 1.5rem);
+        margin-inline: auto;
+    }
+
+    #level2 .level-controls > #flip-coin.control-btn.big-btn {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    #level2 .level-controls > #next-task.control-btn {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    #level2 .level-controls > #back-to-map.control-btn {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    #level2 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level2,
+    #level2 .level-controls > #lang-switch-btn {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    #level2 .level-controls > #flip-coin.control-btn.big-btn,
+    #level2 .level-controls > #next-task.control-btn,
+    #level2 .level-controls > #back-to-map.control-btn,
+    #level2 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level2,
+    #level2 .level-controls > #lang-switch-btn {
+        position: static !important;
+        left: auto !important;
+        right: auto !important;
+        top: auto !important;
+        bottom: auto !important;
+        transform: none !important;
+        width: 13.9rem !important;
+        min-width: 0 !important;
+        min-height: 3.2rem !important;
+        padding: 0.8rem 0.55rem !important;
+        margin: 0 !important;
+        font-size: clamp(0.825rem, 1.1vw, 1.23rem) !important;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

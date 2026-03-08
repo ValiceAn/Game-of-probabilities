@@ -151,7 +151,7 @@ html.preload-active body>*:not(#global-preloader) {
 }
 
 .lang-switch-btn.lang-page-index {
-    font-size: 0.7rem;
+    font-size: 1.21rem;
 }
 
 .level-controls .lang-switch-btn.lang-slot-controls.lang-page-level1 {
@@ -235,7 +235,7 @@ html.preload-active body>*:not(#global-preloader) {
         position: absolute;
         right: 30px;
         bottom: 30px;
-        width: clamp(13rem, 38vw, 14.3rem);
+       width: clamp(13rem, 38vw, 16.3rem);
         margin: 0;
         z-index: 11;
     }
@@ -2174,6 +2174,21 @@ html[lang="ru"] #level5 .level-header h1 {
     #level3 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level3,
     #level4 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level4,
     #level5 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level5 {
+       bottom: 4.55rem !important;
+    }
+
+    /* Level 2 wide desktop: keep language and back buttons in lower-right corner */
+    #level2 .level-controls > #back-to-map.control-btn,
+    #level2 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level2 {
+        right: 1.1rem !important;
+        width: 12.5rem !important;
+    }
+
+    #level2 .level-controls > #back-to-map.control-btn {
+        bottom: 1rem !important;
+    }
+
+    #level2 .level-controls > .lang-switch-btn.lang-slot-controls.lang-page-level2 {
         bottom: 4.15rem !important;
     }
 }

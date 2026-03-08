@@ -919,6 +919,10 @@ body {
 
 /* Десктопы (64rem и выше / 1024px и выше) */
 @media (min-width: 64rem) {
+    .game-screen {
+        --cat-size: clamp(9rem, 14vw, 16rem);
+    }
+
     .game-area {
         display: grid;
         grid-template-columns: minmax(15rem, 18rem) minmax(var(--dice-size), 1fr) minmax(15rem, 18rem);
@@ -956,9 +960,11 @@ body {
         bottom: auto;
         left: auto;
         top: auto;
-        width: min(80vw, 15.625rem);
-        min-height: 7.5rem;
+        width: clamp(10.25rem, 14.5vw, 15.625rem);
+        min-height: clamp(5.2rem, 6.8vw, 7.5rem);
         margin: 0 0 0.75rem 0;
+        padding: clamp(0.62rem, 0.9vw, 0.94rem);
+        font-size: clamp(0.8rem, 0.98vw, 1.1rem);
         transform: none;
         display: flex;
         align-items: center;

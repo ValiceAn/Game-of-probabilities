@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextTaskBtn = document.getElementById('next-task');
     const backToMapBtn = document.getElementById('back-to-map');
     const checkSettingsBtn = document.getElementById('check-settings-btn');
+    const level4Root = document.getElementById('level4');
+    const levelControls = level4Root ? level4Root.querySelector('.level-controls') : null;
     
     // Элементы статистики
     const greenBar = document.getElementById('green-bar');
@@ -54,6 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
         total: 0,
         lastPlanets: []
     };
+
+    // Desktop layout helper: keep fixed controls unless they overlap content.
+    const desktopControlsQuery = window.matchMedia('(min-width: 64.01rem)');
+    let controlsStackSyncRaf = null;
     
     // Планеты и их свойства
         // Planets dictionary (rebuild on language change)
@@ -110,13 +116,114 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Инициализация
+    function getLevelLangBtn() {
+        if (!levelControls) {
+            return null;
+        }
+
+        return levelControls.querySelector('.lang-switch-btn.lang-slot-controls') ||
+            levelControls.querySelector('#lang-switch-btn');
+    }
+
+    function isVisibleForLayout(el) {
+        if (!el || !el.isConnected) {
+            return false;
+        }
+
+        const style = window.getComputedStyle(el);
+        return style.display !== 'none' && style.visibility !== 'hidden';
+    }
+
+    function rectsOverlap(a, b) {
+        return (
+            a.left < b.right &&
+            a.right > b.left &&
+            a.top < b.bottom &&
+            a.bottom > b.top
+        );
+    }
+
+    function shouldStackDesktopControls() {
+        if (!desktopControlsQuery.matches || !level4Root || !levelControls || !nextTaskBtn || !backToMapBtn) {
+            return false;
+        }
+
+        const langBtn = getLevelLangBtn();
+        if (!langBtn || !isVisibleForLayout(langBtn) || !isVisibleForLayout(backToMapBtn)) {
+            return false;
+        }
+
+        const floatingButtons = [backToMapBtn, langBtn].filter(isVisibleForLayout);
+        if (!floatingButtons.length) {
+            return false;
+        }
+
+        const blockers = [
+            nextTaskBtn,
+            document.querySelector('#level4 .tasks-container'),
+            document.querySelector('#level4 .stats-panel'),
+            document.querySelector('#level4 .scanner-display'),
+            document.querySelector('#level4 .planet-generator-container')
+        ].filter(isVisibleForLayout);
+
+        if (!blockers.length) {
+            return false;
+        }
+
+        const blockerRects = blockers.map((el) => el.getBoundingClientRect());
+        return floatingButtons.some((btn) => {
+            const btnRect = btn.getBoundingClientRect();
+            return blockerRects.some((blockerRect) => rectsOverlap(btnRect, blockerRect));
+        });
+    }
+
+    function syncDesktopControlsStacking() {
+        if (!level4Root) {
+            return;
+        }
+
+        // Keep desktop controls fixed in the lower-right corner for level 4.
+        level4Root.classList.remove('controls-stacked-desktop');
+    }
+
+    function requestDesktopControlsStackingSync() {
+        if (controlsStackSyncRaf !== null) {
+            window.cancelAnimationFrame(controlsStackSyncRaf);
+        }
+
+        controlsStackSyncRaf = window.requestAnimationFrame(() => {
+            controlsStackSyncRaf = null;
+            syncDesktopControlsStacking();
+        });
+    }
+
     showTask(currentTask);
     updateProbabilityDisplay();
     nextTaskBtn.classList.remove('hidden');
     nextTaskBtn.disabled = true;
     planets = createPlanetsDictionary();
     setupMobileProbStatsRow();
-    window.addEventListener('i18n:language-changed', refreshDynamicTranslations);
+    requestDesktopControlsStackingSync();
+    window.addEventListener('i18n:language-changed', () => {
+        refreshDynamicTranslations();
+        requestDesktopControlsStackingSync();
+    });
+    window.addEventListener('resize', requestDesktopControlsStackingSync);
+    if (typeof desktopControlsQuery.addEventListener === 'function') {
+        desktopControlsQuery.addEventListener('change', requestDesktopControlsStackingSync);
+    } else if (typeof desktopControlsQuery.addListener === 'function') {
+        desktopControlsQuery.addListener(requestDesktopControlsStackingSync);
+    }
+    if (levelControls && typeof MutationObserver === 'function') {
+        const controlsObserver = new MutationObserver(requestDesktopControlsStackingSync);
+        controlsObserver.observe(levelControls, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['class', 'style']
+        });
+    }
+    window.setTimeout(requestDesktopControlsStackingSync, 0);
     // Обработчики событий
     scanBtn.addEventListener('click', scanPlanet);
     
@@ -204,6 +311,7 @@ hintBtns.forEach(btn => {
 
         // Кнопка видима всегда, но активна только после выполнения текущего задания.
         nextTaskBtn.disabled = !(index < totalTasks - 1 && completedTasks > index);
+        requestDesktopControlsStackingSync();
     }
     
     function updateProbabilityDisplay() {

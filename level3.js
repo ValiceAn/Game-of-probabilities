@@ -73,7 +73,7 @@
     function init() {
         showTask(currentTask);
         updateProgress();
-        updateFinalTaskResetVisibility();
+        updateResetButtonsVisibility();
         createBalls();
         generateCombinations();
         nextTaskBtn.classList.remove('hidden');
@@ -127,7 +127,7 @@
         });
 
         nextTaskBtn.disabled = !(index < totalTasks - 1 && completedTasks > index);
-        updateFinalTaskResetVisibility();
+        updateResetButtonsVisibility();
         
         // РЎР±СЂРѕСЃ СЃРѕСЃС‚РѕСЏРЅРёСЏ РґР»СЏ РЅРѕРІРѕРіРѕ Р·Р°РґР°РЅРёСЏ
         resetUrn();
@@ -147,11 +147,18 @@
         }
     }
 
-    function updateFinalTaskResetVisibility() {
-        if (!reset3Btn) return;
-        const isLevelCompleted = completedTasks >= totalTasks;
-        const onFinalTask = currentTask === finalTaskIndex;
-        reset3Btn.hidden = isLevelCompleted && onFinalTask;
+    function updateResetButtonsVisibility() {
+        if (reset2Btn) {
+            // Keep Task 2 reset visible while user is on Task 2.
+            reset2Btn.hidden = false;
+        }
+
+        if (reset3Btn) {
+            // Hide Task 3 reset once user reaches Task 3 after completing Task 2.
+            const secondTaskCompleted = completedTasks > 1;
+            const onFinalTask = currentTask === finalTaskIndex;
+            reset3Btn.hidden = secondTaskCompleted && onFinalTask;
+        }
     }
     
     // РћР±РЅРѕРІР»РµРЅРёРµ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё
@@ -416,6 +423,7 @@
             '{done}/{total} Р·Р°РґР°С‡ РІС‹РїРѕР»РЅРµРЅРѕ',
             { done: completedTasks, total: totalTasks }
         );
+        updateResetButtonsVisibility();
         
         // Р”РѕР±Р°РІР»СЏРµРј Р°РЅРёРјР°С†РёСЋ РїСЂРё РѕР±РЅРѕРІР»РµРЅРёРё РїСЂРѕРіСЂРµСЃСЃР°
         progressFill.style.transition = 'width 0.5s ease-in-out';
@@ -432,7 +440,7 @@
             'РџРѕР·РґСЂР°РІР»СЏСЋ! РўС‹ РѕСЃРІРѕРёР» РєРѕРјР±РёРЅР°С‚РѕСЂРёРєСѓ Рё Р·Р°РІРёСЃРёРјС‹Рµ СЃРѕР±С‹С‚РёСЏ! РўРµРїРµСЂСЊ С‚С‹ РїРѕРЅРёРјР°РµС€СЊ, РєР°Рє РјРµРЅСЏСЋС‚СЃСЏ РІРµСЂРѕСЏС‚РЅРѕСЃС‚Рё.'
         );
         nextTaskBtn.disabled = true;
-        updateFinalTaskResetVisibility();
+        updateResetButtonsVisibility();
     }
     
     // РћР±СЂР°Р±РѕС‚С‡РёРєРё СЃРѕР±С‹С‚РёР№

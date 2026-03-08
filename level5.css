@@ -968,12 +968,12 @@
         justify-content: center;
     }
 
-    #level5 .controls.level-controls > #generate-stars {
-        font-size: 0.96rem;
-        padding: 0.5rem 0.95rem;
+    #level5 .controls.level-controls > #generate-stars,
+    #level5 .controls.level-controls > #reset-lab {
+        padding: 0.8rem 0.55rem;
+        font-size: clamp(0.825rem, 1.1vw, 1.23rem);
     }
 
-    #level5 .controls.level-controls > #reset-lab,
     #level5 .controls.level-controls > #back-to-map {
         font-size: 0.95rem;
         padding: 0.5rem 0.85rem;

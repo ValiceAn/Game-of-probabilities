@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        nextTaskBtn.classList.remove('hidden');
         nextTaskBtn.disabled = !canGoNext;
-        nextTaskBtn.classList.toggle('hidden', !canGoNext);
     }
     
     // Показать первое задание
