@@ -364,7 +364,7 @@ body {
     background: rgba(255, 153, 102, 0.1);
     border-left: 0.1875rem solid #ff9966;
     border-radius: 0 0.3125rem 0.3125rem 0;
-    font-family: 'Comic Neue', cursive;
+    font-family: cursive;
     color: #ffcc99;
     font-size: clamp(0.53125rem, 3vw, 1rem);
     box-sizing: border-box;
