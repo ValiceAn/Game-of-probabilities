@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const completedChallengeIds = new Set();
     const totalChallengeTasks = 3;
 
+    // Новое: хранит индексы уже выбранных неверных ответов, чтобы их можно было пометить при реставрации
+    let currentAttemptedIncorrect = new Set();
+
     function hideNextTaskButton() {
         if (!nextTaskBtn) return;
         nextTaskBtn.hidden = true;
@@ -64,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentChallengeAnswered = false;
         currentSelectedOptionIndex = null;
         currentSelectedWasCorrect = false;
+        currentAttemptedIncorrect.clear();
     }
 
     // Инициализация игры
@@ -289,11 +293,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const answerButtons = challengeContainer.querySelectorAll('.challenge-btn');
 
-        if (
-            restoreCurrentState &&
-            currentChallengeAnswered &&
-            Number.isInteger(currentSelectedOptionIndex)
-        ) {
+        // Восстановление состояния: если уже отвечали верно, показываем как раньше.
+        if (restoreCurrentState && currentChallengeAnswered && Number.isInteger(currentSelectedOptionIndex)) {
             const selectedBtn = challengeContainer.querySelector(
                 `.challenge-btn[data-index="${currentSelectedOptionIndex}"]`
             );
@@ -316,41 +317,63 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 lockNextTaskButton();
             }
+
+            return;
+        }
+
+        // Если были предыдущие неверные попытки (restore), отметить их, но НЕ блокировать остальные
+        if (restoreCurrentState && !currentChallengeAnswered && currentAttemptedIncorrect.size > 0) {
+            currentAttemptedIncorrect.forEach(idx => {
+                const btn = challengeContainer.querySelector(`.challenge-btn[data-index="${idx}"]`);
+                if (btn) {
+                    btn.classList.add('incorrect');
+                    btn.disabled = true; // заблокировать уже неверно выбранные, чтобы не выбирать их снова
+                }
+            });
         }
 
         answerButtons.forEach((btn) => {
             btn.addEventListener('click', function() {
                 if (currentChallengeAnswered) return;
 
+                const index = Number(this.getAttribute('data-index'));
                 const isCorrect = this.getAttribute('data-correct') === 'true';
-                currentChallengeAnswered = true;
-                currentSelectedOptionIndex = Number(this.getAttribute('data-index'));
-                currentSelectedWasCorrect = isCorrect;
 
                 if (isCorrect) {
+                    // Правильный ответ: отмечаем, показываем объяснение и блокируем все кнопки
+                    currentChallengeAnswered = true;
+                    currentSelectedOptionIndex = index;
+                    currentSelectedWasCorrect = true;
+
                     this.classList.add('correct');
                     updateCatSpeech(t('level2.correctPrefix', 'Correct! ') + challenge.explanation);
                     completedChallengeIds.add(challenge.id);
                     updateTaskProgress();
+
+                    const explanationEl = challengeContainer.querySelector('.challenge-explanation');
+                    if (explanationEl) explanationEl.classList.remove('hidden');
+
+                    challengeContainer.querySelectorAll('.challenge-btn').forEach((answerBtn) => {
+                        answerBtn.disabled = true;
+                    });
+
+                    const hasMoreChallenges = getChallengePool().some(
+                        (item) => !shownChallengeIds.has(item.id)
+                    );
+                    if (hasMoreChallenges) {
+                        showNextTaskButton();
+                    } else {
+                        lockNextTaskButton();
+                    }
                 } else {
+                    // Неверный ответ: пометить эту кнопку как неверную и заблокировать только её.
+                    // Остальные варианты остаются доступными, чтобы выбрать правильный позже.
                     this.classList.add('incorrect');
-                    updateCatSpeech(t('level2.incorrectPrefix', 'Not quite! ') + challenge.explanation);
-                }
+                    this.disabled = true;
+                    currentAttemptedIncorrect.add(index);
 
-                const explanationEl = challengeContainer.querySelector('.challenge-explanation');
-                if (explanationEl) explanationEl.classList.remove('hidden');
-
-                challengeContainer.querySelectorAll('.challenge-btn').forEach((answerBtn) => {
-                    answerBtn.disabled = true;
-                });
-
-                const hasMoreChallenges = getChallengePool().some(
-                    (item) => !shownChallengeIds.has(item.id)
-                );
-                if (hasMoreChallenges) {
-                    showNextTaskButton();
-                } else {
-                    lockNextTaskButton();
+                    // Не показываем полное объяснение — даём возможность выбрать правильный вариант.
+                    updateCatSpeech(t('level2.incorrectPrefix', 'Not quite! ') + t('level2.tryAgain', 'Try again!'));
                 }
             });
         });
